@@ -1,0 +1,32 @@
+
+clearance                                mm      min
+keybed -> left cheek                   3.00     3.00
+keybed -> right cheek                  3.00     3.00
+white keys -> front wall               3.16     3.00
+keybed frame -> strip                  4.50     3.00
+black keys -> strip                   10.50     3.00
+panel -> left end wall                 2.00     2.00
+panel -> left cheek                    2.00     2.00
+panel -> front wall                    2.00     2.00
+panel -> filler                        2.00     2.00
+lid top -> strip                       7.00     5.00
+lid top -> panel                      30.00    25.00
+lid rear -> apron                      3.00     2.50
+lid end right -> right cheek           3.00     2.50
+lid front -> keys                      6.00     2.50
+board parts -> base                    9.40     3.00
+panel jacks -> base                   16.00     3.00
+emulator parts -> strip               34.40    10.00
+emulator parts -> apron               11.14     2.00
+psu parts -> strip                    20.40    10.00
+psu -> apron                          17.00     2.00
+emulator -> left cheek                 8.00     3.00
+emulator -> psu                       16.00     3.00
+emulator -> keybed                     4.65     1.00
+rear plate parts -> rear wall          1.00     0.50
+rear plate parts -> emulator           6.00     2.00
+rear plate parts -> apron              3.00     2.00
+
+mass wood + plate: 5.67 kg (lid 1.59 kg), without tolex, keybed, electronics
+outside: 911 x 310 x 95 mm (with lid, without feet)
+checked pairs: 90, problems: 0
