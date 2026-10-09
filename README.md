@@ -43,6 +43,16 @@ before cutting.
 | Keybed | Fatar TP/9S 49 (683 × 161.5), screwed from below through base and risers |
 | Control panel | 170 × 230 × 2 on four M3 standoffs from the base |
 
+## Differences to the original 3620
+
+- **Keys set back behind a front wall.** On the original the white keys reach
+  almost to the front edge of the case (a top-view photo in the owner's manual
+  shows only a 2–3 mm rim). Here the key fronts sit 15 mm behind the outer face
+  (12 mm front wall + 3 mm clearance); the white key tops stand 9.5 mm above the
+  wall. Kept on purpose (decision 09.10.2026).
+- **Deeper case** (310 mm instead of roughly the panel depth of the original) for
+  the electronics bay behind the keybed.
+
 ## Files
 
 | Path | Content |
