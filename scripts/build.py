@@ -3,12 +3,12 @@
 
     freecadcmd build.py          (output goes to ../production and ../model)
 """
-import os, sys, itertools, json
+import os, sys, itertools, json, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import FreeCAD as App, Part, Import
 from params import *
-from parts import PARTS
+from parts import PARTS, ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID, JOINTS
 import model
 
 ROOT = os.path.dirname(HERE)
@@ -89,6 +89,52 @@ for label, a, b, need in checks:
     flag = '' if g >= need - 1e-6 else '  <-- too small'
     if flag: bad += 1
     report.append('%-34s %8.2f %8.2f%s' % (label, g, need, flag))
+
+# ------------------------------------------------------------------ joints
+report.append('')
+report.append('joints: parts in contact (distance 0)')
+for a, b in JOINTS:
+    g = gap(a, b)
+    if g > 0.01:
+        report.append('  NO CONTACT %s - %s: %.2f' % (a, b, g)); bad += 1
+report.append('  %d joints checked' % len(JOINTS))
+
+# outer shell of the case body: everything in it should be wood except the rear
+# window, holes, dogbones and the joint play. A notch or slot without its tab
+# would leave a void of at least one tab volume (smallest: 2.6 cm3).
+shell = model.box(0, 0, 0, W, D, Z_TOP).cut(model.box(T_WALL, T_WALL, T_BASE, W - T_WALL, D - T_WALL, Z_TOP + 1))
+body = [case[k] for k in case if not k.startswith('lid') and k != 'plate']
+voids = sorted(shell.cut(Part.makeCompound(body)).Solids, key=lambda v: -v.Volume)
+u0, u1, h, r = WINDOW
+window = ((u1 - u0) * h - (4 - math.pi) * r * r) * T_WALL
+report.append('outer shell: %d voids, largest %s cm3 (rear window %.1f)'
+              % (len(voids), ', '.join('%.2f' % (v.Volume / 1e3) for v in voids[:4]), window / 1e3))
+for v in voids[1:]:
+    if v.Volume > 2e3:
+        bb = v.BoundBox
+        report.append('  <-- void %.1f cm3 at x %.0f..%.0f y %.0f..%.0f z %.0f..%.0f'
+                      % (v.Volume / 1e3, bb.XMin, bb.XMax, bb.YMin, bb.YMax, bb.ZMin, bb.ZMax)); bad += 1
+
+# assembly: every part slides into place along its direction without touching
+# the parts already in place
+report.append('')
+report.append('assembly order (each part moved 40 mm back along its direction, 1 mm steps)')
+for seq in (ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID):
+    placed = []
+    for key, d, note in seq:
+        if d is not None:
+            worst = 0.0
+            for t in range(1, 41):
+                s = case[key].copy(); s.translate(App.Vector(*d) * (-t))
+                for k in placed:
+                    if s.BoundBox.intersect(case[k].BoundBox):
+                        worst = max(worst, s.common(case[k]).Volume)
+            flag = '' if worst < 0.5 else '  <-- blocked (%.1f mm3)' % worst
+            if flag: bad += 1
+            report.append('  %-10s %-12s %s%s' % (key, d, note, flag))
+        else:
+            report.append('  %-10s %-12s %s' % (key, '', note))
+        placed.append(key)
 
 # ------------------------------------------------------------------ mass, sizes
 mass = 0.0

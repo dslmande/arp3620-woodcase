@@ -1,18 +1,37 @@
 # -*- coding: utf-8 -*-
 """Plane geometry shared by the 3D model, the DXF files and the drawing."""
 import math
+from params import DOG_R
 
 
-def fillet_poly(pts, radii=None):
+DOG = -1.0          # radius marker: dogbone (relief for the round end mill) at this corner
+
+
+def fillet_poly(pts, radii=None, dog_r=None):
     """Closed polygon with a corner radius per vertex.
 
+    radius > 0: fillet, 0: sharp, DOG: dogbone - a circle of dog_r through the
+    corner, centred on the bisector of the 90 degree wedge, so a round end mill
+    clears the corner for a square tab.
     Returns segments ('L', p, q) and ('A', p, mid, q, centre, r) in order."""
     n = len(pts)
     radii = radii or [0.0] * n
+    dog_r = DOG_R if dog_r is None else dog_r
     corners = []                    # per vertex: (t_in, t_out, arc or None)
     for i in range(n):
         p0, p1, p2 = pts[i - 1], pts[i], pts[(i + 1) % n]
         r = radii[i]
+        if r == DOG:
+            d1 = _unit(p1[0] - p0[0], p1[1] - p0[1])
+            d2 = _unit(p2[0] - p1[0], p2[1] - p1[1])
+            b = _unit(d2[0] - d1[0], d2[1] - d1[1])       # into the 90 degree wedge (the void)
+            c = (p1[0] + dog_r * b[0], p1[1] + dog_r * b[1])
+            s1 = 2 * dog_r * (d1[0] * b[0] + d1[1] * b[1])
+            s2 = 2 * dog_r * (d2[0] * b[0] + d2[1] * b[1])
+            t1 = (p1[0] + s1 * d1[0], p1[1] + s1 * d1[1])
+            t2 = (p1[0] + s2 * d2[0], p1[1] + s2 * d2[1])
+            corners.append((t1, t2, (t1, p1, t2, c, dog_r)))
+            continue
         if r <= 0:
             corners.append((p1, p1, None))
             continue
@@ -33,6 +52,9 @@ def fillet_poly(pts, radii=None):
     for i in range(n):
         a = corners[i][1]
         b = corners[(i + 1) % n][0]
+        e = (pts[(i + 1) % n][0] - pts[i][0], pts[(i + 1) % n][1] - pts[i][1])
+        if (b[0] - a[0]) * e[0] + (b[1] - a[1]) * e[1] < -1e-6:
+            raise ValueError('edge %s -> %s too short for its corners' % (pts[i], pts[(i + 1) % n]))
         if math.hypot(b[0] - a[0], b[1] - a[1]) > 1e-9:
             segs.append(('L', a, b))
         arc = corners[(i + 1) % n][2]

@@ -17,8 +17,8 @@ from matplotlib.patches import Polygon, Circle, PathPatch
 from matplotlib.path import Path
 import matplotlib.image as mpimg
 from params import *
-from parts import PARTS, BY_KEY, kb_holes_xy
-from geom2d import fillet_poly, seg_points
+from parts import PARTS, BY_KEY, kb_holes_xy, ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID
+from geom2d import fillet_poly, seg_points, DOG
 import model
 
 ROOT = os.path.dirname(HERE)
@@ -34,7 +34,7 @@ PT = 72 / 25.4    # points per mm
 def distinct():
     def sig(p):
         r = lambda x: round(x, 3)
-        return (p.material, r(p.t), tuple((r(a), r(b)) for a, b in p.outline),
+        return (p.material, r(p.t), tuple((r(a), r(b)) for a, b in p.outline), tuple(map(r, p.radii)),
                 tuple(sorted((r(h.u), r(h.v), r(h.d), h.csk, h.side, h.kind) for h in p.holes)),
                 tuple(tuple((r(a), r(b)) for a, b in c[0]) for c in p.cutouts), tuple(p.texts))
     out, seen = [], {}
@@ -80,7 +80,10 @@ class Sheet:
         self.text(x0 + 123, y0 + 5, scale_note or 'mm', 2.6)
 
     def save(self):
-        self.pdf.savefig(self.fig); plt.close(self.fig)
+        self.pdf.savefig(self.fig)
+        if os.environ.get('DRAWING_PNG'):          # sheet previews for checking the layout
+            self.fig.savefig(os.path.join(os.environ['DRAWING_PNG'], 'sheet%02d.png' % self.no), dpi=100)
+        plt.close(self.fig)
 
     # ---- dimensions (sheet coordinates)
     def _arrow(self, x, y, dx, dy, s=1.6):
@@ -260,22 +263,17 @@ def part_block(sheet, p, qty, keys, ox, oy, sc, dims=True, label=True, extra=Non
 
 # ------------------------------------------------------------------ hardware and cut list
 def hardware():
-    base = BY_KEY['base']
     n = lambda key, s: sum(1 for h in BY_KEY[key].holes if s in h.note)
-    asm = n('base', 'assembly screw')
-    walls = n('front', 'screw 4 x 40') + n('rear', 'screw 4 x 40')
     return [
         ('Tolex, black (vinyl case covering), approx. %.1f m2 incl. 25 %% waste' % tolex_area(), 'outside, see covering notes'),
-        ('contact cement for tolex, wood glue (PVAc)', ''),
-        ('%d x countersunk wood screw 4 x 30' % asm, 'base -> walls, cheeks, risers (from below)'),
-        ('%d x countersunk wood screw 4 x 40' % walls, 'front/rear wall -> end walls and cheeks'),
+        ('contact cement for tolex, wood glue (PVAc), wood filler', 'all joints glued; filler for dogbones and joint lines under the tolex'),
+        ('%d x countersunk wood screw 4 x 20' % n('base', 'riser screw'), 'base -> risers (from below)'),
         ('6 x countersunk wood screw 3.5 x 20, black', 'strip -> cleats (removable strip)'),
-        ('6 x wood screw 3 x 20', 'apron -> strip (from above, under the tolex) and cleats -> cheeks'),
         ('4 x countersunk screw 3.5 x 16, black', 'rear plate'),
         ('10 x keybed screw from below through base and riser',
          'length ~ 21 mm + thread in the keybed foot; type to be confirmed on the keybed (hole 4.5)'),
-        ('4 x M3 standoff, total length %s mm (e.g. 40 + 8, female/male)' % fmt(Z_PANEL0 - Z_BASE),
-         'panel corners, M3 x 12 countersunk from below, M3 x 6 black from the top'),
+        ('4 x M3 standoff, total length %s mm (e.g. 40 + 8 and a washer)' % fmt(Z_PANEL0 - Z_BASE),
+         'panel corners (panel PCB %s), M3 x 12 countersunk from below, M3 x 6 black from the top' % fmt(PANEL_T)),
         ('10 x M3 standoff %s mm, 10 x M3 x 12 countersunk' % fmt(STANDOFF), 'emulator (6), power supply (4)'),
         ('6 x rubber foot dia %s x %s with screw' % (fmt(FOOT_D), fmt(FOOT_H)), ''),
         ('4 x draw latch (case latch), small, ~40 mm wide', 'lid: 2 front, 2 rear, centre on the lid joint'),
@@ -454,7 +452,7 @@ def sheet_sections(pdf, no, case, refs):
     ys = [0, Y_PANEL0, Y_PANEL1, Y_FILL0, Y_REAR_IN, D]
     for a_, b_ in zip(ys, ys[1:]):
         s.dim_h(ox + a_, ox + b_, oy + H_TOTAL + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + H_TOTAL)
-    callout(s, ox + 150, oy + Z_TOP - 1, ox + 150, oy + Z_TOP + 12, 'control panel 2 mm')
+    callout(s, ox + 150, oy + Z_TOP - 1, ox + 150, oy + Z_TOP + 12, 'control panel (PCB %s)' % fmt(PANEL_T))
     callout(s, ox + 120, oy + zb - 12, ox + D + 22, oy + zb - 4, '3620 board (envelope)')
     callout(s, ox + Y_FILL0 + 30, oy + Z_TOP - 4, ox + D + 22, oy + Z_TOP + 4, 'filler')
     callout(s, ox + Y_PANEL0 + 12.5, oy + Z_BASE + 30, ox + 60, oy + Z_TOP + 12, 'standoff M3 (panel corner)')
@@ -486,22 +484,27 @@ def sheet_walls(pdf, no, G):
     sc = 1 / 3
     get = lambda key: next(g for g in G if key in g[2])
     p, q, k = get('front'); part_block(s, p, q, k, 30, 236, sc)
-    s.text(30, 222, 'Countersinks on this face (outside), heads under the tolex.', 2.0)
-    hole_table(s, p, 30, 216, fs=1.9, maxw=300)
-    p, q, k = get('rear'); T = part_block(s, p, q, k, 30, 150, sc)
-    pts = p.cutouts[0][0]
+    s.text(30, 222, 'Seen from outside. Fingers at both ends, tabs into the base, slot for the left cheek. '
+                    'The right end takes end wall and right cheek together (24 deep).', 2.0)
+    p, q, k = get('rear'); T = part_block(s, p, q, k, 30, 160, sc)
+    pts = next(c[0] for c in p.cutouts if c[1][0] == WINDOW[3])
     u0, v0, u1, v1 = pts[0][0], pts[0][1], pts[2][0], pts[2][1]
-    s.dim_h(30, T((u0, 0))[0], 150 - 12, fmt(u0), ext=150)
-    s.dim_h(T((u0, 0))[0], T((u1, 0))[0], 150 - 12, fmt(u1 - u0), ext=150)
+    yb = T((0, 0))[1]
+    s.dim_h(30, T((u0, 0))[0], 160 - 12, fmt(u0), ext=160)
+    s.dim_h(T((u0, 0))[0], T((u1, 0))[0], 160 - 12, fmt(u1 - u0), ext=160)
     xr = 30 + W * sc
-    s.dim_v(150, T((0, v0))[1], xr + 8, fmt(v0), ext=T((u1, 0))[0])
+    s.dim_v(yb, T((0, v0))[1], xr + 8, fmt(v0), ext=T((u1, 0))[0])
     s.dim_v(T((0, v0))[1], T((0, v1))[1], xr + 16, fmt(v1 - v0), ext=T((u1, 0))[0])
     s.text(xr + 20, T((0, v1))[1] + 1, 'window, corners R %s' % fmt(WINDOW[3]), 2.0)
-    s.text(30, 128, 'Seen from inside. Countersinks on the far face (outside), heads under the tolex. '
-                    'Window for the bodies of the rear plate parts.', 2.0)
-    hole_table(s, p, 30, 122, fs=1.9, maxw=300)
-    p, q, k = get('end_l'); part_block(s, p, q, k, 30, 60, sc)
-    s.text(140, 75, 'End walls: plain, no holes - screws come through the front/rear wall and the base.', 2.0)
+    s.text(30, 138, 'Seen from inside. Notches in the top edge for the filler tabs, slot for the left cheek, '
+                    'window for the bodies of the rear plate parts.', 2.0)
+    hole_table(s, p, 30, 132, fs=1.9, maxw=300)
+    p, q, k = get('end_l'); part_block(s, p, q, k, 30, 62, sc)
+    p, q, k = get('end_r'); part_block(s, p, q, k, 160, 62, sc)
+    s.text(30, 44, 'End walls seen from the right. Fingers at both ends (bottom, middle and top finger belong to the '
+                   'end wall), tabs into the base;', 2.0)
+    s.text(30, 40, 'the left end wall has a notch in its top edge for the filler tab. Heights: 0 = top of the base, '
+                   'the tabs reach 9 below it.', 2.0)
     s.save()
 
 
@@ -509,27 +512,37 @@ def sheet_cheeks(pdf, no, G):
     s = Sheet(pdf, 'Cheeks', no, 'scale 1:2')
     get = lambda key: next(g for g in G if key in g[2])
     sc = 0.5
-    for key, oy in (('cheek_l', 175), ('cheek_r', 70)):
+    for key, oy in (('cheek_l', 180), ('cheek_r', 72)):
         p, q, k = get(key)
         ox = 40
         T = part_block(s, p, q, k, ox, oy, sc)
+        x0, y0 = T((0, 0))
         uk = Y_STRIP0 - Y_IN
-        ytop = oy + (Z_STRIP - Z_BASE) * sc
-        s.dim_h(ox, T((uk, 0))[0], oy + (Z_TOP - Z_BASE) * sc - 8, fmt(uk) + ' to the corner (rounded R ' + fmt(CHEEK_KNEE_R) + ')', ext=[oy + (Z_TOP - Z_BASE) * sc, ytop])
-        s.dim_v(oy, T((0, Z_TOP - Z_BASE))[1], ox - 13, fmt(Z_TOP - Z_BASE), ext=ox)
+        ytop = y0 + (Z_STRIP - Z_BASE) * sc
+        s.dim_h(x0, T((uk, 0))[0], y0 + (Z_TOP - Z_BASE) * sc - 8, fmt(uk) + ' to the corner (rounded R ' + fmt(CHEEK_KNEE_R) + ')',
+                ext=[y0 + (Z_TOP - Z_BASE) * sc, ytop])
+        s.dim_v(y0, T((0, Z_TOP - Z_BASE))[1], ox - 13, fmt(Z_TOP - Z_BASE), ext=ox)
         L = p.size()[0]
-        s.text(ox + L * sc + 8, ytop - 4, 'front edge (left) against the front wall,', 2.1)
-        s.text(ox + L * sc + 8, ytop - 8, 'rear edge against the rear wall.', 2.1)
-        s.text(ox + L * sc + 8, ytop - 12, 'Slope from %s to %s high, blending into the' % (fmt(Z_TOP - Z_BASE), fmt(Z_STRIP - Z_BASE)), 2.1)
-        s.text(ox + L * sc + 8, ytop - 16, 'flat top with R %s (tangent points in the DXF).' % fmt(CHEEK_KNEE_R), 2.1)
-        s.text(ox + L * sc + 8, ytop - 20, 'Tolex on both faces and the top edge.', 2.1)
+        tx = ox + L * sc + 8
+        lines = ['Seen from the right. u = 0 at the inner face of the front wall,',
+                 'v = 0 at the top of the base; the tabs reach 9 below it.',
+                 'Slope from %s to %s high, blending into the' % (fmt(Z_TOP - Z_BASE), fmt(Z_STRIP - Z_BASE)),
+                 'flat top with R %s (tangent points in the DXF).' % fmt(CHEEK_KNEE_R),
+                 'Two slots for the strip cleats. Tolex on both faces and the top edge.']
         if key == 'cheek_l':
             n0, n1, nh = CABLE_NOTCH
-            s.dim_h(ox, T((n0, 0))[0], oy - 13, fmt(n0), ext=oy)
-            s.dim_h(T((n0, 0))[0], T((n1, 0))[0], oy - 13, fmt(n1 - n0), ext=oy)
-            s.dim_v(oy, T((0, nh))[1], T(((n0 + n1) / 2, 0))[0], fmt(nh))
-            s.text(ox + L * sc + 8, ytop - 26, 'Cable notch %s x %s, corners R %s: cables' % (fmt(n1 - n0), fmt(nh), fmt(CABLE_NOTCH_R)), 2.1)
-            s.text(ox + L * sc + 8, ytop - 30, 'from the electronics bay to the panel section.', 2.1)
+            s.dim_h(x0, T((n0, 0))[0], y0 - 22, fmt(n0), ext=y0)
+            s.dim_h(T((n0, 0))[0], T((n1, 0))[0], y0 - 22, fmt(n1 - n0), ext=y0)
+            s.dim_v(y0, T((0, nh))[1], T(((n0 + n1) / 2, 0))[0], fmt(nh))
+            lines += ['Tabs: front and rear through the walls, down through the base.',
+                      'Slot at the rear for the filler tab.',
+                      'Cable notch %s x %s, corners R %s: cables' % (fmt(n1 - n0), fmt(nh), fmt(CABLE_NOTCH_R)),
+                      'from the electronics bay to the panel section.']
+        else:
+            lines += ['Stands against the right end wall and shares its joints:',
+                      'same fingers into the front/rear wall, same tabs into the base.']
+        for i, l in enumerate(lines):
+            s.text(tx, ytop - 2 - i * 4, l, 2.1)
     s.save()
 
 
@@ -539,20 +552,19 @@ def sheet_inner(pdf, no, G):
     sc = 1 / 3
     p, q, k = get('strip'); part_block(s, p, q, k, 25, 210, sc)
     hole_table(s, p, 270, 262, fs=1.9, maxw=120)
-    s.text(25, 200, 'seen from above; screws into the cleats on the cheeks, countersunk on top (black screws)', 2.0)
+    s.text(25, 200, 'seen from above; notches at the rear edge for the apron; screws into the cleats, countersunk on top (black screws)', 2.0)
     p, q, k = get('apron'); part_block(s, p, q, k, 25, 170, sc)
-    s.text(25, 160, 'glued under the rear edge of the strip, flush with its rear edge; reaches 10 mm below the wall top', 2.0)
+    s.text(25, 160, 'tabs up into the strip notches, glued; reaches 10 mm below the wall top', 2.0)
     p, q, k = get('riser_1'); part_block(s, p, q, k, 25, 130, sc)
     hole_table(s, p, 270, 140, fs=1.9, maxw=120)
-    s.text(25, 120, 'two risers along the rows of keybed feet, glued and screwed onto the base', 2.0)
+    s.text(25, 120, 'two risers along the rows of keybed feet, glued and screwed from below; align them with two keybed screws as pins', 2.0)
     sc2 = 0.5
-    p, q, k = get('cleat_l'); part_block(s, p, q, k, 30, 80, sc2)
-    s.text(30, 66, 'glued + 2 screws to the cheek,', 1.9)
-    s.text(30, 62.5, 'top %s below the strip top' % fmt(T_STRIP), 1.9)
-    p, q, k = get('fcleat_l'); part_block(s, p, q, k, 30, 40, sc2)
-    s.text(30, 26, 'carry the filler (left wall, left cheek)', 1.9)
+    p, q, k = get('cleat_l'); part_block(s, p, q, k, 30, 70, sc2)
+    s.text(30, 56, 'lying flat, tabs through the cheek;', 1.9)
+    s.text(30, 52.5, 'top %s below the strip top' % fmt(T_STRIP), 1.9)
     p, q, k = get('filler'); part_block(s, p, q, k, 140, 60, sc2)
-    s.text(140, 46, 'glued onto the cleats, flush with the wall top', 1.9)
+    s.text(140, 46, 'tabs into the left end wall, the rear wall and through the left cheek;', 1.9)
+    s.text(140, 42.5, 'flush with the wall top', 1.9)
     s.save()
 
 
@@ -565,8 +577,8 @@ def sheet_lid(pdf, no, G):
     p, q, k = get('lid_end_l'); part_block(s, p, q, k, 30, 75, sc)
     n = ['Walls %s mm, inside height %s above the case walls (%s clear above the strip).'
          % (fmt(T_LID_WALL), fmt(LID_INSIDE), fmt(Z_LID1 - Z_STRIP)),
-         'Front and rear walls run through, the ends sit between them, the top lies on the walls.',
-         'Glue and pin; tolex outside and around the lower edge.',
+         'Finger joints at the corners (the ends own the lower and the upper finger),',
+         'the wall tabs go into notches in the top. Glue; tolex outside and around the lower edge.',
          'The lid sits on the case walls, flush outside. 4 latches centred on the joint (2 front, 2 rear)',
          'keep it in place; the latches also locate it sideways.']
     for i, l in enumerate(n):
@@ -630,30 +642,77 @@ def sheet_lists(pdf, no, G):
 
     x2, y2 = 300, 270
     s.text(x2 - 0, y2, 'Assembly', 3.2, weight='bold'); y2 -= 6
-    steps = ['Cut all parts, drill and countersink as per DXF (CSK_BACK = countersink on the far face).',
+    steps = ['CNC: cut all parts as per DXF, drill and countersink (CSK_BACK = countersink on the far face).',
              'Check KB_LIP and the screws on the real keybed first; fit the keybed onto the risers dry.',
-             'Risers onto the base (glue + screws from below).',
-             'Cheeks and end walls onto the base, then front and rear wall (glue, screws through the base and the walls).',
-             'Cleats onto the cheeks, filler cleats, filler glued in.',
-             'Apron glued and screwed under the strip; the strip stays removable.',
-             'Lid: front, rear, ends, top - glue and pins.',
-             'Fill the screw heads, sand, round all outside edges to about R2.',
-             'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges. Strip, filler and cheeks get tolex on all visible faces.',
-             'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed screwed from below.']
+             'Dry fit the whole case first (order on sheet %d), then take it apart and glue.' % (no - 1)]
+    steps += [st for _, _, st in ASSEMBLY if st][:]
+    steps += ['Strip unit: apron tabs up into the strip, glued; the strip stays removable (screws into the cleats).',
+              'Lid: front and rear onto the top, ends from the sides; glue.',
+              'Fill dogbones and joint lines on the outside, sand flush, round all outside edges to about R2.',
+              'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.',
+              'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed screwed from below.']
     for i, st in enumerate(steps):
         lines = _wrap('%d. %s' % (i + 1, st), 52)
         for l in lines:
-            s.text(x2, y2, l, 2.1); y2 -= 3.5
-        y2 -= 1.2
+            s.text(x2, y2, l, 1.95); y2 -= 3.2
+        y2 -= 0.9
     y2 -= 4
     s.text(x2, y2, 'Open points', 3.2, weight='bold'); y2 -= 6
-    for st in ['KB_LIP %s (key front lower edge) scaled from the Fatar drawing - measure.' % fmt(KB_LIP),
+    for st in ['Sheet thickness: measure the plywood, enter it in params.py (T_*) and regenerate.',
+               'KB_LIP %s (key front lower edge) scaled from the Fatar drawing - measure.' % fmt(KB_LIP),
                'Keybed screw type and length (foot hole 4.5).',
                'Board spacer %s and parts height under the 3620 board.' % fmt(BOARD_SPACER),
                'Rear plate parts and their hole sizes.',
                'Latch type; optional handle and case corners.']:
         for l in _wrap('- ' + st, 52):
             s.text(x2, y2, l, 2.1); y2 -= 3.5
+    s.save()
+
+
+def sheet_joints(pdf, no, G):
+    s = Sheet(pdf, 'Joints, CNC, assembly order', no, 'detail 1:1, renders not to scale')
+    for fn, (x, y, w, h) in (('%s_exploded.png' % NAME, (12, 128, 240, 135)), ('%s_corner.png' % NAME, (255, 150, 150, 105))):
+        pth = os.path.join(IMG, fn)
+        if os.path.exists(pth):
+            s.ax.imshow(mpimg.imread(pth), extent=(x, x + w, y, y + h), zorder=0)
+    s.ax.set_xlim(0, SW); s.ax.set_ylim(0, SH)
+    # 1:1 detail: left end of the front wall and front end of the left end wall
+    get = lambda key: next(g for g in G if key in g[2])
+    fw, ew = get('front')[0], get('end_l')[0]
+    ox, oy = 30, 50
+    def clip_draw(p, ox, oy, umin, umax, flip=False):
+        pts = seg_points(fillet_poly(p.outline, p.radii), 16)
+        sel = [(u, v) for u, v in pts]
+        poly = []
+        for u, v in sel:
+            uu = min(max(u, umin), umax)
+            poly.append((ox + (uu - umin), oy + v))
+        s.ax.add_patch(Polygon(poly, closed=True, fc='#e2cfa6', ec='k', lw=0.3 * PT))
+    clip_draw(fw, ox, oy, 0, 60)
+    s.text(ox, oy + WALL_H + 6, 'front wall, left end (seen from outside)', 2.3, weight='bold')
+    clip_draw(ew, ox + 90, oy, -12, 48)
+    s.text(ox + 90, oy + WALL_H + 6, 'left end wall, front end (seen from inside)', 2.3, weight='bold')
+    s.dim_v(oy, oy + WALL_H, ox - 6, fmt(WALL_H), ext=ox)
+    s.dim_h(ox, ox + T_WALL, oy - 13, fmt(T_WALL), ext=oy - 9)
+    s.dim_h(ox + 90, ox + 90 + T_WALL, oy - 13, fmt(T_WALL), ext=oy - 9)
+    s.dim_v(oy - T_BASE, oy, ox + 60 + 6, fmt(T_BASE), ext=ox + 60)
+    s.text(ox + 160, oy + 40, 'Dogbones R %s in every inside corner (end mill up to 6.35 mm).' % fmt(DOG_R), 2.2)
+    s.text(ox + 160, oy + 35, '%d fingers over %s mm: bottom, middle and top finger on the end wall.' % (N_FINGER, fmt(WALL_H)), 2.2)
+    s.text(ox + 160, oy + 30, 'Play per joint: notches and slots %s mm wider than the tab' % fmt(FIT), 2.2)
+    s.text(ox + 160, oy + 25, '(split over both parts at the fingers). Joint depth = sheet thickness:', 2.2)
+    s.text(ox + 160, oy + 20, 'measure the plywood and enter it before cutting (params.py, T_*).', 2.2)
+    s.text(ox + 160, oy + 15, 'Tab ends sit flush with the outside, under the tolex.', 2.2)
+    s.text(ox + 160, oy + 8, 'Joints in the 3D model: no part overlaps another, every joint touches,', 2.2)
+    s.text(ox + 160, oy + 3, 'each part slides into place in the order below (model/check.txt).', 2.2)
+    yy = 122
+    s.text(318, yy + 20, 'Assembly order (carcass)', 3.0, weight='bold')
+    arrows = {(0, 0, -1): 'down', (0, 0, 1): 'up', (1, 0, 0): 'to the right', (-1, 0, 0): 'to the left',
+              (0, 1, 0): 'to the rear', (0, -1, 0): 'to the front'}
+    i = 0
+    for k, d, note in ASSEMBLY:
+        i += 1
+        name = BY_KEY[k].name
+        s.text(318, yy + 14 - i * 3.6, '%2d  %-24s %s' % (i, name, arrows.get(d, '')), 2.0, family='DejaVu Sans Mono')
     s.save()
 
 
@@ -674,6 +733,7 @@ def main():
         sheet_inner(pdf, n, G); n += 1
         sheet_lid(pdf, n, G); n += 1
         sheet_plate(pdf, n, G); n += 1
+        sheet_joints(pdf, n, G); n += 1
         sheet_lists(pdf, n, G); n += 1
         d = pdf.infodict()
         d['Title'] = 'ARP 3620 wooden case %s' % REV

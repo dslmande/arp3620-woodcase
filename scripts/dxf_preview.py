@@ -52,7 +52,8 @@ def plot(ax, ents):
             ax.set_title(e[1], fontsize=6) if f(40) > 4 else None
 
 
-files = sorted(glob.glob(os.path.join(ROOT, 'production', 'dxf', '*.dxf')))
+files = sorted(glob.glob(os.path.join(ROOT, 'production', 'dxf', '*.dxf'))) + \
+    sorted(glob.glob(os.path.join(ROOT, 'production', 'dxf', 'sheets', '*.dxf')))
 n = len(files)
 cols = 3
 rows = (n + cols - 1) // cols

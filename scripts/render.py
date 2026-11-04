@@ -12,7 +12,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 from params import *
-from parts import PARTS
+from parts import PARTS, ASSEMBLY
 import model
 
 ROOT = os.path.dirname(HERE)
@@ -20,8 +20,8 @@ IMG = os.path.join(ROOT, 'images'); os.makedirs(IMG, exist_ok=True)
 
 COL = {'tolex': '#3a3a3c', 'paint': '#2c2c2e', 'alu': '#1f1f21', 'panel': '#b8bbbf',
        'white': '#f1eee6', 'black': '#18181a', 'frame': '#5a5d61', 'pcb': '#2e6b3c',
-       'parts': '#8c939b', 'metal': '#a7adb3', 'rubber': '#151515'}
-INNER = {'risers', 'riser_1', 'riser_2', 'cleat_l', 'cleat_r', 'fcleat_l', 'fcleat_r', 'apron'}
+       'parts': '#8c939b', 'metal': '#a7adb3', 'rubber': '#151515', 'wood': '#d9bf8f'}
+INNER = {'riser_1', 'riser_2', 'cleat_l', 'cleat_r', 'apron'}
 
 
 def tris_of(shape, maxlen=25.0):
@@ -123,3 +123,23 @@ if True:  # freecadcmd does not run scripts as __main__
            title='rear: connector plate')
     render(scene(explode=60.0), (-0.45, -1.0, 1.1), fname=tag + '_open.png',
            title='strip lifted: electronics bay (emulator, power supply)')
+    # exploded carcass: every part pulled back along the direction it is fitted
+    case = model.case_solids(render=True)
+    items = []
+    for k, d, _ in ASSEMBLY:
+        sh = case[k].copy()
+        if d:
+            off = 120.0 if d[2] == 0 else 70.0
+            sh.translate(model.Vec(*d) * (-off))
+        items.append((sh, 'wood'))
+    render(items, (-0.5, -1.0, 0.9), fname=tag + '_exploded.png', light=(-0.3, -0.7, 1.0),
+           title='plugged together: finger joints, tabs and slots (exploded)')
+    # close-up of the front left corner
+    near = []
+    for k in ('base', 'front', 'end_l'):
+        sh = case[k].common(model.box(-5, -5, -5, 110, 110, 70))
+        off = {'front': (0, -45, 0), 'end_l': (-45, 0, 0)}.get(k, (0, 0, 0))
+        sh.translate(model.Vec(*off))
+        near.append((sh, 'wood'))
+    render(near, (-1.0, -1.3, 1.5), fname=tag + '_corner.png', size=(10, 7), light=(-0.4, -0.5, 1.0),
+           title='front left corner, parts pulled apart')

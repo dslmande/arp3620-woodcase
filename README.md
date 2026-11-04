@@ -4,19 +4,24 @@ Wooden enclosure for a DIY replica of the **ARP 3620** duophonic keyboard (the
 keyboard of the ARP 2600P), built around a current **Fatar TP/9S 49-key** keybed
 instead of the original ARP key mechanism.
 
-Birch plywood covered in black tolex, with a removable lid. Everything is
-generated from one parameter file: 3D model with collision checks, a DXF per
-part, renders and a 10-sheet production drawing.
+Birch plywood covered in black tolex, with a removable lid. All wooden parts
+are cut on a CNC router and **plug together** — finger joints at the corners,
+tabs into notches and through slots, glued; no screws in the carcass.
+Everything is generated from one parameter file: 3D model with collision,
+joint and assembly checks, a DXF per part plus one per sheet thickness, renders
+and an 11-sheet production drawing.
 
-**Status: Rev0.1, design stage — not built yet.** Read the open points below
+**Status: Rev0.2, design stage — not built yet.** Read the open points below
 before cutting.
 
-![Case without lid](images/ARP3620_Woodcase_Rev0.1_front.png)
+![Case without lid](images/ARP3620_Woodcase_Rev0.2_front.png)
 
 | | |
 |---|---|
-| ![Electronics bay](images/ARP3620_Woodcase_Rev0.1_open.png) | ![Rear](images/ARP3620_Woodcase_Rev0.1_rear.png) |
+| ![Electronics bay](images/ARP3620_Woodcase_Rev0.2_open.png) | ![Rear](images/ARP3620_Woodcase_Rev0.2_rear.png) |
 | Strip lifted: electronics bay | Rear: connector plate |
+| ![Exploded](images/ARP3620_Woodcase_Rev0.2_exploded.png) | ![Corner](images/ARP3620_Woodcase_Rev0.2_corner.png) |
+| Plugged together (exploded) | Front left corner: fingers, tabs, dogbones |
 
 ## Concept
 
@@ -35,13 +40,39 @@ before cutting.
 - **Lid** sits on the walls and is held by 4 draw latches; 30 mm clear height
   above the walls, 7 mm above the strip.
 
+## Joints (CNC, plug together)
+
+| Where | Joint |
+|---|---|
+| Wall corners | finger joint, 5 fingers over 50 mm (bottom, middle and top finger on the end wall) |
+| Walls → base | tabs 40 mm wide, 9 deep into notches in the base edge, flush underneath |
+| Left cheek | tabs through slots in the base and the front/rear wall |
+| Right cheek | stands against the right end wall and shares its fingers and tabs (24 mm deep joints) |
+| Filler behind the panel | tabs into the left end wall and the rear wall (notches from the top) and through the left cheek |
+| Strip cleats | lying flat, tabs through the cheeks |
+| Apron → strip | tabs into notches at the rear edge of the strip |
+| Lid | finger joints at the corners (3 over 30 mm), wall tabs into the lid top |
+
+- **Dogbones R 3.2** in every inside corner, so end mills up to 6.35 mm cut
+  them and square tabs still seat. On the outside they sit under the tolex;
+  fill them before covering.
+- **Play 0.15 mm** per joint: notches and slots are that much wider than the
+  tab (`FIT`). Joint depth equals the sheet thickness — **measure the plywood
+  and enter the real thickness** (`T_*` in `params.py`) before cutting.
+- Glue all joints. Only the risers keep two screws from below, the strip stays
+  removable on screws, the keybed is screwed from below as before.
+- **Assembly order** (checked in the model, each part slides into place without
+  touching the parts already there): base, risers, cheeks down, cleats through
+  the cheeks, filler into the left cheek, front wall, rear wall, end walls from
+  the sides. Drawing sheet 10.
+
 | | |
 |---|---|
 | Outside | 911 × 310 mm, walls 59 high, strip 82, with lid 95 (+ feet 12) |
 | Material | birch plywood 12 / 9 / 6 mm, black tolex, aluminium rear plate |
 | Mass | approx. 5.7 kg wood and plate (lid 1.6 kg), without keybed and electronics |
 | Keybed | Fatar TP/9S 49 (683 × 161.5), screwed from below through base and risers |
-| Control panel | 170 × 230 × 2 on four M3 standoffs from the base |
+| Control panel | 170 × 230, PCB 1.6, on four M3 standoffs 48.4 mm from the base |
 
 ## Differences to the original 3620
 
@@ -57,9 +88,10 @@ before cutting.
 
 | Path | Content |
 |---|---|
-| [`production/ARP3620_Woodcase_Rev0.1_drawing.pdf`](production/ARP3620_Woodcase_Rev0.1_drawing.pdf) | Drawing, A3, 10 sheets: overview, general arrangement, sections, every part with dimensions and hole tables, cut list, hardware, assembly |
-| [`production/dxf/`](production/dxf/) | One DXF (R12, mm) per distinct part, seen from its front face. Layers `OUTLINE`, `CUTOUT`, `DRILL`, `CSK_FRONT`, `CSK_BACK` (countersink on the far face), `PILOT`, `ENGRAVE` |
-| [`production/ARP3620_Woodcase_Rev0.1.step`](production/ARP3620_Woodcase_Rev0.1.step) | All case parts as solids |
+| [`production/ARP3620_Woodcase_Rev0.2_drawing.pdf`](production/ARP3620_Woodcase_Rev0.2_drawing.pdf) | Drawing, A3, 11 sheets: overview, general arrangement, sections, every part with dimensions and hole tables, joints and assembly order, cut list, hardware |
+| [`production/dxf/`](production/dxf/) | One DXF (R12, mm) per distinct part, seen from its front face, origin at its lower left corner. Layers `OUTLINE`, `CUTOUT`, `DRILL`, `CSK_FRONT`, `CSK_BACK` (countersink on the far face), `PILOT`, `ENGRAVE`, `NOTE` |
+| [`production/dxf/sheets/`](production/dxf/sheets/) | One DXF per plywood thickness (12 / 9 / 6 mm) with every part in its quantity on a 2500 × 1250 sheet, laid out in rows — for the CNC shop to nest |
+| [`production/ARP3620_Woodcase_Rev0.2.step`](production/ARP3620_Woodcase_Rev0.2.step) | All case parts as solids |
 | `model/` | FreeCAD file, assembly STEP with simplified reference bodies (keybed, panel, boards), check report, DXF preview |
 | `images/` | Renders |
 | `scripts/` | Generator, see below |
@@ -80,12 +112,17 @@ runs `build.py` (FreeCAD: solids, collision and clearance checks, STEP),
 matplotlib.
 
 **Checked in the 3D model** (`model/check.txt`): every part is a valid solid,
-90 part pairs without collision, and the clearances keybed–cheeks 3, keys–front
-wall 3, panel all round 2, lid–strip 7, and electronics to strip, apron and rear
-plate parts. Countersinks were verified to open to the intended face.
+95 part pairs without collision, all 29 joints in contact, no void in the outer
+shell larger than a dogbone (a notch without its tab would show), every part
+slides into place in the assembly order, and the clearances keybed–cheeks 3,
+keys–front wall 3, panel all round 2, lid–strip 7, and electronics to strip,
+apron and rear plate parts.
 
 ## Open points (check before cutting)
 
+- **Sheet thickness.** Measure the plywood and enter it in `params.py`
+  (`T_WALL`, `T_BASE` …), then run `scripts/make.sh`: slots and joint depths
+  follow from it.
 - **Key front height.** The lower edge of the white key fronts, 39 mm above the
   mounting plane, is scaled from the Fatar drawing. All case heights follow
   from it (`KB_LIP` in `params.py`). Measure it on the real keybed first.
@@ -96,6 +133,14 @@ plate parts. Countersinks were verified to open to the intended face.
 - **Rear plate.** The hole sizes are placeholders until the sockets and
   switches are chosen.
 - **Hardware.** Latch type, optional handle and case corners.
+
+## Revisions
+
+- **Rev0.2** — CNC plug-together: finger joints, tabs, slots, dogbones; no
+  screws in the carcass, filler cleats dropped, strip cleats plug through the
+  cheeks. Control panel as PCB 1.6 (standoffs 48.4 mm). Sheet DXFs per
+  thickness.
+- **Rev0.1** — first design: butt joints, glued and screwed.
 
 ## Reference: the 2014 clone
 

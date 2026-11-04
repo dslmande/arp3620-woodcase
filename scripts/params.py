@@ -7,7 +7,7 @@ Coordinate system (whole case):
   z  up, 0 = underside of the base (feet are below z = 0)
 """
 
-REV = "Rev0.1"
+REV = "Rev0.2"
 NAME = "ARP3620_Woodcase_" + REV
 
 # ---------------------------------------------------------------- material
@@ -22,6 +22,8 @@ T_LID_WALL = 9.0
 T_LID_TOP = 6.0
 T_PLATE = 2.0        # aluminium rear plate
 TOLEX = 1.0          # allowance for tolex plus glue on every covered face
+# The joints use these nominal thicknesses. Measure the sheets before cutting
+# and enter the real values: slot widths and joint depths follow from them.
 DENSITY_PLY = 0.68e-3    # g/mm^3, birch plywood
 DENSITY_ALU = 2.70e-3
 
@@ -42,6 +44,7 @@ KB_HOLE_Y = (71.5, 147.0)                             # from the front edge
 
 # ---------------------------------------------------------------- control panel
 PANEL_W, PANEL_D = 170.0, 230.0      # x, y (panel y runs from its front edge)
+PANEL_T = 1.6                        # front panel is a PCB (FR4 1.6)
 PANEL_HOLES = [(12.5, 12.5), (157.5, 12.5), (12.5, 217.5), (157.5, 217.5)]
 PANEL_HOLE_D = 3.2
 BOARD_SPACER = 12.0                  # panel -> 3620 board (clone, check with the parts)
@@ -83,13 +86,26 @@ Z_BASE = T_BASE                                       # 9, top of the base
 Z_KB = Z_BASE + T_RISER                               # 21, keybed mounting plane
 Z_TOP = Z_KB + KB_LIP - LIP_ABOVE_WALL                # 59, top of all outer walls
 WALL_H = Z_TOP - Z_BASE                               # 50
-Z_PANEL0 = Z_TOP - 2.0                                # 57, underside of the panel
+Z_PANEL0 = Z_TOP - PANEL_T                            # 57.4, underside of the panel
 Z_STRIP = round(Z_KB + KB_BLACK + STRIP_ABOVE_BLACK)  # 82, top of the strip
 Z_STRIP0 = Z_STRIP - T_STRIP                          # 73
 Z_LID0 = Z_TOP                                        # lid sits on the walls
 Z_LID1 = Z_TOP + LID_INSIDE                           # 89, underside of the lid top
 H_LID = LID_INSIDE + T_LID_TOP                        # 36
 H_TOTAL = Z_LID1 + T_LID_TOP                          # 95 without feet
+
+# ---------------------------------------------------------------- CNC joints
+# All wooden parts are cut on a CNC router and plugged together (glued):
+# finger joints at the wall corners, tabs into notches along the base and the
+# lid top, tabs through slots for the cheeks, the filler and the strip cleats.
+FIT = 0.15               # play per joint: notches and slots this much wider than the tab
+DOG_R = 3.2              # dogbone radius in inside corners, end mills up to 6.35 mm
+N_FINGER = 5             # fingers over the wall height (50 mm -> 10 mm each)
+N_FINGER_LID = 3         # fingers over the lid wall height (30 mm -> 10 mm each)
+TAB_W = 40.0             # tabs of the walls into the base and the lid top
+CHEEK_TAB_V = (12.0, 38.0)   # cheek tabs through the front/rear wall, height above the base
+CLEAT_TAB_W = 25.0
+FILLER_TAB_W = 24.0
 
 # ---------------------------------------------------------------- cheeks
 CHEEK_KNEE_R = 200.0     # large radius where the slope meets the flat top
