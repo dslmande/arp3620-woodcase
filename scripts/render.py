@@ -113,16 +113,12 @@ def render(items, view, up=(0, 0, 1), fname='view.png', size=(16, 9), light=(-0.
 
 if True:  # freecadcmd does not run scripts as __main__
     tag = NAME
-    render(scene(), (-0.55, -1.0, 0.85), fname=tag + '_front.png',
-           title='ARP 3620 wooden case %s - without lid' % REV)
+    render(scene(), (-0.55, -1.0, 0.85), fname=tag + '_front.png')
     outer = {'base', 'front', 'rear', 'end_l', 'end_r', 'plate', 'lid_top', 'lid_front', 'lid_rear',
              'lid_end_l', 'lid_end_r', 'ref_latches', 'ref_feet'}
-    render(scene(lid=True, only=outer), (-0.55, -1.0, 0.75), fname=tag + '_closed.png',
-           title='with lid')
-    render(scene(), (0.6, 1.0, 0.7), fname=tag + '_rear.png', light=(0.4, 0.9, 0.8),
-           title='rear: connector plate')
-    render(scene(explode=60.0), (-0.45, -1.0, 1.1), fname=tag + '_open.png',
-           title='strip lifted: electronics bay (emulator, power supply)')
+    render(scene(lid=True, only=outer), (-0.55, -1.0, 0.75), fname=tag + '_closed.png')
+    render(scene(), (0.6, 1.0, 0.7), fname=tag + '_rear.png', light=(0.4, 0.9, 0.8))
+    render(scene(explode=60.0), (-0.45, -1.0, 1.1), fname=tag + '_open.png')
     # exploded carcass: every part pulled back along the direction it is fitted
     case = model.case_solids(render=True)
     items = []
@@ -132,8 +128,7 @@ if True:  # freecadcmd does not run scripts as __main__
             off = 120.0 if d[2] == 0 else 70.0
             sh.translate(model.Vec(*d) * (-off))
         items.append((sh, 'wood'))
-    render(items, (-0.5, -1.0, 0.9), fname=tag + '_exploded.png', light=(-0.3, -0.7, 1.0),
-           title='plugged together: finger joints, tabs and slots (exploded)')
+    render(items, (-0.5, -1.0, 0.9), fname=tag + '_exploded.png', light=(-0.3, -0.7, 1.0))
     # close-up of the front left corner
     near = []
     for k in ('base', 'front', 'end_l'):
@@ -141,5 +136,4 @@ if True:  # freecadcmd does not run scripts as __main__
         off = {'front': (0, -45, 0), 'end_l': (-45, 0, 0)}.get(k, (0, 0, 0))
         sh.translate(model.Vec(*off))
         near.append((sh, 'wood'))
-    render(near, (-1.0, -1.3, 1.5), fname=tag + '_corner.png', size=(10, 7), light=(-0.4, -0.5, 1.0),
-           title='front left corner, parts pulled apart')
+    render(near, (-1.0, -1.3, 1.5), fname=tag + '_corner.png', size=(10, 7), light=(-0.4, -0.5, 1.0))

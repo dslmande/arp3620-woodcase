@@ -10,4 +10,4 @@ grep -q 'problems: 0' ../model/check.txt || { echo "model check failed, see mode
 "$PY" dxf_out.py
 "$PY" dxf_preview.py
 "$FC" render.py  | grep wrote
-"$FC" drawing.py | grep wrote
+"$FC" drawing.py | grep "wrote\|not translated"

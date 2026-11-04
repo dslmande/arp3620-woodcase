@@ -89,6 +89,7 @@ before cutting.
 | Path | Content |
 |---|---|
 | [`production/ARP3620_Woodcase_Rev0.2_drawing.pdf`](production/ARP3620_Woodcase_Rev0.2_drawing.pdf) | Drawing, A3, 11 sheets: overview, general arrangement, sections, every part with dimensions and hole tables, joints and assembly order, cut list, hardware |
+| [`production/ARP3620_Woodcase_Rev0.2_drawing_de.pdf`](production/ARP3620_Woodcase_Rev0.2_drawing_de.pdf) | The same drawing in German (Zeichnung auf Deutsch); texts in `scripts/lang_de.py` |
 | [`production/dxf/`](production/dxf/) | One DXF (R12, mm) per distinct part, seen from its front face, origin at its lower left corner. Layers `OUTLINE`, `CUTOUT`, `DRILL`, `CSK_FRONT`, `CSK_BACK` (countersink on the far face), `PILOT`, `ENGRAVE`, `NOTE` |
 | [`production/dxf/sheets/`](production/dxf/sheets/) | One DXF per plywood thickness (12 / 9 / 6 mm) with every part in its quantity on a 2500 × 1250 sheet, laid out in rows — for the CNC shop to nest |
 | [`production/ARP3620_Woodcase_Rev0.2.step`](production/ARP3620_Woodcase_Rev0.2.step) | All case parts as solids |

@@ -3,7 +3,7 @@
 
     freecadcmd drawing.py        -> ../production/ARP3620_Woodcase_RevX_drawing.pdf
 """
-import os, sys, math, datetime
+import os, sys, math, datetime, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import FreeCAD as App, Part, TechDraw
@@ -20,6 +20,7 @@ from params import *
 from parts import PARTS, BY_KEY, kb_holes_xy, ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID
 from geom2d import fillet_poly, seg_points, DOG
 import model
+import lang_de
 
 ROOT = os.path.dirname(HERE)
 PROD = os.path.join(ROOT, 'production')
@@ -29,6 +30,35 @@ SW, SH = 420.0, 297.0
 RED = '#c0392b'
 FS = 2.6          # text height in mm (converted to points below)
 PT = 72 / 25.4    # points per mm
+
+
+# ------------------------------------------------------------------ language
+LANG = 'en'
+MISSING = set()
+_TPL = []
+for en, de in lang_de.TEMPLATES:
+    rx = re.escape(en).replace('%d', r'(\d+)').replace('%s', '(.+?)')
+    _TPL.append((re.compile(rx), de))
+
+
+def tr(s):
+    # text in the language of the drawing (English as written)
+    if LANG == 'en' or not isinstance(s, str) or not s:
+        return s
+    if s in lang_de.DATA:
+        return lang_de.DATA[s]
+    for rx, de in _TPL:
+        m = rx.fullmatch(s)
+        if m:
+            return de.format(*[tr(g) for g in m.groups()])
+    return s
+
+
+def decimal(s):
+    # German decimal comma in numbers like 3.5, not in 'Rev0.2', dates or 'CC BY-SA 4.0'
+    s = s.replace('BY-SA 4.0', 'BY-SA 4\x00')
+    s = re.sub(r'(?<![\w.])(\d+)\.(\d+)(?![\w.])', r'\1,\2', s)
+    return s.replace('4\x00', '4.0')
 
 
 def distinct():
@@ -56,7 +86,15 @@ class Sheet:
         self.ax.set_xlim(0, SW); self.ax.set_ylim(0, SH); self.ax.axis('off')
         self.frame(scale_note)
 
-    def text(self, x, y, s, h=FS, ha='left', va='baseline', col='k', rot=0, weight='normal', family=None):
+    def text(self, x, y, s, h=FS, ha='left', va='baseline', col='k', rot=0, weight='normal', family=None,
+             raw=False):
+        if LANG != 'en':
+            if not raw:
+                t = tr(s)
+                if t == s and s not in lang_de.DATA and re.search(r'[a-z]{3,}', s):
+                    MISSING.add(s)
+                s = t
+            s = decimal(s)
         self.ax.text(x, y, s, fontsize=h * PT / 0.72, ha=ha, va=va, color=col, rotation=rot,
                      fontweight=weight, family=family or 'DejaVu Sans')
 
@@ -82,7 +120,7 @@ class Sheet:
     def save(self):
         self.pdf.savefig(self.fig)
         if os.environ.get('DRAWING_PNG'):          # sheet previews for checking the layout
-            self.fig.savefig(os.path.join(os.environ['DRAWING_PNG'], 'sheet%02d.png' % self.no), dpi=100)
+            self.fig.savefig(os.path.join(os.environ['DRAWING_PNG'], 'sheet%02d_%s.png' % (self.no, LANG)), dpi=100)
         plt.close(self.fig)
 
     # ---- dimensions (sheet coordinates)
@@ -205,7 +243,7 @@ def part_outline(sheet, p, ox, oy, sc, flip_v=False):
                                       lw=0.15 * PT, ls='-' if h.side == 'front' else '--'))
     for u, v, s in p.texts:
         x, y = T((u, v))
-        sheet.text(x, y, s, PLATE_TEXT_H * sc, ha='center', col='#b8860b')
+        sheet.text(x, y, s, PLATE_TEXT_H * sc, ha='center', col='#b8860b', raw=True)
     return T
 
 
@@ -300,22 +338,25 @@ def sheet_overview(pdf, no):
     s = Sheet(pdf, 'Overview', no, 'renders not to scale')
     ims = [('%s_front.png' % NAME, (12, 150, 200, 112.5)), ('%s_open.png' % NAME, (212, 150, 196, 110)),
            ('%s_rear.png' % NAME, (12, 42, 180, 101)), ('%s_closed.png' % NAME, (196, 60, 140, 79))]
-    for fn, (x, y, w, h) in ims:
+    caps = ['without lid', 'strip lifted: electronics bay (emulator, power supply)', 'rear: connector plate', 'with lid']
+    for (fn, (x, y, w, h)), cap in zip(ims, caps):
         p = os.path.join(IMG, fn)
         if os.path.exists(p):
             s.ax.imshow(mpimg.imread(p), extent=(x, x + w, y, y + h), zorder=0)
+        s.text(x + 4, y - 2.5, cap, 2.4, col='#333')
     s.ax.set_xlim(0, SW); s.ax.set_ylim(0, SH)
     t = ['Outside: %s x %s mm, height %s (walls) / %s (strip) / %s with lid, plus feet %s'
          % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP), fmt(H_TOTAL), fmt(FOOT_H)),
          'Birch plywood 12 / 9 / 6 mm, covered in black tolex, lid with 4 latches',
+         'CNC-cut, plugged together: finger joints, tabs and slots, glued',
          'Keybed Fatar TP/9S 49 on two 12 mm risers, control panel 170 x 230 flush with the walls',
          'Electronics bay under the removable strip: bus emulator 160 x 110, power supply 126 x 80',
          'Rear plate (aluminium 2 mm): USB (option), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT']
     s.text(342, 140, 'Key data', 3.2, weight='bold')
     yy = 134
     for l in t:
-        for part in _wrap(l, 34):
-            s.text(342, yy, part, 2.2); yy -= 3.6
+        for part in _wrap(tr(l), 34):
+            s.text(342, yy, part, 2.2, raw=True); yy -= 3.6
         yy -= 1.5
     s.save()
 
@@ -630,7 +671,9 @@ def sheet_lists(pdf, no, G):
         area[p.material] = area.get(p.material, 0) + l * w * q / 1e6
         y -= 3.8
     y -= 2
-    s.text(20, y, 'net area: ' + ',  '.join('%s mm: %.2f m2' % (m, a) for m, a in area.items()), 2.1); y -= 8
+    s.text(20, y, tr('net area: %s' % ',  '.join(tr('%s mm: %.2f m2' % (m, a)) for m, a in area.items())), 2.1,
+           raw=True)
+    y -= 8
 
     s.text(20, y, 'Hardware', 3.2, weight='bold'); y -= 6
     for a, b in hardware():
@@ -652,9 +695,9 @@ def sheet_lists(pdf, no, G):
               'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.',
               'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed screwed from below.']
     for i, st in enumerate(steps):
-        lines = _wrap('%d. %s' % (i + 1, st), 52)
+        lines = _wrap(tr('%d. %s' % (i + 1, st)), 52)
         for l in lines:
-            s.text(x2, y2, l, 1.95); y2 -= 3.2
+            s.text(x2, y2, l, 1.95, raw=True); y2 -= 3.2
         y2 -= 0.9
     y2 -= 4
     s.text(x2, y2, 'Open points', 3.2, weight='bold'); y2 -= 6
@@ -664,17 +707,20 @@ def sheet_lists(pdf, no, G):
                'Board spacer %s and parts height under the 3620 board.' % fmt(BOARD_SPACER),
                'Rear plate parts and their hole sizes.',
                'Latch type; optional handle and case corners.']:
-        for l in _wrap('- ' + st, 52):
-            s.text(x2, y2, l, 2.1); y2 -= 3.5
+        for l in _wrap(tr('- ' + st), 52):
+            s.text(x2, y2, l, 2.1, raw=True); y2 -= 3.5
     s.save()
 
 
 def sheet_joints(pdf, no, G):
     s = Sheet(pdf, 'Joints, CNC, assembly order', no, 'detail 1:1, renders not to scale')
-    for fn, (x, y, w, h) in (('%s_exploded.png' % NAME, (12, 128, 240, 135)), ('%s_corner.png' % NAME, (255, 150, 150, 105))):
+    for fn, (x, y, w, h), cap in (('%s_exploded.png' % NAME, (12, 128, 240, 135),
+                                   'plugged together: finger joints, tabs and slots (exploded)'),
+                                  ('%s_corner.png' % NAME, (255, 150, 150, 105), 'front left corner, parts pulled apart')):
         pth = os.path.join(IMG, fn)
         if os.path.exists(pth):
             s.ax.imshow(mpimg.imread(pth), extent=(x, x + w, y, y + h), zorder=0)
+        s.text(x + 4, y - 2.5, cap, 2.4, col='#333')
     s.ax.set_xlim(0, SW); s.ax.set_ylim(0, SH)
     # 1:1 detail: left end of the front wall and front end of the left end wall
     get = lambda key: next(g for g in G if key in g[2])
@@ -711,34 +757,38 @@ def sheet_joints(pdf, no, G):
     i = 0
     for k, d, note in ASSEMBLY:
         i += 1
-        name = BY_KEY[k].name
-        s.text(318, yy + 14 - i * 3.6, '%2d  %-24s %s' % (i, name, arrows.get(d, '')), 2.0, family='DejaVu Sans Mono')
+        name = tr(BY_KEY[k].name)
+        s.text(318, yy + 14 - i * 3.6, '%2d  %-33s %s' % (i, name, tr(arrows.get(d, ''))), 2.0,
+               family='DejaVu Sans Mono', raw=True)
     s.save()
 
 
 def main():
+    global LANG
     case = model.case_solids()
     refs = model.references()
     G = distinct()
-    out = os.path.join(PROD, NAME + '_drawing.pdf')
-    with PdfPages(out) as pdf:
-        n = 1
-        for f in (sheet_overview,):
-            f(pdf, n); n += 1
-        sheet_views(pdf, n, case, refs); n += 1
-        sheet_sections(pdf, n, case, refs); n += 1
-        sheet_base(pdf, n, G); n += 1
-        sheet_walls(pdf, n, G); n += 1
-        sheet_cheeks(pdf, n, G); n += 1
-        sheet_inner(pdf, n, G); n += 1
-        sheet_lid(pdf, n, G); n += 1
-        sheet_plate(pdf, n, G); n += 1
-        sheet_joints(pdf, n, G); n += 1
-        sheet_lists(pdf, n, G); n += 1
-        d = pdf.infodict()
-        d['Title'] = 'ARP 3620 wooden case %s' % REV
-        d['Author'] = 'Dsl-man.de'
-    print('wrote', out)
+    for LANG, suffix in (('en', ''), ('de', '_de')):
+        out = os.path.join(PROD, NAME + '_drawing%s.pdf' % suffix)
+        with PdfPages(out) as pdf:
+            n = 1
+            sheet_overview(pdf, n); n += 1
+            sheet_views(pdf, n, case, refs); n += 1
+            sheet_sections(pdf, n, case, refs); n += 1
+            sheet_base(pdf, n, G); n += 1
+            sheet_walls(pdf, n, G); n += 1
+            sheet_cheeks(pdf, n, G); n += 1
+            sheet_inner(pdf, n, G); n += 1
+            sheet_lid(pdf, n, G); n += 1
+            sheet_plate(pdf, n, G); n += 1
+            sheet_joints(pdf, n, G); n += 1
+            sheet_lists(pdf, n, G); n += 1
+            d = pdf.infodict()
+            d['Title'] = tr('ARP 3620 wooden case %s' % REV)
+            d['Author'] = 'Dsl-man.de'
+        print('wrote', out)
+    for m in sorted(MISSING):
+        print('not translated:', repr(m))
 
 
 main()
