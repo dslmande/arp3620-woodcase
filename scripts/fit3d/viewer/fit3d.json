@@ -1,0 +1,711 @@
+{
+ "title": "ARP 3620 Passprobe",
+ "date": "11.11.2026",
+ "rev": "Rev0.3-T1",
+ "boards": {
+  "panel": {
+   "name": "Frontplatte (Leiterplatte) Rev0.3",
+   "file": "panel.glb",
+   "matrix": [
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    14.0,
+    65.4,
+    -14.0,
+    1.0
+   ]
+  },
+  "board": {
+   "name": "Board 3620-007 Rev0.5",
+   "file": "board.glb",
+   "matrix": [
+    -1000.0,
+    -1.2246467991473532e-13,
+    0.0,
+    0.0,
+    1.2246467991473532e-13,
+    -1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    179.0,
+    53.400000000000006,
+    -19.0,
+    1.0
+   ]
+  },
+  "emu": {
+   "name": "Bus-Emulator Rev0.2",
+   "file": "emu.glb",
+   "matrix": [
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    206.0,
+    15.0,
+    -178.0,
+    1.0
+   ]
+  },
+  "psu": {
+   "name": "Netzteil Rev0.1",
+   "file": "psu.glb",
+   "matrix": [
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1000.0,
+    0.0,
+    376.0,
+    15.0,
+    -195.0,
+    1.0
+   ]
+  }
+ },
+ "parts": [
+  {
+   "name": "1 Boden",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "2 Vorderwand",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "3 Rückwand",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "4 Seitenwand",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "4 Seitenwand",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "5 Wange links",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "6 Wange rechts",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "7 Z-Profil Tastatur",
+   "group": "Z-Profil",
+   "hit": false
+  },
+  {
+   "name": "7 Z-Profil Tastatur",
+   "group": "Z-Profil",
+   "hit": false
+  },
+  {
+   "name": "8 Füllstück hinter der Frontplatte",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "9 Leiste unter dem Füllstück",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "9 Leiste unter dem Füllstück",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "10 Auflageleiste Abdeckleiste",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "10 Auflageleiste Abdeckleiste",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "11 Abdeckleiste",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "12 Blende unter der Abdeckleiste",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "13 Deckelplatte",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "14 Deckel vorn/hinten",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "14 Deckel vorn/hinten",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "15 Deckel Seite",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "15 Deckel Seite",
+   "group": "Holz",
+   "hit": false
+  },
+  {
+   "name": "Alu-Rückplatte",
+   "group": "Rückplatte",
+   "hit": false
+  },
+  {
+   "name": "Teile an der Rückplatte (Hüllen)",
+   "group": "Rückplatte",
+   "hit": false
+  },
+  {
+   "name": "Keybed Rahmen",
+   "group": "Keybed",
+   "hit": false
+  },
+  {
+   "name": "Tasten weiß",
+   "group": "Keybed",
+   "hit": false
+  },
+  {
+   "name": "Tasten schwarz",
+   "group": "Keybed",
+   "hit": false
+  },
+  {
+   "name": "Tasten weiß gedrückt",
+   "group": "Keybed",
+   "hit": false
+  },
+  {
+   "name": "Tasten schwarz gedrückt",
+   "group": "Keybed",
+   "hit": false
+  },
+  {
+   "name": "Bolzen Frontplatte (4 x M3, 56,4)",
+   "group": "Bolzen",
+   "hit": false
+  },
+  {
+   "name": "Bolzen Board (8 x M3 x 12)",
+   "group": "Bolzen",
+   "hit": false
+  },
+  {
+   "name": "Bolzen Emulator (6 x M3 x 6)",
+   "group": "Bolzen",
+   "hit": false
+  },
+  {
+   "name": "Bolzen Netzteil (4 x M3 x 6)",
+   "group": "Bolzen",
+   "hit": false
+  },
+  {
+   "name": "S1 Wippe (Gehäuse)",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "S1 Wippe (Fahnen)",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "S1 Wippe (oben)",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "GX16 Interface",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "ACJS Fußschalter oben",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "ACJS Fußschalter unten",
+   "group": "Frontplatte Teile",
+   "hit": false
+  },
+  {
+   "name": "R38 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK10 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK10 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "Q5 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R79 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R79 lever",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R79 cap",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R30 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R8 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R11 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R83 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R83 lever",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R83 cap",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R39 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S3 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S3 actuator",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SW5 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SW5 plunger",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK6 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK6 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK3 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK3 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S4 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S4 actuator",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R13 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK11 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK11 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R26 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R26 lever",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R26 cap",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R21 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R21 lever",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R21 cap",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK1 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK1 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK2 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK2 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R28 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R28 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R28 shaft",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R28 knob",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK4 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK4 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S2 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S2 actuator",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "Q2 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "R34 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK5 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SK5 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J7 body",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J8 body",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J1 body",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U1 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "HS2 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "HS1 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U2 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  }
+ ],
+ "findings": [],
+ "gaps": [
+  {
+   "check": "Bedienteile oben -> Deckel (geschlossen)",
+   "d": 10.6,
+   "need": 3.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: R28 knob",
+   "b": "Holz: 13 Deckelplatte"
+  },
+  {
+   "check": "Board 3620 Bauteile unten -> Boden",
+   "d": 27.81,
+   "need": 2.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: C2",
+   "b": "Holz: 1 Boden"
+  },
+  {
+   "check": "Board 3620 + Bauteile -> Wände, Wange, Füllstück",
+   "d": 7.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: Leiterplatte",
+   "b": "Holz: 2 Vorderwand"
+  },
+  {
+   "check": "Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden",
+   "d": 24.4,
+   "need": 2.0,
+   "ok": true,
+   "a": "Frontplatte Teile: GX16 Interface",
+   "b": "Holz: 1 Boden"
+  },
+  {
+   "check": "Frontplatten-Teile -> Board 3620",
+   "d": 0.75,
+   "need": 0.5,
+   "ok": true,
+   "a": "Frontplatte Teile: S1 Wippe (Gehäuse)",
+   "b": "Board 3620-007 Rev0.5: Leiterplatte"
+  },
+  {
+   "check": "Emulator -> Abdeckleiste/Blende",
+   "d": 23.15,
+   "need": 2.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J7 body",
+   "b": "Holz: 12 Blende unter der Abdeckleiste"
+  },
+  {
+   "check": "Netzteil -> Abdeckleiste/Blende",
+   "d": 17.58,
+   "need": 2.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: HS1 body",
+   "b": "Holz: 12 Blende unter der Abdeckleiste"
+  },
+  {
+   "check": "Emulator -> Rückwand",
+   "d": 10.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "b": "Holz: 3 Rückwand"
+  },
+  {
+   "check": "Netzteil -> Rückwand",
+   "d": 23.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: Leiterplatte",
+   "b": "Holz: 3 Rückwand"
+  },
+  {
+   "check": "Emulator -> Netzteil",
+   "d": 10.0,
+   "need": 2.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "b": "Netzteil Rev0.1: Leiterplatte"
+  },
+  {
+   "check": "Emulator/Netzteil -> Rückplatten-Teile",
+   "d": 7.86,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J7 body",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
+  },
+  {
+   "check": "Emulator -> Keybed",
+   "d": 4.63,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J5",
+   "b": "Keybed: Keybed Rahmen"
+  },
+  {
+   "check": "Keybed in Ruhe -> Abdeckleiste",
+   "d": 4.5,
+   "need": 2.0,
+   "ok": true,
+   "a": "Keybed: Keybed Rahmen",
+   "b": "Holz: 11 Abdeckleiste"
+  },
+  {
+   "check": "Tasten gedrückt -> Vorderwand / Z-Profil",
+   "d": 3.36,
+   "need": 1.0,
+   "ok": true,
+   "a": "Keybed: Tasten weiß gedrückt",
+   "b": "Holz: 2 Vorderwand"
+  },
+  {
+   "check": "Keybed -> Wangen",
+   "d": 3.0,
+   "need": 2.0,
+   "ok": true,
+   "a": "Keybed: Keybed Rahmen",
+   "b": "Holz: 5 Wange links"
+  }
+ ],
+ "counts": {
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6615,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1680,
+  "Platinen untereinander": 26606,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3769,
+  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
+ },
+ "hits": {},
+ "heights": {
+  "Z_BASE": 9.0,
+  "Z_KB": 29.0,
+  "Z_TOP": 67.0,
+  "Z_STRIP": 90,
+  "Z_LID1": 97.0,
+  "H_TOTAL": 103.0
+ },
+ "size": [
+  911.0,
+  310.0,
+  103.0
+ ]
+}

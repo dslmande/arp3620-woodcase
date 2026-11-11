@@ -2,3 +2,9 @@
 __pycache__/
 *.FCStd1
 *.FCBak
+# 3D fit check: board exports and viewer models are rebuilt by scripts/fit3d/make_fit3d.sh
+model/fit3d/*.step
+model/fit3d/*.glb
+model/fit3d/origins.txt
+scripts/fit3d/viewer/*.glb
+scripts/fit3d/viewer/*.glb.txt

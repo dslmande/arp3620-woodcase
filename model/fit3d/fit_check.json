@@ -1,0 +1,132 @@
+{
+ "findings": [],
+ "gaps": [
+  {
+   "check": "Bedienteile oben -> Deckel (geschlossen)",
+   "d": 10.6,
+   "need": 3.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: R28 knob",
+   "b": "Holz: 13 Deckelplatte"
+  },
+  {
+   "check": "Board 3620 Bauteile unten -> Boden",
+   "d": 27.81,
+   "need": 2.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: C2",
+   "b": "Holz: 1 Boden"
+  },
+  {
+   "check": "Board 3620 + Bauteile -> Wände, Wange, Füllstück",
+   "d": 7.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Board 3620-007 Rev0.5: Leiterplatte",
+   "b": "Holz: 2 Vorderwand"
+  },
+  {
+   "check": "Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden",
+   "d": 24.4,
+   "need": 2.0,
+   "ok": true,
+   "a": "Frontplatte Teile: GX16 Interface",
+   "b": "Holz: 1 Boden"
+  },
+  {
+   "check": "Frontplatten-Teile -> Board 3620",
+   "d": 0.75,
+   "need": 0.5,
+   "ok": true,
+   "a": "Frontplatte Teile: S1 Wippe (Gehäuse)",
+   "b": "Board 3620-007 Rev0.5: Leiterplatte"
+  },
+  {
+   "check": "Emulator -> Abdeckleiste/Blende",
+   "d": 23.15,
+   "need": 2.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J7 body",
+   "b": "Holz: 12 Blende unter der Abdeckleiste"
+  },
+  {
+   "check": "Netzteil -> Abdeckleiste/Blende",
+   "d": 17.58,
+   "need": 2.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: HS1 body",
+   "b": "Holz: 12 Blende unter der Abdeckleiste"
+  },
+  {
+   "check": "Emulator -> Rückwand",
+   "d": 10.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "b": "Holz: 3 Rückwand"
+  },
+  {
+   "check": "Netzteil -> Rückwand",
+   "d": 23.0,
+   "need": 1.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: Leiterplatte",
+   "b": "Holz: 3 Rückwand"
+  },
+  {
+   "check": "Emulator -> Netzteil",
+   "d": 10.0,
+   "need": 2.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "b": "Netzteil Rev0.1: Leiterplatte"
+  },
+  {
+   "check": "Emulator/Netzteil -> Rückplatten-Teile",
+   "d": 7.86,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J7 body",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
+  },
+  {
+   "check": "Emulator -> Keybed",
+   "d": 4.63,
+   "need": 1.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.2: J5",
+   "b": "Keybed: Keybed Rahmen"
+  },
+  {
+   "check": "Keybed in Ruhe -> Abdeckleiste",
+   "d": 4.5,
+   "need": 2.0,
+   "ok": true,
+   "a": "Keybed: Keybed Rahmen",
+   "b": "Holz: 11 Abdeckleiste"
+  },
+  {
+   "check": "Tasten gedrückt -> Vorderwand / Z-Profil",
+   "d": 3.36,
+   "need": 1.0,
+   "ok": true,
+   "a": "Keybed: Tasten weiß gedrückt",
+   "b": "Holz: 2 Vorderwand"
+  },
+  {
+   "check": "Keybed -> Wangen",
+   "d": 3.0,
+   "need": 2.0,
+   "ok": true,
+   "a": "Keybed: Keybed Rahmen",
+   "b": "Holz: 5 Wange links"
+  }
+ ],
+ "counts": {
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6615,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1680,
+  "Platinen untereinander": 26606,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3769,
+  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
+ }
+}

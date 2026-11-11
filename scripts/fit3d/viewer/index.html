@@ -1,0 +1,412 @@
+<meta charset="utf-8">
+<title>ARP 3620 Passprobe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: workshop bench. Model fills the left, a narrow inspection sheet on the right (stacks on phones). */
+:root {
+  --bg: #eceef0;          /* brushed aluminium */
+  --sheet: #ffffff;
+  --ink: #1a1d21;
+  --muted: #5a626b;
+  --line: #d3d8dd;
+  --accent: #1f6a86;      /* anodised blue-grey */
+  --accent-soft: #dcebf1;
+  --stage: #dfe3e6;
+  --ok: #2c7a3f; --ok-soft: #e1f1e4;
+  --warn: #a65f00; --warn-soft: #fbecd5;
+  --bad: #b3261e; --bad-soft: #f8dedc;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181b; --sheet: #1d2125; --ink: #e8ebee; --muted: #9aa3ac; --line: #30363c;
+    --accent: #6fb6d3; --accent-soft: #1c3440; --stage: #101315;
+    --ok: #6cc785; --ok-soft: #1a3322; --warn: #f0b04a; --warn-soft: #3a2a10; --bad: #ff8a80; --bad-soft: #3d1d1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181b; --sheet: #1d2125; --ink: #e8ebee; --muted: #9aa3ac; --line: #30363c;
+  --accent: #6fb6d3; --accent-soft: #1c3440; --stage: #101315;
+  --ok: #6cc785; --ok-soft: #1a3322; --warn: #f0b04a; --warn-soft: #3a2a10; --bad: #ff8a80; --bad-soft: #3d1d1b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg); color: var(--ink); font: 14px/1.5 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 16px 28px;
+}
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: 12px; }
+h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+.meta { color: var(--muted); font-size: 13px; }
+.meta b { color: var(--ink); font-weight: 500; }
+main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 14px; align-items: start; }
+@media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
+.stage {
+  position: relative; background: var(--stage); border: 1px solid var(--line); border-radius: 10px;
+  height: min(74vh, 780px); min-height: 380px; overflow: hidden;
+}
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.views { position: absolute; left: 10px; top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.views button, .seg button {
+  font: 500 12px var(--f-body); color: var(--ink); background: var(--sheet); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 9px; cursor: pointer;
+}
+.views button:hover, .seg button:hover { border-color: var(--accent); }
+.seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.loading {
+  position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 13px;
+  background: var(--stage);
+}
+.hint { position: absolute; right: 10px; bottom: 8px; color: var(--muted); font-size: 11px; }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 16px; min-width: 0; }
+.verdict { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; }
+.big { font: 600 26px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.verdict .ok { color: var(--ok); } .verdict .bad { color: var(--bad); }
+.verdict span:nth-child(even) { color: var(--muted); font-size: 12.5px; }
+h2 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 6px; font-weight: 600; }
+.toggles { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+.toggles label { display: flex; gap: 7px; align-items: center; font-size: 13px; cursor: pointer; min-width: 0; }
+.toggles i { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.row { display: grid; gap: 6px; }
+.seg { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg .lbl { font-size: 12.5px; color: var(--muted); width: 92px; align-self: center; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.gaps { list-style: none; margin: 0; padding: 0; display: grid; }
+.gaps li { border-top: 1px solid var(--line); }
+.gaps button {
+  all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 8px;
+  padding: 7px 4px; cursor: pointer; border-radius: 4px;
+}
+.gaps button:hover, .gaps button[aria-current="true"] { background: var(--accent-soft); }
+.gaps .t { font-size: 13px; }
+.gaps .who { grid-column: 1 / -1; color: var(--muted); font-size: 11.5px; overflow-wrap: anywhere; }
+.pill { font: 500 12px var(--f-mono); font-variant-numeric: tabular-nums; padding: 1px 7px; border-radius: 99px; white-space: nowrap; }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.bad { color: var(--bad); background: var(--bad-soft); }
+details { font-size: 12.5px; color: var(--muted); }
+details summary { cursor: pointer; color: var(--ink); font-size: 13px; }
+details ul { padding-left: 18px; margin: 6px 0 0; }
+.foot { color: var(--muted); font-size: 12px; margin-top: 12px; max-width: 75ch; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<header>
+  <h1>ARP 3620 Passprobe</h1>
+  <div class="meta" id="meta">Gehäuse, Keybed und alle vier Platinen in Einbaulage</div>
+</header>
+
+<main>
+  <div class="stage" id="stage">
+    <div class="views" role="group" aria-label="Ansicht">
+      <button type="button" data-view="iso">Schräg</button>
+      <button type="button" data-view="front">Vorne</button>
+      <button type="button" data-view="top">Oben</button>
+      <button type="button" data-view="left">Links</button>
+      <button type="button" data-view="rear">Hinten</button>
+    </div>
+    <div class="loading" id="loading">Modelle werden geladen …</div>
+    <div class="hint">Ziehen dreht · Rechte Maustaste verschiebt · Rad zoomt</div>
+  </div>
+
+  <aside class="sheet">
+    <div class="verdict" id="verdict">
+      <span class="big">–</span><span>Kollisionen</span>
+      <span class="big">–</span><span>Abstände im Soll</span>
+    </div>
+
+    <div>
+      <h2>Zeigen</h2>
+      <div class="toggles" id="toggles"></div>
+    </div>
+
+    <div class="row">
+      <h2>Zustand</h2>
+      <div class="seg" id="lid"><span class="lbl">Deckel</span>
+        <button type="button" data-v="zu">zu</button><button type="button" data-v="auf" aria-pressed="true">abgehoben</button><button type="button" data-v="weg">weg</button></div>
+      <div class="seg" id="strip"><span class="lbl">Abdeckleiste</span>
+        <button type="button" data-v="drin" aria-pressed="true">drin</button><button type="button" data-v="auf">abgehoben</button><button type="button" data-v="weg">weg</button></div>
+      <div class="seg" id="keys"><span class="lbl">Tasten</span>
+        <button type="button" data-v="ruhe" aria-pressed="true">in Ruhe</button><button type="button" data-v="gedrueckt">gedrückt</button></div>
+      <div class="seg" id="wood"><span class="lbl">Holz</span>
+        <button type="button" data-v="voll" aria-pressed="true">voll</button><button type="button" data-v="glas">durchsichtig</button></div>
+    </div>
+
+    <div class="row">
+      <h2>Schnitt</h2>
+      <div class="seg" id="cut"><span class="lbl">Ebene</span>
+        <button type="button" data-v="aus" aria-pressed="true">aus</button><button type="button" data-v="x">quer (x)</button><button type="button" data-v="y">längs (y)</button></div>
+      <label for="cutpos" class="meta" id="cutlbl">Lage –</label>
+      <input type="range" id="cutpos" min="0" max="911" step="1" value="440" disabled>
+    </div>
+
+    <div>
+      <h2>Abstände</h2>
+      <ul class="gaps" id="gaps"></ul>
+    </div>
+
+    <details>
+      <summary>Hüllen statt 3D-Modell</summary>
+      <p>Bauteile ohne KiCad-Modell sind als orange Hüllen eingesetzt, Maße aus dem Datenblatt oder angenommen:</p>
+      <ul id="envs"></ul>
+    </details>
+  </aside>
+</main>
+<p class="foot" id="foot"></p>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const $ = (s) => document.querySelector(s);
+const stage = $('#stage');
+const fmt = (v) => v.toLocaleString('de-DE', { maximumFractionDigits: 2 });
+
+// ------------------------------------------------------------------ renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.localClippingEnabled = false;
+stage.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+const sun = new THREE.DirectionalLight(0xffffff, 1.2); sun.position.set(300, 800, 500); scene.add(sun);
+const camera = new THREE.PerspectiveCamera(32, 1, 5, 20000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.12;
+
+function resize() {
+  const r = stage.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+
+// ------------------------------------------------------------------ loading (models ship as base64 text next to the page)
+function b64(text) {
+  const T = new Uint8Array(128).fill(255);
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('').forEach((c, i) => T[c.charCodeAt(0)] = i);
+  const out = new Uint8Array(Math.floor(text.length * 3 / 4));
+  let n = 0, acc = 0, bits = 0;
+  for (let i = 0; i < text.length; i++) {
+    const v = T[text.charCodeAt(i)];
+    if (v === 255) continue;
+    acc = (acc << 6) | v; bits += 6;
+    if (bits >= 8) { bits -= 8; out[n++] = (acc >> bits) & 255; }
+  }
+  return out.buffer.slice(0, n);
+}
+const loader = new GLTFLoader();
+async function glb(file) {
+  const res = await fetch(file + '.txt');
+  if (!res.ok) throw new Error(file + ' fehlt (' + res.status + ')');
+  const buf = b64(await res.text());
+  return new Promise((ok, bad) => loader.parse(buf, '', ok, bad));
+}
+
+const groups = new Map();      // toggle key -> [Object3D]
+const named = [];               // {obj, name, group}
+let D;
+const add = (k, o) => { if (!groups.has(k)) groups.set(k, []); groups.get(k).push(o); };
+
+function caseKey(node) {
+  const g = node.userData.group || '', n = node.userData.name || node.name;
+  if (g === 'Holz') return /^1[345] /.test(n) ? 'lid' : /^1[12] /.test(n) ? 'strip' : 'Gehäuse';
+  if (g === 'Keybed') return /gedrückt/.test(n) ? 'keys-down' : /Tasten/.test(n) ? 'keys-up' : 'Keybed';
+  if (g.endsWith('(Hüllen)')) return 'Hüllen';
+  return g;
+}
+
+async function load() {
+  D = await (await fetch('fit3d.json')).json();
+  $('#meta').innerHTML = `Gehäuse <b>${D.rev}</b> (Ausführung Tischler) · ${Object.values(D.boards).map(b => b.name).join(' · ')} · Stand ${D.date}`;
+  const cs = await glb('case.glb');
+  cs.scene.traverse((o) => { if (o.isMesh) o.material = o.material.clone(); });
+  for (const node of [...cs.scene.children]) {
+    const k = caseKey(node);
+    add(k, node); named.push({ obj: node, name: node.userData.name || node.name, group: node.userData.group || '' });
+    node.userData.home = node.position.clone();
+  }
+  scene.add(cs.scene);
+  for (const [key, b] of Object.entries(D.boards)) {
+    const g = await glb(b.file);
+    const holder = new THREE.Group();
+    holder.matrixAutoUpdate = false;
+    holder.matrix.fromArray(b.matrix);
+    holder.add(g.scene);
+    holder.userData.board = b.name;
+    g.scene.traverse((o) => { if (o.isMesh) o.material = o.material.clone(); });
+    scene.add(holder);
+    add(b.name, holder);
+    named.push({ obj: holder, name: '__board__', group: b.name });
+  }
+  $('#loading').hidden = true;
+  buildUI();
+  view('iso');
+  apply();
+}
+
+// ------------------------------------------------------------------ UI
+const SHOW = [
+  ['Gehäuse', 'Gehäuse', '#c9a873'], ['Z-Profil', 'Z-Profile', '#b8bcc2'], ['Keybed', 'Keybed', '#ece9e2'],
+  ['Frontplatte (Leiterplatte) Rev0.3', 'Frontplatte', '#2b2f35'], ['Board 3620-007 Rev0.5', 'Board 3620', '#2f6f3e'],
+  ['Bus-Emulator Rev0.2', 'Emulator', '#2f6f3e'], ['Netzteil Rev0.1', 'Netzteil', '#2f6f3e'],
+  ['Frontplatte Teile', 'Buchsen, Wippe', '#4a4f57'], ['Hüllen', 'Hüllen', '#f08c33'], ['Bolzen', 'Bolzen', '#cfd2d6'],
+  ['Rückplatte', 'Rückplatte', '#aeb3ba'],
+];
+const state = { show: Object.fromEntries(SHOW.map(s => [s[0], true])), lid: 'auf', strip: 'drin', keys: 'ruhe', wood: 'voll', cut: 'aus', cutpos: 440 };
+
+function buildUI() {
+  const t = $('#toggles');
+  for (const [k, label, c] of SHOW) {
+    if (!groups.has(k) && k !== 'Keybed') continue;
+    const id = 'show-' + label.replace(/\W+/g, '-');
+    const l = document.createElement('label');
+    l.innerHTML = `<input type="checkbox" id="${id}" checked><i style="background:${c}"></i><span>${label}</span>`;
+    l.querySelector('input').addEventListener('change', (e) => { state.show[k] = e.target.checked; apply(); });
+    t.append(l);
+  }
+  for (const id of ['lid', 'strip', 'keys', 'wood', 'cut']) {
+    $('#' + id).addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      state[id] = b.dataset.v;
+      $('#' + id).querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+      if (id === 'cut') setupCut();
+      apply();
+    });
+  }
+  $('#cutpos').addEventListener('input', (e) => { state.cutpos = +e.target.value; apply(); });
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => view(b.dataset.view)));
+
+  const nf = D.findings.length, ok = D.gaps.filter(g => g.ok).length;
+  const v = $('#verdict').children;
+  v[0].textContent = nf; v[0].className = 'big ' + (nf ? 'bad' : 'ok');
+  v[1].textContent = nf === 1 ? 'Kollision' : 'Kollisionen';
+  v[2].textContent = `${ok}/${D.gaps.length}`; v[2].className = 'big ' + (ok === D.gaps.length ? 'ok' : 'bad');
+  const ul = $('#gaps');
+  for (const g of D.gaps) {
+    const li = document.createElement('li');
+    li.innerHTML = `<button type="button"><span class="t">${g.check}</span><span class="pill ${g.ok ? 'ok' : 'bad'}">${fmt(g.d)} mm</span>` +
+      `<span class="who">${g.a.split(': ')[1]} ↔ ${g.b.split(': ')[1]} · Soll ≥ ${fmt(g.need)}</span></button>`;
+    li.querySelector('button').addEventListener('click', (e) => focusPair(g, e.currentTarget));
+    ul.append(li);
+  }
+  for (const f of D.findings) {
+    const li = document.createElement('li');
+    li.innerHTML = `<button type="button"><span class="t">${f.check}</span><span class="pill bad">${fmt(f.vol)} mm³</span>` +
+      `<span class="who">${f.a} ↔ ${f.b}</span></button>`;
+    li.querySelector('button').addEventListener('click', (e) => focusPair(f, e.currentTarget));
+    ul.prepend(li);
+  }
+  const envs = new Set();
+  D.parts.filter(p => p.group.endsWith('(Hüllen)') || p.group === 'Frontplatte Teile').forEach(p => envs.add(p.name.replace(/ (body|bush|lever|cap|actuator|plunger|shaft|knob)$/, '')));
+  $('#envs').innerHTML = [...envs].sort().map(n => `<li>${n}</li>`).join('');
+  const h = D.heights;
+  $('#foot').textContent = `Höhen ab Unterkante Boden: Boden ${fmt(h.Z_BASE)}, Keybed-Auflage ${fmt(h.Z_KB)}, Wände und Frontplatte ${fmt(h.Z_TOP)}, ` +
+    `Abdeckleiste ${fmt(h.Z_STRIP)}, Deckel innen ${fmt(h.Z_LID1)}, gesamt ${fmt(h.H_TOTAL)} mm. Geprüft wird das Gehäuse, wie es der Tischler baut, ` +
+    `mit den KiCad-Daten der Platinen; Teile ohne 3D-Modell als Hülle.`;
+}
+
+function setupCut() {
+  const r = $('#cutpos');
+  r.disabled = state.cut === 'aus';
+  if (state.cut === 'x') { r.max = D.size[0]; state.cutpos = Math.min(state.cutpos, D.size[0]); }
+  if (state.cut === 'y') { r.max = D.size[1]; state.cutpos = Math.min(state.cutpos, 160); }
+  r.value = state.cutpos;
+}
+
+const LIFT = { lid: { auf: 140 }, strip: { auf: 70 } };
+function apply() {
+  if (!D) return;
+  for (const [k, list] of groups) {
+    let vis = state.show[k] !== false;
+    if (k === 'lid') vis = state.show['Gehäuse'] && state.lid !== 'weg';
+    if (k === 'strip') vis = state.show['Gehäuse'] && state.strip !== 'weg';
+    if (k === 'keys-up') vis = state.show['Keybed'] && state.keys === 'ruhe';
+    if (k === 'keys-down') vis = state.show['Keybed'] && state.keys === 'gedrueckt';
+    for (const o of list) {
+      o.visible = vis;
+      if (k === 'lid' || k === 'strip') {
+        const dy = (LIFT[k][state[k]] || 0);
+        o.position.copy(o.userData.home); o.position.y += dy;
+      }
+    }
+  }
+  const glass = state.wood === 'glas';
+  for (const k of ['Gehäuse', 'lid', 'strip']) for (const o of groups.get(k) || []) o.traverse((m) => {
+    if (!m.isMesh) return;
+    m.material.transparent = glass; m.material.opacity = glass ? 0.22 : 1; m.material.depthWrite = !glass;
+  });
+  if (state.cut === 'aus') { renderer.clippingPlanes = []; $('#cutlbl').textContent = 'Lage –'; }
+  else if (state.cut === 'x') {
+    renderer.clippingPlanes = [new THREE.Plane(new THREE.Vector3(-1, 0, 0), state.cutpos)];
+    $('#cutlbl').textContent = `Lage x = ${state.cutpos} mm (von links), Blick von rechts`;
+  } else {
+    renderer.clippingPlanes = [new THREE.Plane(new THREE.Vector3(0, 0, -1), -state.cutpos)];
+    $('#cutlbl').textContent = `Lage y = ${state.cutpos} mm (von vorn), Blick von hinten`;
+  }
+}
+
+// ------------------------------------------------------------------ views and focus
+function view(v) {
+  const [w, d, h] = D.size;
+  const c = new THREE.Vector3(w / 2, h / 2, -d / 2);
+  const r = Math.max(w, d) * 2.3;
+  const dir = { iso: [-0.55, 0.62, 0.8], front: [0, 0.12, 1], top: [0, 1, 0.0001], left: [-1, 0.15, 0.0001], rear: [0, 0.25, -1] }[v];
+  camera.position.copy(c).add(new THREE.Vector3(...dir).normalize().multiplyScalar(r));
+  controls.target.copy(c); controls.update();
+}
+
+let lit = [];
+function unlight() { for (const m of lit) { m.emissive?.setHex(0x000000); } lit = []; }
+function light(obj) {
+  obj.traverse((m) => { if (m.isMesh && m.material.emissive) { m.material.emissive.setHex(0xff5a1f); m.material.emissiveIntensity = 0.9; lit.push(m.material); } });
+}
+function find(label) {
+  const [g, n] = label.split(': ');
+  const hit = named.filter(e => e.name === n && (e.group === g || e.group === g + ' (Hüllen)'));
+  if (hit.length) return hit.map(e => e.obj);
+  const b = named.find(e => e.name === '__board__' && e.group === g);
+  if (!b) return [];
+  if (n === 'Leiterplatte') return [b.obj];
+  const ref = n.split(' ')[0];
+  const out = [];
+  b.obj.traverse((o) => { if (o.name === ref || o.name === n) out.push(o); });
+  return out.length ? out : [b.obj];
+}
+function focusPair(g, btn) {
+  document.querySelectorAll('.gaps button').forEach(b => b.removeAttribute('aria-current'));
+  btn.setAttribute('aria-current', 'true');
+  unlight();
+  const objs = [...find(g.a), ...find(g.b)];
+  objs.forEach(light);
+  const box = new THREE.Box3();
+  objs.forEach(o => box.expandByObject(o));
+  if (!box.isEmpty()) {
+    const c = box.getCenter(new THREE.Vector3());
+    const span = Math.max(80, box.getSize(new THREE.Vector3()).length());
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    controls.target.copy(c); camera.position.copy(c).add(dir.multiplyScalar(span * 1.6)); controls.update();
+  }
+}
+
+window.fit3d = { scene, camera, controls, THREE };
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+resize();
+load().catch((e) => { $('#loading').textContent = 'Laden fehlgeschlagen: ' + e.message; });
+</script>
