@@ -34,7 +34,8 @@ KB_D = 161.5
 KB_WHITE = 47.5          # mounting plane -> top of white keys
 KB_BLACK = 57.77         # mounting plane -> top of black keys
 KB_LIP = 39.0            # mounting plane -> lower edge of the white key front
-                         # (scaled from Fig. 2, check on the real keybed)
+                         # Fatar drawing 49TP9 (1:1, 2004): 39.3 at rest, 29.5 pressed;
+                         # measured on the keybed: 30 pressed, 47.5 top at rest (11.11.2026)
 KB_TRAVEL = 10.0
 KB_REAR_FRAME = 24.0     # rear frame behind the keys (Fig. 2)
 KB_BLACK_Y = (50.0, 136.0)   # black keys, measured from the front edge of the keys
