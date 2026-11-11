@@ -49,7 +49,7 @@ PANEL_T = 1.6                        # front panel is a PCB (FR4 1.6)
 PANEL_HOLES = [(12.5, 12.5), (157.5, 12.5), (12.5, 217.5), (157.5, 217.5)]
 PANEL_HOLE_D = 3.2
 BOARD_SPACER = 12.0                  # panel -> 3620 board (clone, check with the parts)
-BOARD_PARTS_BELOW = 25.0             # parts plus KK plugs under the 3620 board (estimate)
+BOARD_PARTS_BELOW = 25.0             # parts plus KK plugs under the 3620 board (envelope; measured 18, 11.11.2026)
 
 # ---------------------------------------------------------------- clearances
 GAP_PANEL = 2.0          # panel -> wood, each side, includes tolex

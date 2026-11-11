@@ -304,6 +304,11 @@
    "hit": false
   },
   {
+   "name": "PL4 plug",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "R79 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
@@ -314,7 +319,17 @@
    "hit": false
   },
   {
+   "name": "PL2 plug",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "R30 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "C2 measured",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
@@ -325,6 +340,11 @@
   },
   {
    "name": "R11 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "PL3 plug",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
@@ -369,12 +389,22 @@
    "hit": false
   },
   {
+   "name": "PL1 plug",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "SK6 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
   {
    "name": "SK6 bush",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "PL8 plug",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
@@ -514,6 +544,11 @@
    "hit": false
   },
   {
+   "name": "PL7 plug",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "SK5 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
@@ -524,12 +559,27 @@
    "hit": false
   },
   {
+   "name": "C4 measured",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J4 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "J7 body",
    "group": "Bus-Emulator Rev0.2 (Hüllen)",
    "hit": false
   },
   {
    "name": "J7 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J3 plug",
    "group": "Bus-Emulator Rev0.2 (Hüllen)",
    "hit": false
   },
@@ -559,7 +609,17 @@
    "hit": false
   },
   {
+   "name": "J5 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "U1 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J4 plug",
    "group": "Netzteil Rev0.1 (Hüllen)",
    "hit": false
   },
@@ -569,7 +629,17 @@
    "hit": false
   },
   {
+   "name": "J3 plug",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "HS1 body",
+   "group": "Netzteil Rev0.1 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J2 plug",
    "group": "Netzteil Rev0.1 (Hüllen)",
    "hit": false
   },
@@ -591,10 +661,10 @@
   },
   {
    "check": "Board 3620 Bauteile unten -> Boden",
-   "d": 27.81,
+   "d": 24.8,
    "need": 2.0,
    "ok": true,
-   "a": "Board 3620-007 Rev0.5: C2",
+   "a": "Board 3620-007 Rev0.5: PL4 plug",
    "b": "Holz: 1 Boden"
   },
   {
@@ -671,10 +741,10 @@
   },
   {
    "check": "Emulator -> Keybed",
-   "d": 4.63,
+   "d": 4.06,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J5",
+   "a": "Bus-Emulator Rev0.2: J5 plug",
    "b": "Keybed: Keybed Rahmen"
   },
   {
@@ -703,10 +773,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 6678,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1695,
-  "Platinen untereinander": 27464,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3805,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6972,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1765,
+  "Platinen untereinander": 30042,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3973,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
  },
  "hits": {},

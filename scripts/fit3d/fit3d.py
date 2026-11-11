@@ -132,6 +132,17 @@ ENVELOPES = {
 # KiCad models that the export could not find (file missing in the library): envelope instead
 MISSING_MODELS = {'emu': {'J1', 'J7'}, 'psu': {'HS1', 'HS2'}}
 ENVELOPES['TE_Micro-MaTch_1-215079-6_2x08_P1.27mm_Vertical'] = ENVELOPES['TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical']
+# Measured by Patrick on board 3620 (11.11.2026): tallest parts 18 mm on the part side, the WIMA
+# capacitors C2/C4 and the KK headers with their crimp housings plugged in. Taken from the board
+# surface (if the 18 included the board, this is 1.6 mm on the safe side). 'measured' and 'plug'
+# entries are added even where KiCad has a model (the model is smaller or shows the header only).
+MEASURED_H = 18.0
+MEASURED_SRC = 'measured on board 3620 by Patrick, 11.11.2026: 18 on the part side'
+ENVELOPES['C_Rect_P22.50mm_P5.00mm_Halteglied'] = [
+    ('measured', 'front', 'fp', None, 0, MEASURED_H, 'WIMA C2/C4 ' + MEASURED_SRC)]
+for _n in (2, 3, 4, 5, 6):
+    ENVELOPES['Molex_KK-254_AE-6410-%02dA_1x%02d_P2.54mm_Vertical' % (_n, _n)] = [
+        ('plug', 'front', 'fp', None, 0, MEASURED_H, 'Molex KK header with crimp housing plugged in, ' + MEASURED_SRC)]
 
 
 def envelope_shapes(k):
@@ -146,7 +157,7 @@ def envelope_shapes(k):
         x0, y0, x1, y1 = fp_local(k, p)
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         for name, side, kind, size, z0, z1, src in env:
-            if modelled and not name.startswith('plug'):
+            if modelled and not name.startswith(('plug', 'measured')):
                 continue
             # local z: front (F) side above 1.6, back (B) side below 0
             za, zb = (t + z0, t + z1) if side == 'front' else (-z1, -z0)

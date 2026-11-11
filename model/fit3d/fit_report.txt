@@ -1,18 +1,18 @@
 ARP 3620 - Passprobe in 3D (Gehäuse Rev0.3-T1, Ausführung Tischler)
 Platinen: Frontplatte (Leiterplatte) Rev0.3 (ARP3620_Front_Rev0.3.kicad_pcb), Board 3620-007 Rev0.5 (ARP3620_Rev0.5.kicad_pcb), Bus-Emulator Rev0.2 (Emulator3620_Rev0.2.kicad_pcb), Netzteil Rev0.1 (Netzteil3620_Rev0.1.kicad_pcb)
-Körper: 356 (davon 318 aus KiCad, 66 Hüllen ohne 3D-Modell)
+Körper: 370 (davon 332 aus KiCad, 80 Hüllen ohne 3D-Modell)
 
 1. Kollisionen (Volumen > 0,05 mm³)
-   Platinen/Bauteile gegen Holz und Z-Profile                  6678 Paare geprüft
-   Keybed gegen Holz, Z-Profile, Platinen                      1695 Paare geprüft
-   Platinen untereinander                                     27464 Paare geprüft
-   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        3805 Paare geprüft
+   Platinen/Bauteile gegen Holz und Z-Profile                  6972 Paare geprüft
+   Keybed gegen Holz, Z-Profile, Platinen                      1765 Paare geprüft
+   Platinen untereinander                                     30042 Paare geprüft
+   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        3973 Paare geprüft
    Bolzen, Rückplatte, Frontplattenteile gegen Holz             248 Paare geprüft
    keine
 
 2. Abstände (mm)                                      Ist    Soll
    Bedienteile oben -> Deckel (geschlossen)           16.20    3.0  ok   Frontplatte Teile: S1 Wippe (oben) / Holz: 13 Deckelplatte
-   Board 3620 Bauteile unten -> Boden                 27.81    2.0  ok   Board 3620-007 Rev0.5: C2 / Holz: 1 Boden
+   Board 3620 Bauteile unten -> Boden                 24.80    2.0  ok   Board 3620-007 Rev0.5: PL4 plug / Holz: 1 Boden
    Board 3620 + Bauteile -> Wände, Wange, Füllstück    7.00    1.0  ok   Board 3620-007 Rev0.5: Leiterplatte / Holz: 2 Vorderwand
    Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden    24.40    2.0  ok   Frontplatte Teile: GX16 Interface / Holz: 1 Boden
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
@@ -22,12 +22,14 @@ Körper: 356 (davon 318 aus KiCad, 66 Hüllen ohne 3D-Modell)
    Netzteil -> Rückwand                               23.00    1.0  ok   Netzteil Rev0.1: Leiterplatte / Holz: 3 Rückwand
    Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.2: Leiterplatte / Netzteil Rev0.1: Leiterplatte
    Emulator/Netzteil -> Rückplatten-Teile              7.86    1.0  ok   Bus-Emulator Rev0.2: J7 plug / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Emulator -> Keybed                                  4.63    1.0  ok   Bus-Emulator Rev0.2: J5 / Keybed: Keybed Rahmen
+   Emulator -> Keybed                                  4.06    1.0  ok   Bus-Emulator Rev0.2: J5 plug / Keybed: Keybed Rahmen
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links
 
 3. Hüllen statt 3D-Modell (Quelle je Höhe; "assumed" = kein Datenblattwert)
+   Board 3620-007 Rev0.5              WIMA C2/C4 measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
+   Board 3620-007 Rev0.5              Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
    Board 3620-007 Rev0.5              TO-71 can 5.3
    Board 3620-007 Rev0.5              Bourns 3266W, 6.7 (Bourns_3266.pdf)
    Board 3620-007 Rev0.5              Bourns PTL45: body 7.0 +-0.5 to the mounting surface (PTL.pdf p. 2)
@@ -48,6 +50,7 @@ Körper: 356 (davon 318 aus KiCad, 66 Hüllen ohne 3D-Modell)
    Board 3620-007 Rev0.5              SB4011: bushing and red plunger dia 12.5 to 23 (assumed)
    Bus-Emulator Rev0.2                TE Micro-MaTch 215079 female on board: insulator height 4.00 (Digi-Key 8-215079-0)
    Bus-Emulator Rev0.2                Micro-MaTch ribbon plug, to 18 (assumed; TE drawing not reachable)
+   Bus-Emulator Rev0.2                Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
    Bus-Emulator Rev0.2                TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)
    Bus-Emulator Rev0.2                MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)
    Frontplatte Teile                  envelope as in model.py (GX16 dia 22 x 32, ACJS dia 16 x 30)
@@ -55,6 +58,7 @@ Körper: 356 (davon 318 aus KiCad, 66 Hüllen ohne 3D-Modell)
    Frontplatte Teile                  E-Switch 300DP6 housing 12.70 x 11.43, 16.4 below the panel top (datasheet)
    Frontplatte Teile                  E-Switch 300DP6 bezel 19.85 x 15.80, rocker 13.8 above the panel (datasheet)
    Netzteil Rev0.1                    Fischer SK104 35 mm, upright
+   Netzteil Rev0.1                    Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
    Netzteil Rev0.1                    Mean Well SI06W8: 25.4 x 25.4 x 10.2 +-0.5 (MeanWell_SI06W8_DI06W8.pdf)
    Rückplatte                         envelope
 
