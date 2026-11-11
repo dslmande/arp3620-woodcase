@@ -3,10 +3,10 @@
  "gaps": [
   {
    "check": "Bedienteile oben -> Deckel (geschlossen)",
-   "d": 10.6,
+   "d": 16.2,
    "need": 3.0,
    "ok": true,
-   "a": "Board 3620-007 Rev0.5: R28 knob",
+   "a": "Frontplatte Teile: S1 Wippe (oben)",
    "b": "Holz: 13 Deckelplatte"
   },
   {
@@ -46,7 +46,7 @@
    "d": 23.15,
    "need": 2.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 body",
+   "a": "Bus-Emulator Rev0.2: J7 plug",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -86,7 +86,7 @@
    "d": 7.86,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 body",
+   "a": "Bus-Emulator Rev0.2: J7 plug",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
@@ -123,10 +123,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 6615,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1680,
-  "Platinen untereinander": 26606,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3769,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6678,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1695,
+  "Platinen untereinander": 27464,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3805,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
  }
 }

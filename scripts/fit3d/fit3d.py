@@ -69,39 +69,63 @@ def fp_local(k, p):
 
 # ------------------------------------------------------------------ envelopes for parts without a 3D model
 # heights in mm above the board surface on the side the part sits on. 'back' = fitted from the back
-# (board 3620 controls, towards the panel). Values from the datasheets in Arp3620/doku/datenblatt
-# where available, otherwise marked as assumed.
+# (board 3620 controls, towards the panel). Every height names its source; 'assumed' marks the values
+# that no datasheet gives (checked 11.11.2026). Kinds: 'fp' footprint box, 'box' (w, d) centred,
+# 'cyl' diameter, 'slot' (across, along): a box along the longer footprint axis, for actuators
+# that slide (the whole travel is the envelope). Names starting with 'plug' are mated cable plugs:
+# they are added even when KiCad has a model, because the model shows the header only.
 PANEL_TOP_LOCAL = BOARD_SPACER + PANEL_T                 # panel top above the board's back side (13.6)
 LEAD_CUT = 2.0                                           # leads cut this long on the solder side
+IN = 25.4
 ENVELOPES = {
     # footprint: list of (name, side, kind, size, z0, z1, source)
-    'Thonk_PJ301BM': [('body', 'back', 'fp', None, 0, 10.5, 'Thonk PJ301BM, body 10.5 (assumed)'),
-                      ('bush', 'back', 'cyl', 6.0, 10.5, 14.5, 'thread M6 to 14.5 (assumed)')],
-    'Bourns_PTL45_LED': [('body', 'back', 'fp', None, 0, 7.5, 'Bourns PTL45, body 7.5 (assumed)'),
-                         ('lever', 'back', 'box', (4.0, 1.6), 7.5, 15.0, 'PTL45-15: lever 15 above the seat'),
-                         ('cap', 'back', 'box', (10.0, 14.0), PANEL_TOP_LOCAL + 0.5, PANEL_TOP_LOCAL + 12.0,
-                          'slider cap 10 x 14 x 11.5 (assumed)')],
-    'Switchcraft_46206': [('body', 'back', 'fp', None, 0, 9.0, 'Switchcraft 46206, body 9 (assumed)'),
-                          ('actuator', 'back', 'box', (3.5, 3.5), 9.0, 19.0, 'actuator to 19 (assumed)')],
-    'Switchcraft_46313': [('body', 'back', 'fp', None, 0, 9.0, 'Switchcraft 46313, body 9 (assumed)'),
-                          ('actuator', 'back', 'box', (3.5, 3.5), 9.0, 19.0, 'actuator to 19 (assumed)')],
-    'NKK_SB4011': [('body', 'back', 'fp', None, 0, 11.5, 'NKK SB4011, body (assumed)'),
-                   ('plunger', 'back', 'cyl', 10.0, 11.5, 23.0, 'cap dia 10 to 23 (assumed)')],
-    'Alps_RK09D': [('body', 'back', 'fp', None, 0, 6.5, 'Alps RK09D, body 6.5'),
-                   ('bush', 'back', 'cyl', 7.0, 6.5, 11.5, 'bush M7 x 5'),
-                   ('shaft', 'back', 'cyl', 6.0, 11.5, 31.5, 'shaft F25: 25 above the body'),
-                   ('knob', 'back', 'cyl', 20.0, PANEL_TOP_LOCAL + 1.0, 33.0, 'knob dia 20, to the shaft end + 1.5 (assumed)')],
-    'Bourns_3266_P_W_Y': [('body', 'front', 'fp', None, 0, 6.7, 'Bourns 3266W, 6.7')],
+    'Thonk_PJ301BM': [
+        ('body', 'back', 'fp', None, 0, 11.5, 'Thonk PJ301BM: body 11.5 (dealer data WQP518MA-BM, '
+                                             'Arp2600 pcb/bauteile/buchse-switchcraft.md 3)'),
+        ('bush', 'back', 'cyl', 6.0, 11.5, 17.0, 'PJ301BM: bushing M6, 5.5 long (4.5 thread), same source')],
+    'Bourns_PTL45_LED': [
+        ('body', 'back', 'fp', None, 0, 7.5, 'Bourns PTL45: body 7.0 +-0.5 to the mounting surface (PTL.pdf p. 2)'),
+        ('lever', 'back', 'slot', (2.05, 45.0 + 6.0), 7.5, 7.0 + 15.0 + 0.5,
+         'PTL45-15: lever L 15 above the mounting surface, 2.05 thick, swept over 45 travel (PTL.pdf p. 2, 4); '
+         'no slider caps (Arp3620 bestellung/README.md)')],
+    'Switchcraft_46206': [
+        ('body', 'back', 'fp', None, 0, 0.295 * IN, 'Switchcraft 46206LRX: housing 0.295 below the flange '
+                                                   '(Arp2600 Switchcraft_46200LRX_SERIES_CD.pdf)'),
+        ('flange', 'back', 'slot', (0.53 * IN, 1.38 * IN), 0.295 * IN - 0.5, 0.295 * IN, '46206: flange 1.38 x 0.53'),
+        ('actuator', 'back', 'slot', (0.23 * IN, (0.28 + 0.19) * IN), 0.295 * IN, (0.295 + 0.34) * IN,
+         '46206: knob 0.28 x 0.23, 0.34 above the flange, throw 0.19')],
+    'Switchcraft_46313': [
+        ('body', 'back', 'fp', None, 0, 0.34 * IN, 'Switchcraft 46313LDRX: housing 0.34 below the flange '
+                                                  '(Arp3620 doku/datenblatt/Switchcraft_46300LDRX_SERIES_CD.pdf)'),
+        ('flange', 'back', 'slot', (0.53 * IN, 1.66 * IN), 0.34 * IN - 0.5, 0.34 * IN, '46313: flange 1.66 x 0.53'),
+        ('actuator', 'back', 'slot', (0.23 * IN, (0.28 + 2 * 0.25) * IN), 0.34 * IN, 0.68 * IN,
+         '46313: knob 0.28 x 0.23, 0.34 above the flange, throw 0.25 either direction')],
+    'NKK_SB4011': [
+        ('body', 'back', 'fp', None, 0, 11.5, 'NKK SB4011NCHC-RO: body (assumed; nkkswitches.com not reachable, '
+                                              'Digi-Key: rear panel mount, solder lugs, cut-out 12.5)'),
+        ('plunger', 'back', 'cyl', 12.5, 11.5, 23.0, 'SB4011: bushing and red plunger dia 12.5 to 23 (assumed)')],
+    'Alps_RK09D': [
+        ('body', 'back', 'fp', None, 0, 6.8, 'Alps RK09D vertical: body 6.8 above the mounting surface '
+                                             '(Alps_RK09K_RK09D.pdf drawing 12)'),
+        ('bush', 'back', 'cyl', 7.0, 6.8, 11.8, 'RK09D: collar 5 long (dia from the drawing, about 6.5)'),
+        ('shaft', 'back', 'cyl', 6.0, 11.8, 25.0, 'RK09D113BF25: shaft dia 6, LM1 25 above the mounting surface'),
+        ('knob', 'back', 'cyl', 20.0, PANEL_TOP_LOCAL + 1.0, 25.0 + 1.5,
+         'knob dia 20 (bestellung/README.md), top 1.5 above the shaft end (assumed, knob not chosen)')],
+    'Bourns_3266_P_W_Y': [('body', 'front', 'fp', None, 0, 6.7, 'Bourns 3266W, 6.7 (Bourns_3266.pdf)')],
     '2N3958_Klon': [('body', 'front', 'fp', None, 0, 5.3, 'TO-71 can 5.3')],
     # emulator
-    'TE_MTA-100_640456-5_1x05_P2.54mm_Vertical': [('body', 'front', 'fp', None, 0, 20.0,
-                                                   'MTA-100 header with IDC plug, 20 (assumed)')],
-    'TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical': [('body', 'front', 'fp', None, 0, 18.0,
-                                                          'Micro-MaTch header with ribbon plug, 18 (assumed)')],
-    'TE_Micro-MaTch_1-215079-6_2x08_P1.27mm_Vertical': [('body', 'front', 'fp', None, 0, 18.0,
-                                                          'Micro-MaTch header with ribbon plug, 18 (assumed)')],
+    'TE_MTA-100_640456-5_1x05_P2.54mm_Vertical': [
+        ('body', 'front', 'fp', None, 0, 0.100 * IN + 0.305 * IN,
+         'TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)'),
+        ('plug', 'front', 'fp', None, 0.100 * IN, 0.100 * IN + 0.520 * IN,
+         'MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)')],
+    'TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical': [
+        ('body', 'front', 'fp', None, 0, 4.0, 'TE Micro-MaTch 215079 female on board: insulator height 4.00 '
+                                              '(Digi-Key 8-215079-0)'),
+        ('plug', 'front', 'fp', None, 4.0, 18.0, 'Micro-MaTch ribbon plug, to 18 (assumed; TE drawing not reachable)')],
     # power supply
-    'MeanWell_SI06W8': [('body', 'front', 'fp', None, 0, 11.0, 'Mean Well SI06W8, 11 (assumed)')],
+    'MeanWell_SI06W8': [('body', 'front', 'fp', None, 0, 10.7, 'Mean Well SI06W8: 25.4 x 25.4 x 10.2 +-0.5 '
+                                                               '(MeanWell_SI06W8_DI06W8.pdf)')],
     'Heatsink_Fischer_SK104-STC-STIC_35x13mm_2xDrill2.5mm': [('body', 'front', 'fp', None, 0, 35.0,
                                                                'Fischer SK104 35 mm, upright')],
 }
@@ -118,17 +142,20 @@ def envelope_shapes(k):
         env = ENVELOPES.get(p['fp'])
         if not env:
             continue
-        if p['models'] and p['ref'] not in MISSING_MODELS.get(k, ()):
-            continue
+        modelled = p['models'] and p['ref'] not in MISSING_MODELS.get(k, ())
         x0, y0, x1, y1 = fp_local(k, p)
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         for name, side, kind, size, z0, z1, src in env:
+            if modelled and not name.startswith('plug'):
+                continue
             # local z: front (F) side above 1.6, back (B) side below 0
             za, zb = (t + z0, t + z1) if side == 'front' else (-z1, -z0)
             if kind == 'fp':
                 s = Part.makeBox(x1 - x0, y1 - y0, zb - za, V(x0, y0, za))
-            elif kind == 'box':
+            elif kind in ('box', 'slot'):
                 w, d = size
+                if kind == 'slot' and (x1 - x0) > (y1 - y0):
+                    w, d = d, w                       # along the longer footprint axis
                 s = Part.makeBox(w, d, zb - za, V(cx - w / 2, cy - d / 2, za))
             else:
                 s = Part.makeCylinder(size / 2, zb - za, V(cx, cy, za), V(0, 0, 1))
@@ -350,9 +377,9 @@ def main():
     def same_board(a, b):
         return a[0] == b[0]
     def through_panel(a, b):
-        # controls pass through their panel holes: bush, shaft, lever, actuator, plunger, knob, cap,
+        # controls pass through their panel holes: bush, shaft, lever, actuator, plunger, knob,
         # rocker against the panel PCB are intended
-        names = ('bush', 'shaft', 'lever', 'actuator', 'plunger', 'knob', 'cap', 'Wippe', 'GX16', 'ACJS')
+        names = ('bush', 'shaft', 'lever', 'actuator', 'plunger', 'knob', 'Wippe', 'GX16', 'ACJS')
         pa = a[0] == NAMES['panel'] or b[0] == NAMES['panel']
         return pa and any(n in a[1] or n in b[1] for n in names)
     def standoff_ok(a, b):
@@ -397,7 +424,7 @@ def main():
     rear = [b for b in G('Holz') if b[1].startswith('3 ')]
     walls = [b for b in G('Holz') if b[1].startswith(('2 ', '3 ', '4 ', '5 ', '6 ', '8 ', '9 '))]
     board_parts = by(NAMES['board'], lambda b: b[1] != 'Leiterplatte')
-    controls_top = [b for b in board_parts if any(n in b[1] for n in ('knob', 'cap', 'plunger', 'actuator', 'bush'))] + \
+    controls_top = [b for b in board_parts if any(n in b[1] for n in ('knob', 'lever', 'shaft', 'plunger', 'actuator', 'bush'))] + \
         [b for b in G('Frontplatte Teile') if 'oben' in b[1]]
     emu = by(NAMES['emu']); psu = by(NAMES['psu'])
     gaps = [
@@ -444,7 +471,7 @@ def main():
     for g in gap_res:
         lines.append('   %-48s %7.2f %6.1f  %s   %s / %s' % (g['check'], g['d'], g['need'], 'ok' if g['ok'] else 'ZU KNAPP',
                                                            g['a'], g['b']))
-    lines += ['', '3. Hüllen statt 3D-Modell (Höhen angenommen, wo nicht anders vermerkt)']
+    lines += ['', '3. Hüllen statt 3D-Modell (Quelle je Höhe; "assumed" = kein Datenblattwert)']
     seen = set()
     for g, n, note in env:
         key = (g, note)

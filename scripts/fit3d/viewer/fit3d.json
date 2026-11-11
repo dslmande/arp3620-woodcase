@@ -314,11 +314,6 @@
    "hit": false
   },
   {
-   "name": "R79 cap",
-   "group": "Board 3620-007 Rev0.5 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "R30 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
@@ -344,17 +339,17 @@
    "hit": false
   },
   {
-   "name": "R83 cap",
-   "group": "Board 3620-007 Rev0.5 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "R39 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
   {
    "name": "S3 body",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "S3 flange",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
@@ -399,6 +394,11 @@
    "hit": false
   },
   {
+   "name": "S4 flange",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "S4 actuator",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
@@ -429,22 +429,12 @@
    "hit": false
   },
   {
-   "name": "R26 cap",
-   "group": "Board 3620-007 Rev0.5 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "R21 body",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
   {
    "name": "R21 lever",
-   "group": "Board 3620-007 Rev0.5 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "R21 cap",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
   },
@@ -504,6 +494,11 @@
    "hit": false
   },
   {
+   "name": "S2 flange",
+   "group": "Board 3620-007 Rev0.5 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "S2 actuator",
    "group": "Board 3620-007 Rev0.5 (Hüllen)",
    "hit": false
@@ -534,12 +529,32 @@
    "hit": false
   },
   {
+   "name": "J7 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "J8 body",
    "group": "Bus-Emulator Rev0.2 (Hüllen)",
    "hit": false
   },
   {
+   "name": "J8 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "J1 body",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J1 plug",
+   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J2 plug",
    "group": "Bus-Emulator Rev0.2 (Hüllen)",
    "hit": false
   },
@@ -568,10 +583,10 @@
  "gaps": [
   {
    "check": "Bedienteile oben -> Deckel (geschlossen)",
-   "d": 10.6,
+   "d": 16.2,
    "need": 3.0,
    "ok": true,
-   "a": "Board 3620-007 Rev0.5: R28 knob",
+   "a": "Frontplatte Teile: S1 Wippe (oben)",
    "b": "Holz: 13 Deckelplatte"
   },
   {
@@ -611,7 +626,7 @@
    "d": 23.15,
    "need": 2.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 body",
+   "a": "Bus-Emulator Rev0.2: J7 plug",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -651,7 +666,7 @@
    "d": 7.86,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 body",
+   "a": "Bus-Emulator Rev0.2: J7 plug",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
@@ -688,10 +703,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 6615,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1680,
-  "Platinen untereinander": 26606,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3769,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6678,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1695,
+  "Platinen untereinander": 27464,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3805,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
  },
  "hits": {},

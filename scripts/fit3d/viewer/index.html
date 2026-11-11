@@ -314,7 +314,7 @@ function buildUI() {
     ul.prepend(li);
   }
   const envs = new Set();
-  D.parts.filter(p => p.group.endsWith('(Hüllen)') || p.group === 'Frontplatte Teile').forEach(p => envs.add(p.name.replace(/ (body|bush|lever|cap|actuator|plunger|shaft|knob)$/, '')));
+  D.parts.filter(p => p.group.endsWith('(Hüllen)') || p.group === 'Frontplatte Teile').forEach(p => envs.add(p.name.replace(/ (body|bush|lever|flange|actuator|plunger|shaft|knob|plug)$/, '')));
   $('#envs').innerHTML = [...envs].sort().map(n => `<li>${n}</li>`).join('');
   const h = D.heights;
   $('#foot').textContent = `Höhen ab Unterkante Boden: Boden ${fmt(h.Z_BASE)}, Keybed-Auflage ${fmt(h.Z_KB)}, Wände und Frontplatte ${fmt(h.Z_TOP)}, ` +
