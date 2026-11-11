@@ -9,11 +9,6 @@ panel -> left end wall                 2.00     2.00
 panel -> left cheek                    2.00     2.00
 panel -> front wall                    2.00     2.00
 panel -> filler                        2.00     2.00
-lid top -> strip                       7.00     5.00
-lid top -> panel                      30.00    25.00
-lid rear -> apron                      3.00     2.50
-lid end right -> right cheek           3.00     2.50
-lid front -> keys                      6.00     2.50
 board parts -> base                   17.80     3.00
 panel jacks -> base                   24.40     3.00
 emulator parts -> strip               42.40    10.00
@@ -28,7 +23,7 @@ rear plate parts -> emulator           6.00     2.00
 rear plate parts -> apron             11.00     2.00
 
 joints: parts in contact (distance 0)
-  29 joints checked
+  21 joints checked
 outer shell: 93 voids, largest 58.09, 0.42, 0.42, 0.35 cm3 (rear window 58.1)
 
 assembly order (each part moved 40 mm back along its direction, 1 mm steps)
@@ -46,12 +41,7 @@ assembly order (each part moved 40 mm back along its direction, 1 mm steps)
   end_r      (-1, 0, 0)   
   strip                   strip
   apron      (0, 0, 1)    apron tabs up into the strip notches (glue)
-  lid_top                 lid top
-  lid_front  (0, 0, 1)    front and rear: tabs into the lid top
-  lid_rear   (0, 0, 1)    
-  lid_end_l  (1, 0, 0)    ends from the sides: fingers, tabs into the lid top
-  lid_end_r  (-1, 0, 0)   
 
-mass wood + plate: 5.93 kg (lid 1.59 kg), without tolex, keybed, electronics
-outside: 911 x 310 x 103 mm (with lid, without feet)
-checked pairs: 94, problems: 0
+mass wood + plate: 4.34 kg, without tolex, keybed, electronics
+outside: 911 x 310 x 90 mm (strip top, without feet)
+checked pairs: 48, problems: 0

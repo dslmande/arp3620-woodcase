@@ -2,14 +2,6 @@
  "findings": [],
  "gaps": [
   {
-   "check": "Bedienteile oben -> Deckel (geschlossen)",
-   "d": 16.2,
-   "need": 3.0,
-   "ok": true,
-   "a": "Frontplatte Teile: S1 Wippe (oben)",
-   "b": "Holz: 13 Deckelplatte"
-  },
-  {
    "check": "Board 3620 Bauteile unten -> Boden",
    "d": 24.8,
    "need": 2.0,
@@ -123,10 +115,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 6972,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1765,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 5312,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1740,
   "Platinen untereinander": 30042,
   "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3973,
-  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
+  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  }
 }

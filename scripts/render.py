@@ -42,26 +42,20 @@ def tris_of(shape, maxlen=25.0):
     return out
 
 
-def scene(lid=False, refs=True, explode=0.0, only=None):
+def scene(refs=True, explode=0.0, only=None):
     items = []
     case = model.case_solids(render=True)
     for p in PARTS:
-        if p.key.startswith('lid') and not lid:
-            continue
         if only and p.key not in only:
             continue
         s = case[p.key]
         if explode and p.key in ('strip', 'apron'):
             s = s.copy(); s.translate(model.Vec(0, 0, explode))
-        if explode and p.key.startswith('lid'):
-            s = s.copy(); s.translate(model.Vec(0, 0, 2.2 * explode))
         col = 'alu' if p.key == 'plate' else ('paint' if p.key in INNER else 'tolex')
         items.append((s, col))
     if refs:
         for k, (s, col) in model.references().items():
             if only and k not in only:
-                continue
-            if k == 'ref_latches' and not lid:
                 continue
             items.append((s, col))
     return items
@@ -114,9 +108,6 @@ def render(items, view, up=(0, 0, 1), fname='view.png', size=(16, 9), light=(-0.
 if True:  # freecadcmd does not run scripts as __main__
     tag = NAME
     render(scene(), (-0.55, -1.0, 0.85), fname=tag + '_front.png')
-    outer = {'base', 'front', 'rear', 'end_l', 'end_r', 'plate', 'lid_top', 'lid_front', 'lid_rear',
-             'lid_end_l', 'lid_end_r', 'ref_latches', 'ref_feet'}
-    render(scene(lid=True, only=outer), (-0.55, -1.0, 0.75), fname=tag + '_closed.png')
     render(scene(), (0.6, 1.0, 0.7), fname=tag + '_rear.png', light=(0.4, 0.9, 0.8))
     render(scene(explode=60.0), (-0.45, -1.0, 1.1), fname=tag + '_open.png')
     # exploded carcass: every part pulled back along the direction it is fitted

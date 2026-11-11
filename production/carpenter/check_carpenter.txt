@@ -1,4 +1,4 @@
-Carpenter variant Rev0.3-T1 - checks against params.py and ARP3620_Woodcase_Rev0.3.step
+Carpenter variant Rev0.4-T1 - checks against params.py and ARP3620_Woodcase_Rev0.4.step
 KB_LIP = 39 (measured)
 
 1. overlap between carpenter parts: none
@@ -10,22 +10,21 @@ KB_LIP = 39 (measured)
    panel -> left cheek            2.00   2.00  ok
    panel -> front wall            2.00   2.00  ok
    panel -> filler                2.00   2.00  ok
-   lid top -> strip               7.00   5.00  ok
    board 3620 parts -> filler cleats  19.31   1.00  ok
-4. overall envelope   STEP 911 x 310 x 103   carpenter 911 x 310 x 103
-   wood in carpenter, not in STEP: 39106 mm3 (holes, dogbones, fit gaps, radii, filler cleats 14976)
+4. overall envelope   STEP 911 x 310 x 90   carpenter 911 x 310 x 90
+   wood in carpenter, not in STEP: 34498 mm3 (holes, dogbones, fit gaps, radii, filler cleats 14976)
    wood in STEP, not in carpenter: 587 mm3 - expected: only the rounded corners of the cable notch (R8)
    and of the rear window (R5), which are square here. Anything else would be a mistake.
-     corner 165 mm3 at x 186.0..198.0 y 282.0..290.0 z 31.0..39.0
-     corner 165 mm3 at x 186.0..198.0 y 190.0..198.0 z 31.0..39.0
      corner 64 mm3 at x 261.0..266.0 y 298.0..310.0 z 21.0..26.0
      corner 64 mm3 at x 261.0..266.0 y 298.0..310.0 z 42.0..47.0
      corner 64 mm3 at x 443.0..448.0 y 298.0..310.0 z 42.0..47.0
      corner 64 mm3 at x 443.0..448.0 y 298.0..310.0 z 21.0..26.0
+     corner 165 mm3 at x 186.0..198.0 y 282.0..290.0 z 31.0..39.0
+     corner 165 mm3 at x 186.0..198.0 y 190.0..198.0 z 31.0..39.0
      + 8423 mm3 at x 174.0..199.0 y 246.0..310.0 z 16.5..68.0
      + 8073 mm3 at x 0.0..24.0 y 246.0..310.0 z 39.3..67.0
 5. cut list vs params.py and STEP bounding boxes
-   STEP boxes include the CNC tabs and fingers (base +9, finger joints +12/24, tabs into the lid top +6),
+   STEP boxes include the CNC tabs and fingers (base +9, finger joints +12/24),
    so they are larger than the butt-joint parts by exactly those joint depths.
    pos name                                 L x B x D            params        STEP part (bbox, incl. tabs)
     1  Boden                                911 x 310 x 9        ok    911 x 310 x 9
@@ -39,7 +38,4 @@ KB_LIP = 39 (measured)
    10  Auflageleiste Abdeckleiste           109 x 15 x 12        ok    109 x 27 x 12
    11  Abdeckleiste                         689 x 136,5 x 9      ok    689 x 136,5 x 9
    12  Blende unter der Abdeckleiste        689 x 24 x 9         ok    689 x 33 x 9
-   13  Deckelplatte                         911 x 310 x 6        ok    911 x 310 x 6
-   14  Deckel vorn/hinten                   911 x 30 x 9         ok    911 x 36 x 9
-   15  Deckel Seite                         292 x 30 x 9         ok    310 x 36 x 9
     7  Z-Profil Tastatur                    670 x 20 x 20        ok    670 x 38 x 20

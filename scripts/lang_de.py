@@ -20,7 +20,6 @@ DATA = {
     'Walls': 'Wände',
     'Cheeks': 'Wangen',
     'Strip, cleats, filler, Z profiles': 'Leiste, Träger, Füllbrett, Z-Profile',
-    'Lid': 'Deckel',
     'Rear plate': 'Rückplatte',
     'Joints, CNC, assembly order': 'Verbindungen, CNC, Montagereihenfolge',
     'Cut list, hardware, assembly': 'Zuschnittliste, Beschläge, Montage',
@@ -28,31 +27,30 @@ DATA = {
     'Key data': 'Eckdaten',
     'CNC-cut, plugged together: finger joints, tabs and slots, glued':
         'CNC-gefräst und gesteckt: Fingerzinken, Zapfen und Schlitze, verleimt',
-    'Birch plywood 12 / 9 / 6 mm, covered in black tolex, lid with 4 latches':
-        'Birke-Multiplex 12 / 9 / 6 mm, schwarz mit Tolex bezogen, Deckel mit 4 Verschlüssen',
+    'Birch plywood 12 / 9 mm, covered in black tolex, no lid':
+        'Birke-Multiplex 12 / 9 mm, schwarz mit Tolex bezogen, ohne Deckel',
     'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls':
         'Keybed Fatar TP/9S 49 auf zwei Alu-Z-Profilen 20 x 20 x 2, Frontplatte 170 x 230 bündig mit den Wänden',
     'Electronics bay under the removable strip: bus emulator 160 x 110, power supply 126 x 80':
         'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 110, Netzteil 126 x 80',
     'Rear plate (aluminium 2 mm): USB (option), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT':
         'Rückplatte (Aluminium 2 mm): USB (Option), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT',
-    'without lid': 'ohne Deckel',
-    'with lid': 'mit Deckel',
+    'front left, strip in place': 'vorn links, Leiste aufgesetzt',
     'rear: connector plate': 'hinten: Anschlussplatte',
     'strip lifted: electronics bay (emulator, power supply)': 'Leiste abgehoben: Elektronikfach (Emulator, Netzteil)',
     'plugged together: finger joints, tabs and slots (exploded)':
         'gesteckt: Fingerzinken, Zapfen und Schlitze (Explosionsansicht)',
     'front left corner, parts pulled apart': 'Ecke vorne links, Teile auseinandergezogen',
     # general arrangement
-    'Top view, lid removed': 'Draufsicht, Deckel abgenommen',
+    'Top view': 'Draufsicht',
     'control panel': 'Frontplatte',
     'filler': 'Füllbrett',
     'strip (removable)': 'Leiste (abnehmbar)',
     'keybed': 'Keybed',
     'bay': 'Fach',
-    'Front view with lid': 'Vorderansicht mit Deckel',
-    'Rear view, lid removed': 'Rückansicht, Deckel abgenommen',
-    'Right side, with lid': 'Seitenansicht rechts, mit Deckel',
+    'Front view': 'Vorderansicht',
+    'Rear view': 'Rückansicht',
+    'Right side': 'Seitenansicht rechts',
     # sections
     'Fatar TP/9S 49 (simplified)': 'Fatar TP/9S 49 (vereinfacht)',
     'Z profile 20 x 20 x 2': 'Z-Profil 20 x 20 x 2',
@@ -60,7 +58,6 @@ DATA = {
     'strip 9 (removable)': 'Leiste 9 (abnehmbar)',
     'apron': 'Schürze',
     'rear plate + socket': 'Rückplatte + Buchse',
-    'lid': 'Deckel',
     'rear wall (window)': 'Rückwand (Fenster)',
     '3620 board (envelope)': '3620-Board (Hüllkörper)',
     'standoff M3 (panel corner)': 'Abstandsbolzen M3 (Ecke Frontplatte)',
@@ -73,15 +70,11 @@ DATA = {
     'Filler behind the panel': 'Füllbrett hinter der Frontplatte',
     'Front wall': 'Vorderwand',
     'Keybed Z profile': 'Z-Profil Keybed',
-    'Lid end': 'Deckel Seite',
-    'Lid front/rear': 'Deckel vorn/hinten',
-    'Lid top': 'Deckelplatte',
     'Rear wall': 'Rückwand',
     'Strip behind the keys': 'Leiste hinter den Tasten',
     'Strip cleat': 'Träger der Leiste',
     'birch plywood 12': 'Birke-Multiplex 12',
     'birch plywood 9': 'Birke-Multiplex 9',
-    'birch plywood 6': 'Birke-Multiplex 6',
     'aluminium 2': 'Aluminium 2',
     'seen from above': 'von oben gesehen',
     'seen from below': 'von unten gesehen',
@@ -161,14 +154,6 @@ DATA = {
     'tabs into the left end wall, the rear wall and through the left cheek;':
         'Zapfen in die linke Seitenwand, die Rückwand und durch die linke Wange;',
     'flush with the wall top': 'bündig mit der Wandoberkante',
-    # lid
-    'Finger joints at the corners (the ends own the lower and the upper finger),':
-        'Fingerzinken an den Ecken (unterer und oberer Zinken an den Seitenteilen),',
-    'the wall tabs go into notches in the top. Glue; tolex outside and around the lower edge.':
-        'die Zapfen der Wände sitzen in Kerben der Deckelplatte. Verleimen; Tolex außen und um die Unterkante.',
-    'The lid sits on the case walls, flush outside. 4 latches centred on the joint (2 front, 2 rear)':
-        'Der Deckel sitzt außen bündig auf den Gehäusewänden. 4 Verschlüsse mittig über der Fuge (2 vorn, 2 hinten)',
-    'keep it in place; the latches also locate it sideways.': 'halten ihn und führen ihn auch seitlich.',
     # rear plate
     'Aluminium 2 mm, black anodised, legend engraved or printed white.':
         'Aluminium 2 mm, schwarz eloxiert, Beschriftung weiß graviert oder gedruckt.',
@@ -205,8 +190,6 @@ DATA = {
     'length ~ 21 mm + thread in the keybed foot; type to be confirmed on the keybed (hole 4.5)':
         'Länge ~ 21 mm + Gewinde im Keybed-Fuß; Typ am Keybed prüfen (Loch 4.5)',
     'emulator (6), power supply (4)': 'Emulator (6), Netzteil (4)',
-    '4 x draw latch (case latch), small, ~40 mm wide': '4 x Kistenverschluss (Spannverschluss), klein, ~40 mm breit',
-    'lid: 2 front, 2 rear, centre on the lid joint': 'Deckel: 2 vorn, 2 hinten, mittig über der Deckelfuge',
     'rear plate parts: 2 x DIN 5-pin panel socket, DC jack 5.5/2.1, 2 x toggle switch, USB extension (option)':
         'Teile der Rückplatte: 2 x DIN-Buchse 5-polig, DC-Buchse 5.5/2.1, 2 x Kippschalter, USB-Verlängerung (Option)',
     'hole sizes on the plate are placeholders - confirm with the chosen parts':
@@ -220,14 +203,12 @@ DATA = {
     'Strip unit: apron tabs up into the strip, glued; the strip stays removable (screws into the cleats).':
         'Leiste: Zapfen der Schürze nach oben in die Leiste, verleimt; die Leiste bleibt abnehmbar '
         '(Schrauben in die Träger).',
-    'Lid: front and rear onto the top, ends from the sides; glue.':
-        'Deckel: vorn und hinten an die Deckelplatte, Seitenteile von der Seite; verleimen.',
     'Fill dogbones and joint lines on the outside, sand flush, round all outside edges to about R2.':
         'Dogbones und Fugen außen spachteln, bündig schleifen, alle Außenkanten auf etwa R2 runden.',
     'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.':
         'Innen schwarz lackieren, dann außen Tolex mit Kontaktkleber; 20 mm über die Oberkanten umschlagen.',
-    'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.':
-        'Rückplatte, Verschlüsse, Füße; Frontplatte auf die Bolzen, Elektronik auf den Boden, Keybed-Einheit von '
+    'Rear plate, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.':
+        'Rückplatte, Füße; Frontplatte auf die Bolzen, Elektronik auf den Boden, Keybed-Einheit von '
         'unten verschrauben.',
     'Open points': 'Offene Punkte',
     'Sheet thickness: measure the plywood, enter it in params.py (T_*) and regenerate.':
@@ -235,7 +216,7 @@ DATA = {
     'Keybed screws: check length against the keys (foot hole 4.5).':
         'Keybed-Schrauben: Länge gegen die Tasten prüfen (Loch im Fuß 4.5).',
     'Rear plate parts and their hole sizes.': 'Teile der Rückplatte und ihre Lochgrößen.',
-    'Latch type; optional handle and case corners.': 'Typ der Verschlüsse; optional Griff und Kofferecken.',
+    'Optional handle and case corners.': 'Optional Griff und Kofferecken.',
     # assembly order (parts.py)
     'base on the bench, inside up': 'Boden auf die Werkbank, Innenseite oben',
     'Z profiles (with the keybed on them): screw from below through the base':
@@ -279,8 +260,8 @@ TEMPLATES = [
     ('pilot %s  (%s x)  %s', 'Vorbohrung {0}  ({1} x)  {2}'),
     ('- %s', '- {0}'),
     ('%d. %s', '{0}. {1}'),
-    ('Outside: %s x %s mm, height %s (walls) / %s (strip) / %s with lid, plus feet %s',
-     'Außen: {0} x {1} mm, Höhe {2} (Wände) / {3} (Leiste) / {4} mit Deckel, dazu Füße {5}'),
+    ('Outside: %s x %s mm, height %s (walls) / %s (strip), plus feet %s',
+     'Außen: {0} x {1} mm, Höhe {2} (Wände) / {3} (Leiste), dazu Füße {4}'),
     ('Section A-A at x = %s (keyboard, power supply), seen from the right',
      'Schnitt A-A bei x = {0} (Tastatur, Netzteil), von rechts gesehen'),
     ('Section B-B at x = %s (control panel)', 'Schnitt B-B bei x = {0} (Frontplatte)'),
@@ -299,8 +280,6 @@ TEMPLATES = [
     ('flat top with R %s (tangent points in the DXF).', 'Oberkante über, R {0} (Tangentenpunkte in der DXF).'),
     ('Cable notch %s x %s, corners R %s: cables', 'Kabelausschnitt {0} x {1}, Ecken R {2}: Kabel'),
     ('top %s below the strip top', 'Oberkante {0} unter der Leistenoberkante'),
-    ('Walls %s mm, inside height %s above the case walls (%s clear above the strip).',
-     'Wände {0} mm, innen {1} hoch über den Gehäusewänden ({2} frei über der Leiste).'),
     ('Seen from the rear, the plate starts %s from the left end of the case;',
      'Von hinten gesehen beginnt die Platte {0} vom linken Gehäuseende;'),
     ('its lower edge is %s above the underside of the base.', 'ihre Unterkante liegt {0} über der Unterseite des Bodens.'),

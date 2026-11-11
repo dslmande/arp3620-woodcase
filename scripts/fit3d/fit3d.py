@@ -3,7 +3,7 @@
 
     scripts/fit3d/make_fit3d.sh
 
-Case as the carpenter builds it (scripts/carpenter.py, butt joints, lid closed), the two aluminium
+Case as the carpenter builds it (scripts/carpenter.py, butt joints, no lid since Rev0.4), the two aluminium
 Z profiles, the Fatar keybed (keys at rest and pressed), and the four boards of the ARP 3620 project
 as KiCad exports them (STEP with the KiCad 3D models). Parts without a 3D model get envelopes from
 their footprint and a height from the datasheet; those heights are listed in ENVELOPES and marked
@@ -429,17 +429,13 @@ def main():
 
     def by(group, pred=lambda b: True):
         return [b for b in bodies if b[0] == group and pred(b)]
-    lid = [b for b in G('Holz') if b[1].startswith(('13 ', '14 ', '15 '))]
     base = [b for b in G('Holz') if b[1].startswith('1 ')]
     strip = [b for b in G('Holz') if b[1].startswith(('11 ', '12 '))]
     rear = [b for b in G('Holz') if b[1].startswith('3 ')]
     walls = [b for b in G('Holz') if b[1].startswith(('2 ', '3 ', '4 ', '5 ', '6 ', '8 ', '9 '))]
     board_parts = by(NAMES['board'], lambda b: b[1] != 'Leiterplatte')
-    controls_top = [b for b in board_parts if any(n in b[1] for n in ('knob', 'lever', 'shaft', 'plunger', 'actuator', 'bush'))] + \
-        [b for b in G('Frontplatte Teile') if 'oben' in b[1]]
     emu = by(NAMES['emu']); psu = by(NAMES['psu'])
     gaps = [
-        ('Bedienteile oben -> Deckel (geschlossen)', controls_top, lid, 3.0),
         ('Board 3620 Bauteile unten -> Boden', board_parts, base, 2.0),
         ('Board 3620 + Bauteile -> Wände, Wange, Füllstück', by(NAMES['board']), walls, 1.0),
         ('Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden', G('Frontplatte Teile'), base, 2.0),
@@ -547,7 +543,7 @@ def main():
             hits_by_ref.setdefault(g, []).append(ref)
     json.dump(dict(title='ARP 3620 Passprobe', date=time.strftime('%d.%m.%Y'), rev=CNS['DOC_REV'], boards=boards_meta,
                    parts=meta, findings=findings, gaps=gap_res, counts=counts, hits=hits_by_ref,
-                   heights=dict(Z_BASE=Z_BASE, Z_KB=Z_KB, Z_TOP=Z_TOP, Z_STRIP=Z_STRIP, Z_LID1=Z_LID1, H_TOTAL=H_TOTAL),
+                   heights=dict(Z_BASE=Z_BASE, Z_KB=Z_KB, Z_TOP=Z_TOP, Z_STRIP=Z_STRIP, H_TOTAL=H_TOTAL),
                    size=[W, D, H_TOTAL]),
               open(VIEW / 'fit3d.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('wrote case.glb %.2f MB, %d nodes, %.0f s' % (size / 1e6, len(meta), time.time() - t0))

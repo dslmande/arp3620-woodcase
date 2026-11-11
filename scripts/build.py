@@ -8,7 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import FreeCAD as App, Part, Import
 from params import *
-from parts import PARTS, ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID, JOINTS
+from parts import PARTS, ASSEMBLY, ASSEMBLY_STRIP, JOINTS
 import model
 
 ROOT = os.path.dirname(HERE)
@@ -64,11 +64,6 @@ checks = [
     ('panel -> left cheek', 'ref_panel', 'cheek_l', GAP_PANEL),
     ('panel -> front wall', 'ref_panel', 'front', GAP_PANEL),
     ('panel -> filler', 'ref_panel', 'filler', GAP_PANEL),
-    ('lid top -> strip', 'lid_top', 'strip', 5.0),
-    ('lid top -> panel', 'lid_top', 'ref_panel', 25.0),
-    ('lid rear -> apron', 'lid_rear', 'apron', 2.5),
-    ('lid end right -> right cheek', 'lid_end_r', 'cheek_r', 2.5),
-    ('lid front -> keys', 'lid_front', 'ref_keys_white', 2.5),
     ('board parts -> base', 'ref_board3620_parts', 'base', 3.0),
     ('panel jacks -> base', 'ref_panel_jacks', 'base', 3.0),
     ('emulator parts -> strip', 'ref_emulator_parts', 'strip', 10.0),
@@ -103,7 +98,7 @@ report.append('  %d joints checked' % len(JOINTS))
 # window, holes, dogbones and the joint play. A notch or slot without its tab
 # would leave a void of at least one tab volume (smallest: 2.6 cm3).
 shell = model.box(0, 0, 0, W, D, Z_TOP).cut(model.box(T_WALL, T_WALL, T_BASE, W - T_WALL, D - T_WALL, Z_TOP + 1))
-body = [case[k] for k in case if not k.startswith('lid') and k != 'plate']
+body = [case[k] for k in case if k != 'plate']
 voids = sorted(shell.cut(Part.makeCompound(body)).Solids, key=lambda v: -v.Volume)
 u0, u1, h, r = WINDOW
 window = ((u1 - u0) * h - (4 - math.pi) * r * r) * T_WALL
@@ -119,7 +114,7 @@ for v in voids[1:]:
 # the parts already in place
 report.append('')
 report.append('assembly order (each part moved 40 mm back along its direction, 1 mm steps)')
-for seq in (ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID):
+for seq in (ASSEMBLY, ASSEMBLY_STRIP):
     placed = []
     for key, d, note in seq:
         if d is not None:
@@ -143,9 +138,8 @@ for p in PARTS:
     dens = DENSITY_ALU if p.material.startswith('alu') else DENSITY_PLY
     m = case[p.key].Volume * dens
     mass += m
-lid = sum(case[p.key].Volume * DENSITY_PLY for p in PARTS if p.key.startswith('lid'))
-report.append('mass wood + plate: %.2f kg (lid %.2f kg), without tolex, keybed, electronics' % (mass / 1000, lid / 1000))
-report.append('outside: %.0f x %.0f x %.0f mm (with lid, without feet)' % (W, D, H_TOTAL))
+report.append('mass wood + plate: %.2f kg, without tolex, keybed, electronics' % (mass / 1000))
+report.append('outside: %.0f x %.0f x %.0f mm (strip top, without feet)' % (W, D, H_TOTAL))
 report.append('checked pairs: %d, problems: %d' % (pairs, bad))
 txt = '\n'.join(report)
 print(txt)

@@ -1,7 +1,7 @@
 {
  "title": "ARP 3620 Passprobe",
  "date": "11.11.2026",
- "rev": "Rev0.3-T1",
+ "rev": "Rev0.4-T1",
  "boards": {
   "panel": {
    "name": "Frontplatte (Leiterplatte) Rev0.3",
@@ -170,31 +170,6 @@
   },
   {
    "name": "12 Blende unter der Abdeckleiste",
-   "group": "Holz",
-   "hit": false
-  },
-  {
-   "name": "13 Deckelplatte",
-   "group": "Holz",
-   "hit": false
-  },
-  {
-   "name": "14 Deckel vorn/hinten",
-   "group": "Holz",
-   "hit": false
-  },
-  {
-   "name": "14 Deckel vorn/hinten",
-   "group": "Holz",
-   "hit": false
-  },
-  {
-   "name": "15 Deckel Seite",
-   "group": "Holz",
-   "hit": false
-  },
-  {
-   "name": "15 Deckel Seite",
    "group": "Holz",
    "hit": false
   },
@@ -652,14 +627,6 @@
  "findings": [],
  "gaps": [
   {
-   "check": "Bedienteile oben -> Deckel (geschlossen)",
-   "d": 16.2,
-   "need": 3.0,
-   "ok": true,
-   "a": "Frontplatte Teile: S1 Wippe (oben)",
-   "b": "Holz: 13 Deckelplatte"
-  },
-  {
    "check": "Board 3620 Bauteile unten -> Boden",
    "d": 24.8,
    "need": 2.0,
@@ -773,11 +740,11 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 6972,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1765,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 5312,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1740,
   "Platinen untereinander": 30042,
   "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3973,
-  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 248
+  "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  },
  "hits": {},
  "heights": {
@@ -785,12 +752,11 @@
   "Z_KB": 29.0,
   "Z_TOP": 67.0,
   "Z_STRIP": 90,
-  "Z_LID1": 97.0,
-  "H_TOTAL": 103.0
+  "H_TOTAL": 90
  },
  "size": [
   911.0,
   310.0,
-  103.0
+  90
  ]
 }

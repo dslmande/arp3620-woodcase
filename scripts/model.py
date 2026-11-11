@@ -129,16 +129,6 @@ def feet():
     return Part.makeCompound([cylz(x, y, -FOOT_H, 0, FOOT_D) for x, y in FEET])
 
 
-def latches():
-    w, d, h = LATCH
-    out = []
-    for x in LATCH_FRONT_X:
-        out.append(box(x - w / 2, -d, Z_TOP - h / 2, x + w / 2, -TOLEX, Z_TOP + h / 2))
-    for x in LATCH_REAR_X:
-        out.append(box(x - w / 2, D + TOLEX, Z_TOP - h / 2, x + w / 2, D + d, Z_TOP + h / 2))
-    return Part.makeCompound(out)
-
-
 def plate_parts():
     """Bodies of the rear plate parts behind the plate (envelopes)."""
     out = []
@@ -180,7 +170,6 @@ def references():
         'ref_psu_standoffs': (ns, 'metal'),
         'ref_plate_parts': (plate_parts(), 'metal'),
         'ref_feet': (feet(), 'rubber'),
-        'ref_latches': (latches(), 'metal'),
     }
 
 

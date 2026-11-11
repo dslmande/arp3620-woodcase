@@ -17,7 +17,7 @@ from matplotlib.patches import Polygon, Circle, PathPatch
 from matplotlib.path import Path
 import matplotlib.image as mpimg
 from params import *
-from parts import PARTS, BY_KEY, kb_holes_xy, ASSEMBLY, ASSEMBLY_STRIP, ASSEMBLY_LID
+from parts import PARTS, BY_KEY, kb_holes_xy, ASSEMBLY, ASSEMBLY_STRIP
 from geom2d import fillet_poly, seg_points, DOG
 import model
 import lang_de
@@ -316,7 +316,6 @@ def hardware():
          'panel corners (panel PCB %s), M3 x 12 countersunk from below, M3 x 6 black from the top' % fmt(PANEL_T)),
         ('10 x M3 standoff %s mm, 10 x M3 x 12 countersunk' % fmt(STANDOFF), 'emulator (6), power supply (4)'),
         ('6 x rubber foot dia %s x %s with screw' % (fmt(FOOT_D), fmt(FOOT_H)), ''),
-        ('4 x draw latch (case latch), small, ~40 mm wide', 'lid: 2 front, 2 rear, centre on the lid joint'),
         ('rear plate parts: 2 x DIN 5-pin panel socket, DC jack 5.5/2.1, 2 x toggle switch, USB extension (option)',
          'hole sizes on the plate are placeholders - confirm with the chosen parts'),
         ('optional: 8 x case corner, carrying handle', ''),
@@ -324,14 +323,13 @@ def hardware():
 
 
 def tolex_area():
-    # walls outside + base edges + wrap over the top (12 + 20 mm) + cheeks both faces + strip + filler + lid
+    # walls outside + base edges + wrap over the top (12 + 20 mm) + cheeks both faces + strip + filler
     a = 2 * (W + D) * (Z_TOP + 20)                         # body outside incl. base edge and wrap
     for k in ('cheek_l', 'cheek_r'):
         from geom2d import poly_area
         a += 2 * poly_area(BY_KEY[k].outline) + 300 * T_CHEEK
     s = BY_KEY['strip']; a += (s.size()[0] + 30) * (s.size()[1] + 30)
     f = BY_KEY['filler']; a += (f.size()[0] + 20) * (f.size()[1] + 20)
-    a += (W + 40) * (D + 40) + 2 * (W + D) * (H_LID + 25)  # lid
     return a * 1.25 / 1e6
 
 
@@ -339,17 +337,17 @@ def tolex_area():
 def sheet_overview(pdf, no):
     s = Sheet(pdf, 'Overview', no, 'renders not to scale')
     ims = [('%s_front.png' % NAME, (12, 150, 200, 112.5)), ('%s_open.png' % NAME, (212, 150, 196, 110)),
-           ('%s_rear.png' % NAME, (12, 42, 180, 101)), ('%s_closed.png' % NAME, (196, 60, 140, 79))]
-    caps = ['without lid', 'strip lifted: electronics bay (emulator, power supply)', 'rear: connector plate', 'with lid']
+           ('%s_rear.png' % NAME, (12, 42, 180, 101))]
+    caps = ['front left, strip in place', 'strip lifted: electronics bay (emulator, power supply)', 'rear: connector plate']
     for (fn, (x, y, w, h)), cap in zip(ims, caps):
         p = os.path.join(IMG, fn)
         if os.path.exists(p):
             s.ax.imshow(mpimg.imread(p), extent=(x, x + w, y, y + h), zorder=0)
         s.text(x + 4, y - 2.5, cap, 2.4, col='#333')
     s.ax.set_xlim(0, SW); s.ax.set_ylim(0, SH)
-    t = ['Outside: %s x %s mm, height %s (walls) / %s (strip) / %s with lid, plus feet %s'
-         % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP), fmt(H_TOTAL), fmt(FOOT_H)),
-         'Birch plywood 12 / 9 / 6 mm, covered in black tolex, lid with 4 latches',
+    t = ['Outside: %s x %s mm, height %s (walls) / %s (strip), plus feet %s'
+         % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP), fmt(FOOT_H)),
+         'Birch plywood 12 / 9 mm, covered in black tolex, no lid',
          'CNC-cut, plugged together: finger joints, tabs and slots, glued',
          'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls',
          'Electronics bay under the removable strip: bus emulator 160 x 110, power supply 126 x 80',
@@ -377,13 +375,13 @@ def _wrap(s, n):
 def sheet_views(pdf, no, case, refs):
     s = Sheet(pdf, 'General arrangement', no, 'scale 1:4')
     sc = 0.25
-    body = [case[p.key] for p in PARTS if not p.key.startswith('lid')]
+    body = [case[p.key] for p in PARTS]
     rs = [refs[k][0] for k in ('ref_keybed_frame', 'ref_keys_white', 'ref_keys_black', 'ref_panel', 'ref_feet')]
-    # top view without lid
+    # top view
     vis, _ = project(body + rs, 'top')
     ox, oy = 40, 175
     place(s, vis, ox, oy, sc, 0.2)
-    s.text(ox, oy + D * sc + 6, 'Top view, lid removed', 3.0, weight='bold')
+    s.text(ox, oy + D * sc + 6, 'Top view', 3.0, weight='bold')
     s.dim_h(ox, ox + W * sc, oy + D * sc + 2.5 + 8, fmt(W), ext=oy + D * sc)
     xs = [0, X_PANEL_IN, X_CHEEK_L, X_KEYS_IN, X_CHEEK_R, W]
     for a, b in zip(xs, xs[1:]):
@@ -401,22 +399,22 @@ def sheet_views(pdf, no, case, refs):
     s.text(ox + (X_PANEL_IN + 85) * sc, oy + (Y_FILL0 + 26) * sc, 'filler', 2.2, ha='center', va='center', col='#555')
     s.text(ox + 550 * sc, oy + (Y_STRIP0 + 68) * sc, 'strip (removable)', 2.4, ha='center', va='center', col='#555')
 
-    # front view with lid
-    allc = [case[p.key] for p in PARTS] + [refs['ref_feet'][0], refs['ref_latches'][0]]
+    # front view
+    allc = [case[p.key] for p in PARTS] + [refs['ref_feet'][0]]
     vis, _ = project(allc, 'front')
     ox, oy = 40, 115
     place(s, vis, ox, oy, sc, 0.2)
-    s.text(ox, oy + H_TOTAL * sc + 6, 'Front view with lid', 3.0, weight='bold')
+    s.text(ox, oy + H_TOTAL * sc + 6, 'Front view', 3.0, weight='bold')
     zs = [0, Z_TOP, H_TOTAL]
     for a, b in zip(zs, zs[1:]):
         s.dim_v(oy + a * sc, oy + b * sc, ox - 8, fmt(b - a), ext=ox)
     s.dim_v(oy - FOOT_H * sc, oy, ox - 16, fmt(FOOT_H), ext=ox)
 
-    # rear view without lid
+    # rear view
     vis, _ = project(body + rs + [refs['ref_plate_parts'][0]], 'rear')
     ox, oy = 40 + W * sc, 60
     place(s, vis, ox, oy, sc, 0.2)            # rear view runs from -W..0
-    s.text(ox - W * sc, oy + Z_STRIP * sc + 6, 'Rear view, lid removed', 3.0, weight='bold')
+    s.text(ox - W * sc, oy + Z_STRIP * sc + 6, 'Rear view', 3.0, weight='bold')
     s.dim_v(oy, oy + Z_TOP * sc, ox + 8, fmt(Z_TOP), ext=ox)
     s.dim_v(oy, oy + Z_STRIP * sc, ox + 16, fmt(Z_STRIP), ext=ox)
     xr = ox - PLATE_X_RIGHT * sc
@@ -427,7 +425,7 @@ def sheet_views(pdf, no, case, refs):
     vis, _ = project(allc, 'right')
     ox, oy = 300, 110
     place(s, vis, ox, oy, sc, 0.2)
-    s.text(ox, oy + H_TOTAL * sc + 6, 'Right side, with lid', 3.0, weight='bold')
+    s.text(ox, oy + H_TOTAL * sc + 6, 'Right side', 3.0, weight='bold')
     s.dim_h(ox, ox + D * sc, oy - FOOT_H * sc - 6, fmt(D), ext=oy)
     s.save()
 
@@ -465,36 +463,37 @@ def sheet_sections(pdf, no, case, refs):
     for k, (sh, ck) in refs.items():
         shp.append((sh, refc[ck]))
 
+    TOPD = Z_STRIP + 13.0     # A-A: dimension lines above the strip, room for the labels in between
     # section A-A through the keyboard and the power supply
     xa = 440.0
-    ox, oy = 45, 168
+    ox, oy = 45, 162
     section_x(shp, xa, sc, ox, oy, s)
-    s.text(ox, oy + H_TOTAL + 15, 'Section A-A at x = %s (keyboard, power supply), seen from the right' % fmt(xa),
+    s.text(ox, oy + TOPD + 15, 'Section A-A at x = %s (keyboard, power supply), seen from the right' % fmt(xa),
            3.0, weight='bold')
-    z_ordinates(s, [0, Z_BASE, Z_KB, Z_TOP, Z_STRIP0, Z_STRIP, Z_LID1, H_TOTAL], ox, oy, sc, -1)
+    z_ordinates(s, [0, Z_BASE, Z_KB, Z_TOP, Z_STRIP0, Z_STRIP], ox, oy, sc, -1)
     z_ordinates(s, [Z_APRON0, Z_KB + KB_WHITE, Z_KB + KB_BLACK], ox + D, oy, sc, +1)
     ys = [0, Y_IN, Y_KB0, Y_STRIP0, Y_KB1, Y_REAR_IN, D]
     for a_, b_ in zip(ys, ys[1:]):
-        s.dim_h(ox + a_, ox + b_, oy + H_TOTAL + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + H_TOTAL)
+        s.dim_h(ox + a_, ox + b_, oy + TOPD + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + Z_STRIP + 1)
     callout(s, ox + Y_KB0 + 70, oy + Z_KB + 22, ox + 70, oy + Z_KB + 22, 'Fatar TP/9S 49 (simplified)')
     callout(s, ox + Y_KB0 + KB_HOLE_Y[0] - 8, oy + Z_BASE + 6, ox + 30, oy + Z_BASE + 26, 'Z profile 20 x 20 x 2')
     callout(s, ox + Y_KB1 + 45, oy + Z_BASE + 30, ox + Y_KB1 + 45, oy + Z_TOP + 5, 'power supply (envelope)')
-    callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 100, oy + Z_LID1 - 3, 'strip 9 (removable)')
+    callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 100, oy + Z_STRIP + 4, 'strip 9 (removable)')
     callout(s, ox + Y_REAR_IN - 4, oy + Z_APRON0 + 5, ox + D + 22, oy + Z_STRIP + 2, 'apron')
     callout(s, ox + D + TOLEX + 1, oy + PLATE_Z0 + 30, ox + D + 22, oy + PLATE_Z0 + 18, 'rear plate + socket')
-    callout(s, ox + D - 30, oy + Z_LID1 + 3, ox + D + 22, oy + H_TOTAL - 2, 'lid')
     callout(s, ox + Y_REAR_IN + 6, oy + Z_BASE + 8, ox + D + 22, oy + Z_BASE + 4, 'rear wall (window)')
 
     # section B-B through the control panel
     xb = 100.0
-    ox, oy = 45, 52
+    ox, oy = 45, 51
+    TOPD = Z_TOP + 13.0       # B-B: no strip at the panel, the walls end at Z_TOP
     section_x(shp, xb, sc, ox, oy, s)
-    s.text(ox, oy + H_TOTAL + 15, 'Section B-B at x = %s (control panel)' % fmt(xb), 3.0, weight='bold')
+    s.text(ox, oy + TOPD + 15, 'Section B-B at x = %s (control panel)' % fmt(xb), 3.0, weight='bold')
     zb = Z_PANEL0 - BOARD_SPACER
     z_ordinates(s, [0, Z_BASE, zb - PCB_T - BOARD_PARTS_BELOW, zb, Z_PANEL0, Z_TOP], ox, oy, sc, -1)
     ys = [0, Y_PANEL0, Y_PANEL1, Y_FILL0, Y_REAR_IN, D]
     for a_, b_ in zip(ys, ys[1:]):
-        s.dim_h(ox + a_, ox + b_, oy + H_TOTAL + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + H_TOTAL)
+        s.dim_h(ox + a_, ox + b_, oy + TOPD + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + Z_TOP + 1)
     callout(s, ox + 150, oy + Z_TOP - 1, ox + 150, oy + Z_TOP + 12, 'control panel (PCB %s)' % fmt(PANEL_T))
     callout(s, ox + 120, oy + zb - 12, ox + D + 22, oy + zb - 4, '3620 board (envelope)')
     callout(s, ox + Y_FILL0 + 30, oy + Z_TOP - 4, ox + D + 22, oy + Z_TOP + 4, 'filler')
@@ -611,24 +610,6 @@ def sheet_inner(pdf, no, G):
     s.save()
 
 
-def sheet_lid(pdf, no, G):
-    s = Sheet(pdf, 'Lid', no, 'scale 1:4')
-    get = lambda key: next(g for g in G if key in g[2])
-    sc = 0.25
-    p, q, k = get('lid_top'); part_block(s, p, q, k, 30, 170, sc)
-    p, q, k = get('lid_front'); part_block(s, p, q, k, 30, 120, sc)
-    p, q, k = get('lid_end_l'); part_block(s, p, q, k, 30, 75, sc)
-    n = ['Walls %s mm, inside height %s above the case walls (%s clear above the strip).'
-         % (fmt(T_LID_WALL), fmt(LID_INSIDE), fmt(Z_LID1 - Z_STRIP)),
-         'Finger joints at the corners (the ends own the lower and the upper finger),',
-         'the wall tabs go into notches in the top. Glue; tolex outside and around the lower edge.',
-         'The lid sits on the case walls, flush outside. 4 latches centred on the joint (2 front, 2 rear)',
-         'keep it in place; the latches also locate it sideways.']
-    for i, l in enumerate(n):
-        s.text(150, 82 - i * 4.2, l, 2.2)
-    s.save()
-
-
 def sheet_plate(pdf, no, G):
     s = Sheet(pdf, 'Rear plate', no, 'scale 1:1')
     get = lambda key: next(g for g in G if key in g[2])
@@ -694,10 +675,9 @@ def sheet_lists(pdf, no, G):
              'Dry fit the whole case first (order on sheet %d), then take it apart and glue.' % (no - 1)]
     steps += [st for _, _, st in ASSEMBLY if st][:]
     steps += ['Strip unit: apron tabs up into the strip, glued; the strip stays removable (screws into the cleats).',
-              'Lid: front and rear onto the top, ends from the sides; glue.',
               'Fill dogbones and joint lines on the outside, sand flush, round all outside edges to about R2.',
               'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.',
-              'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.']
+              'Rear plate, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.']
     for i, st in enumerate(steps):
         lines = _wrap(tr('%d. %s' % (i + 1, st)), 52)
         for l in lines:
@@ -709,7 +689,7 @@ def sheet_lists(pdf, no, G):
                'Keybed screws: check length against the keys (foot hole 4.5).',
                'Board spacer %s and parts height under the 3620 board.' % fmt(BOARD_SPACER),
                'Rear plate parts and their hole sizes.',
-               'Latch type; optional handle and case corners.']:
+               'Optional handle and case corners.']:
         for l in _wrap(tr('- ' + st), 52):
             s.text(x2, y2, l, 2.1, raw=True); y2 -= 3.5
     s.save()
@@ -782,7 +762,6 @@ def main():
             sheet_walls(pdf, n, G); n += 1
             sheet_cheeks(pdf, n, G); n += 1
             sheet_inner(pdf, n, G); n += 1
-            sheet_lid(pdf, n, G); n += 1
             sheet_plate(pdf, n, G); n += 1
             sheet_joints(pdf, n, G); n += 1
             sheet_lists(pdf, n, G); n += 1

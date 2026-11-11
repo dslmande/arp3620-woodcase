@@ -46,7 +46,7 @@ class Part:
         return tuple(self.O[i] + u * self.U[i] + v * self.V[i] + w * self.N[i] for i in range(3))
 
 
-PLY12, PLY9, PLY6 = "birch plywood 12", "birch plywood 9", "birch plywood 6"
+PLY12, PLY9 = "birch plywood 12", "birch plywood 9"
 ALU2 = "aluminium 2"
 ALUZ = "aluminium Z 20 x 20 x 2"
 
@@ -73,12 +73,9 @@ FILL_SIDE = [(Y_REAR_IN - Y_FILL0) / 2]                  # filler -> end wall / 
 FILL_REAR = [45.0, PANEL_OPEN - 45.0]                    # filler -> rear wall, x - X_PANEL_IN
 APRON_TABS = tab_line(60.0, KEYS_OPEN - 60.0, 140.0)     # apron -> strip, x - X_KEYS_IN
 CLEAT_TABS = [25.0, Y_CLEAT1 - Y_CLEAT0 - 25.0]          # cleat -> cheek, symmetric
-LID_TABS_X = tab_line(70.0, W - 70.0, 130.0)             # lid front/rear -> lid top, x
-LID_TABS_Y = tab_line(70.0, D - 70.0, 85.0)              # lid ends -> lid top, y
 
 ALL5 = set(range(N_FINGER))
 END_OWN = {k for k in ALL5 if k % 2 == 0}                # end walls own the bottom, middle and top finger
-LID_END_OWN = {k for k in range(N_FINGER_LID) if k % 2 == 0}
 
 
 def jpart(key, name, material, t, pts, radii, feats, **kw):
@@ -227,26 +224,6 @@ def make_parts():
               O=(X_PANEL_IN, Y_FILL0, Z_TOP - T_FILL), cover='tolex on top and front edge')
     P.append(f)
 
-    # ------------------------------------------------------------ lid
-    lt = jpart('lid_top', 'Lid top', PLY6, T_LID_TOP, rect(0, 0, W, D), None,
-               {0: notches(LID_TABS_X, TAB_W, T_LID_WALL), 2: notches(LID_TABS_X, TAB_W, T_LID_WALL),
-                1: notches(LID_TABS_Y, TAB_W, T_LID_WALL), 3: notches(LID_TABS_Y, TAB_W, T_LID_WALL)},
-               O=(0, 0, Z_LID1), cover='tolex outside')
-    P.append(lt)
-    ALL3 = set(range(N_FINGER_LID))
-    for key, y0 in (('lid_front', T_LID_WALL), ('lid_rear', D)):
-        P.append(jpart(key, 'Lid front/rear', PLY9, T_LID_WALL, rect(0, 0, W, LID_INSIDE), None,
-                       {2: tabs(LID_TABS_X, TAB_W, T_LID_TOP),
-                        1: fingers(0, LID_INSIDE, N_FINGER_LID, ALL3 - LID_END_OWN, T_LID_WALL, base='outer'),
-                        3: fingers(0, LID_INSIDE, N_FINGER_LID, ALL3 - LID_END_OWN, T_LID_WALL, base='outer')},
-                       O=(0, y0, Z_LID0), U=X, V=Z, N=NY, cover='tolex outside and over the lower edge'))
-    for key, x0 in (('lid_end_l', 0.0), ('lid_end_r', W - T_LID_WALL)):
-        P.append(jpart(key, 'Lid end', PLY9, T_LID_WALL, rect(0, 0, D - 2 * T_LID_WALL, LID_INSIDE), None,
-                       {2: tabs([c - T_LID_WALL for c in LID_TABS_Y], TAB_W, T_LID_TOP),
-                        1: fingers(0, LID_INSIDE, N_FINGER_LID, LID_END_OWN, T_LID_WALL),
-                        3: fingers(0, LID_INSIDE, N_FINGER_LID, LID_END_OWN, T_LID_WALL)},
-                       O=(x0, T_LID_WALL, Z_LID0), U=Y, V=Z, N=X, cover='tolex outside and over the lower edge'))
-
     # ------------------------------------------------------------ rear plate
     pl = Part('plate', 'Rear plate', ALU2, T_PLATE, rect(0, 0, PLATE_L, PLATE_H), [PLATE_R] * 4,
               O=(PLATE_X_RIGHT, D + TOLEX, PLATE_Z0), U=NX, V=Z, N=Y,
@@ -286,18 +263,8 @@ ASSEMBLY_STRIP = [
     ('strip', None, 'strip'),
     ('apron', (0, 0, 1), 'apron tabs up into the strip notches (glue)'),
 ]
-ASSEMBLY_LID = [
-    ('lid_top', None, 'lid top'),
-    ('lid_front', (0, 0, 1), 'front and rear: tabs into the lid top'),
-    ('lid_rear', (0, 0, 1), ''),
-    ('lid_end_l', (1, 0, 0), 'ends from the sides: fingers, tabs into the lid top'),
-    ('lid_end_r', (-1, 0, 0), ''),
-]
 JOINTS = [('base', 'front'), ('base', 'rear'), ('base', 'end_l'), ('base', 'end_r'), ('base', 'cheek_l'),
           ('base', 'cheek_r'), ('front', 'end_l'), ('front', 'end_r'), ('rear', 'end_l'), ('rear', 'end_r'),
           ('front', 'cheek_l'), ('rear', 'cheek_l'), ('front', 'cheek_r'), ('rear', 'cheek_r'),
           ('end_r', 'cheek_r'), ('filler', 'end_l'), ('filler', 'rear'), ('filler', 'cheek_l'),
-          ('cleat_l', 'cheek_l'), ('cleat_r', 'cheek_r'), ('strip', 'apron'),
-          ('lid_top', 'lid_front'), ('lid_top', 'lid_rear'), ('lid_top', 'lid_end_l'), ('lid_top', 'lid_end_r'),
-          ('lid_front', 'lid_end_l'), ('lid_front', 'lid_end_r'), ('lid_rear', 'lid_end_l'),
-          ('lid_rear', 'lid_end_r')]
+          ('cleat_l', 'cheek_l'), ('cleat_r', 'cheek_r'), ('strip', 'apron')]

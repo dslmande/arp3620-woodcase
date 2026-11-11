@@ -129,8 +129,6 @@ details ul { padding-left: 18px; margin: 6px 0 0; }
 
     <div class="row">
       <h2>Zustand</h2>
-      <div class="seg" id="lid"><span class="lbl">Deckel</span>
-        <button type="button" data-v="zu">zu</button><button type="button" data-v="auf" aria-pressed="true">abgehoben</button><button type="button" data-v="weg">weg</button></div>
       <div class="seg" id="strip"><span class="lbl">Abdeckleiste</span>
         <button type="button" data-v="drin" aria-pressed="true">drin</button><button type="button" data-v="auf">abgehoben</button><button type="button" data-v="weg">weg</button></div>
       <div class="seg" id="keys"><span class="lbl">Tasten</span>
@@ -226,7 +224,7 @@ const add = (k, o) => { if (!groups.has(k)) groups.set(k, []); groups.get(k).pus
 
 function caseKey(node) {
   const g = node.userData.group || '', n = node.userData.name || node.name;
-  if (g === 'Holz') return /^1[345] /.test(n) ? 'lid' : /^1[12] /.test(n) ? 'strip' : 'Gehäuse';
+  if (g === 'Holz') return /^1[12] /.test(n) ? 'strip' : 'Gehäuse';
   if (g === 'Keybed') return /gedrückt/.test(n) ? 'keys-down' : /Tasten/.test(n) ? 'keys-up' : 'Keybed';
   if (g.endsWith('(Hüllen)')) return 'Hüllen';
   return g;
@@ -269,7 +267,7 @@ const SHOW = [
   ['Frontplatte Teile', 'Buchsen, Wippe', '#4a4f57'], ['Hüllen', 'Hüllen', '#f08c33'], ['Bolzen', 'Bolzen', '#cfd2d6'],
   ['Rückplatte', 'Rückplatte', '#aeb3ba'],
 ];
-const state = { show: Object.fromEntries(SHOW.map(s => [s[0], true])), lid: 'auf', strip: 'drin', keys: 'ruhe', wood: 'voll', cut: 'aus', cutpos: 440 };
+const state = { show: Object.fromEntries(SHOW.map(s => [s[0], true])), strip: 'drin', keys: 'ruhe', wood: 'voll', cut: 'aus', cutpos: 440 };
 
 function buildUI() {
   const t = $('#toggles');
@@ -281,7 +279,7 @@ function buildUI() {
     l.querySelector('input').addEventListener('change', (e) => { state.show[k] = e.target.checked; apply(); });
     t.append(l);
   }
-  for (const id of ['lid', 'strip', 'keys', 'wood', 'cut']) {
+  for (const id of ['strip', 'keys', 'wood', 'cut']) {
     $('#' + id).addEventListener('click', (e) => {
       const b = e.target.closest('button'); if (!b) return;
       state[id] = b.dataset.v;
@@ -318,7 +316,7 @@ function buildUI() {
   $('#envs').innerHTML = [...envs].sort().map(n => `<li>${n}</li>`).join('');
   const h = D.heights;
   $('#foot').textContent = `Höhen ab Unterkante Boden: Boden ${fmt(h.Z_BASE)}, Keybed-Auflage ${fmt(h.Z_KB)}, Wände und Frontplatte ${fmt(h.Z_TOP)}, ` +
-    `Abdeckleiste ${fmt(h.Z_STRIP)}, Deckel innen ${fmt(h.Z_LID1)}, gesamt ${fmt(h.H_TOTAL)} mm. Geprüft wird das Gehäuse, wie es der Tischler baut, ` +
+    `Abdeckleiste ${fmt(h.Z_STRIP)} mm, ohne Deckel. Geprüft wird das Gehäuse, wie es der Tischler baut, ` +
     `mit den KiCad-Daten der Platinen; Teile ohne 3D-Modell als Hülle.`;
 }
 
@@ -330,25 +328,24 @@ function setupCut() {
   r.value = state.cutpos;
 }
 
-const LIFT = { lid: { auf: 140 }, strip: { auf: 70 } };
+const LIFT = { strip: { auf: 70 } };
 function apply() {
   if (!D) return;
   for (const [k, list] of groups) {
     let vis = state.show[k] !== false;
-    if (k === 'lid') vis = state.show['Gehäuse'] && state.lid !== 'weg';
     if (k === 'strip') vis = state.show['Gehäuse'] && state.strip !== 'weg';
     if (k === 'keys-up') vis = state.show['Keybed'] && state.keys === 'ruhe';
     if (k === 'keys-down') vis = state.show['Keybed'] && state.keys === 'gedrueckt';
     for (const o of list) {
       o.visible = vis;
-      if (k === 'lid' || k === 'strip') {
+      if (k === 'strip') {
         const dy = (LIFT[k][state[k]] || 0);
         o.position.copy(o.userData.home); o.position.y += dy;
       }
     }
   }
   const glass = state.wood === 'glas';
-  for (const k of ['Gehäuse', 'lid', 'strip']) for (const o of groups.get(k) || []) o.traverse((m) => {
+  for (const k of ['Gehäuse', 'strip']) for (const o of groups.get(k) || []) o.traverse((m) => {
     if (!m.isMesh) return;
     m.material.transparent = glass; m.material.opacity = glass ? 0.22 : 1; m.material.depthWrite = !glass;
   });

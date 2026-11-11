@@ -40,7 +40,7 @@ TODAY = datetime.date.today().strftime('%d.%m.%Y')
 SW, SH = 420.0, 297.0
 RED = '#c0392b'
 PT = 72 / 25.4
-MAT = {12: 'Birke Multiplex 12', 9: 'Birke Multiplex 9', 6: 'Birke Multiplex 6'}
+MAT = {12: 'Birke Multiplex 12', 9: 'Birke Multiplex 9'}
 
 
 def fmt(v):
@@ -57,7 +57,6 @@ N0, N1, NH = CABLE_NOTCH                        # cable notch in the left cheek
 WIN_X0, WIN_X1 = PLATE_X_RIGHT - WINDOW[1], PLATE_X_RIGHT - WINDOW[0]   # 261 .. 448 (case x)
 WIN_VC = PLATE_Z0 + PLATE_H / 2 - Z_BASE        # window centre above the lower wall edge
 WIN_V0, WIN_V1 = WIN_VC - WINDOW[2] / 2, WIN_VC + WINDOW[2] / 2
-LID_END_L = D - 2 * T_LID_WALL                  # 292
 
 
 G4 = 'Kaufteile (nicht vom Tischler)'
@@ -87,7 +86,7 @@ def make_parts():
         L.append(CP(pos, name, group, fp, note))
         return L[-1]
 
-    G1, G2, G3 = 'Korpus', 'Abdeckleiste (abnehmbar)', 'Deckel'
+    G1, G2 = 'Korpus', 'Abdeckleiste (abnehmbar)'
     add(1, 'base', 'Boden', G1, 9, T_BASE, rect(0, 0, W, D), (0, 0, 0),
         note='alle Wände stehen auf dem Boden')
     add(2, 'front', 'Vorderwand', G1, 12, T_WALL, rect(0, 0, W, WALL_H), (0, Y_IN, Z_BASE), X, Z, NY,
@@ -120,14 +119,6 @@ def make_parts():
         (X_KEYS_IN, Y_STRIP0, Z_STRIP0), note='liegt lose auf Pos. 10, wird geschraubt')
     add(12, 'apron', 'Blende unter der Abdeckleiste', G2, 9, T_APRON, rect(0, 0, KEYS_OPEN, Z_STRIP0 - Z_APRON0),
         (X_KEYS_IN, Y_REAR_IN, Z_APRON0), X, Z, NY, note='unter Pos. 11 geleimt, hinten bündig')
-    add(13, 'lid_top', 'Deckelplatte', G3, 6, T_LID_TOP, rect(0, 0, W, D), (0, 0, Z_LID1),
-        note='liegt auf den Deckelwänden')
-    for y0 in (T_LID_WALL, D):
-        add(14, 'lid_fr', 'Deckel vorn/hinten', G3, 9, T_LID_WALL, rect(0, 0, W, LID_INSIDE), (0, y0, Z_LID0),
-            X, Z, NY, note='volle Länge')
-    for x0 in (0.0, W - T_LID_WALL):
-        add(15, 'lid_end', 'Deckel Seite', G3, 9, T_LID_WALL, rect(0, 0, LID_END_L, LID_INSIDE),
-            (x0, T_LID_WALL, Z_LID0), Y, Z, X, note='zwischen vorn und hinten')
     return L
 
 
@@ -339,26 +330,20 @@ def solids(pred=lambda p: True):
 
 
 BODY = lambda p: p.group == 'Korpus'
-NOLID = lambda p: p.group != 'Deckel'
 
 
 # ------------------------------------------------------------------ sheets
 def sheet_overview(pdf, no):
     s = Sheet(pdf, 'Übersicht und Hinweise', no, 'Isometrie ohne Maßstab')
-    # isometric views: body without lid, lid on its own
+    # isometric view of the case (no lid since Rev0.4)
     m = view_matrix((-0.55, -1.0, 0.95))
-    bvis, _ = project(solids(NOLID), m)
-    lvis, _ = project(solids(lambda p: p.group == 'Deckel'), m)
+    bvis, _ = project(solids(), m)
     xs = [x for pl in bvis for x, _ in pl]; ys = [y for pl in bvis for _, y in pl]
     sc = 215.0 / (max(xs) - min(xs))
-    ox, oy = 30 - min(xs) * sc, 150 - min(ys) * sc
+    y0 = 145 - (max(ys) - min(ys)) * sc / 2          # centred on the free left half of the sheet
+    ox, oy = 30 - min(xs) * sc, y0 - min(ys) * sc
     place(s, bvis, ox, oy, sc, 0.22)
-    s.text(20, 262, 'Korpus mit Abdeckleiste, ohne Deckel', 3.2, weight='bold')
-    lys = [y for pl in lvis for _, y in pl]
-    lsc = sc * 0.55
-    lox, loy = 30 - min(xs) * lsc, 62 - min(lys) * lsc
-    place(s, lvis, lox, loy, lsc, 0.22)
-    s.text(20, 62 + (max(lys) - min(lys)) * lsc + 8, 'Deckel (kleiner dargestellt)', 3.2, weight='bold')
+    s.text(20, y0 + (max(ys) - min(ys)) * sc + 14, 'Korpus mit Abdeckleiste (ohne Deckel)', 3.2, weight='bold')
     anchor = {1: ((860, 40, Z_BASE), (12, -14)), 2: ((520, 0, Z_BASE + 25), (6, -18)),
               3: ((800, D, Z_BASE + 35), (14, 14)), 4: ((0, 120, Z_BASE + 25), (-14, -8)),
               5: ((X_CHEEK_L + 6, 90, Z_TOP + 4), (-6, 22)), 6: ((X_CHEEK_R + 6, 110, Z_TOP + 8), (16, 14)),
@@ -369,16 +354,12 @@ def sheet_overview(pdf, no):
     for n, (pt, (dx, dy)) in anchor.items():
         x, y = to_screen(pt, m)
         s.balloon(ox + x * sc, oy + y * sc, ox + x * sc + dx, oy + y * sc + dy, n)
-    for n, (pt, (dx, dy)) in {13: ((450, 160, H_TOTAL), (6, 12)), 14: ((450, 0, Z_LID0 + 15), (8, -12)),
-                              15: ((0, 160, Z_LID0 + 15), (-14, -6))}.items():
-        x, y = to_screen(pt, m)
-        s.balloon(lox + x * lsc, loy + y * lsc, lox + x * lsc + dx, loy + y * lsc + dy, n)
 
-    t = ['Außenmaße Holz: %s x %s mm (Breite x Tiefe). Höhe: Wände %s, Wangen hinten %s, mit Deckel %s mm.'
-         % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP), fmt(H_TOTAL)),
-         'Material: Birke Multiplex (Birkensperrholz) 12, 9 und 6 mm. Die Plattendicken vor dem Zuschnitt messen: '
+    t = ['Außenmaße Holz: %s x %s mm (Breite x Tiefe). Höhe: Wände %s, Wangen hinten %s mm. Kein Deckel.'
+         % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP)),
+         'Material: Birke Multiplex (Birkensperrholz) 12 und 9 mm. Die Plattendicken vor dem Zuschnitt messen: '
          'weicht eine Dicke ab, ändern sich die Teile, die zwischen anderen sitzen (Seitenwände, Wangen, '
-         'Füllstück, Deckel-Seiten). Die Außenmaße und die Funktionsmaße unten bleiben.',
+         'Füllstück). Die Außenmaße und die Funktionsmaße unten bleiben.',
          'Verbindungen stumpf: die Wände stehen auf dem Boden, Vorder- und Rückwand laufen über die volle '
          'Länge, Seitenwände und Wangen sitzen dazwischen. Leimen und Schrauben, Dübeln oder Lamellos nach '
          'Wahl des Tischlers - Schrauben von außen nur dort, wo später der Bezug (Tolex) darüber kommt.',
@@ -386,9 +367,8 @@ def sheet_overview(pdf, no):
          'bohrt Patrick nach dem Zusammenbau. Keine Radien: alle Kanten gerade.',
          'Bezug: das Gehäuse wird außen mit schwarzem Tolex bezogen. Holzfugen und Schraubenköpfe auf den '
          'Außenflächen bündig verspachteln.',
-         'Abdeckleiste (Pos. 11 mit 12) bleibt abnehmbar: nicht einleimen, sie liegt auf den Leisten Pos. 10. '
-         'Der Deckel (Pos. 13-15) ist ein eigener Kasten und liegt auf den Wänden.',
-         'Nicht vom Tischler: Alu-Z-Profile (Pos. 7), Alu-Rückplatte %s x %s x 2, Gummifüße, Verschlüsse, Tolex, '
+         'Abdeckleiste (Pos. 11 mit 12) bleibt abnehmbar: nicht einleimen, sie liegt auf den Leisten Pos. 10.',
+         'Nicht vom Tischler: Alu-Z-Profile (Pos. 7), Alu-Rückplatte %s x %s x 2, Gummifüße, Tolex, '
          'Tastatur, Elektronik.' % (fmt(PLATE_L), fmt(PLATE_H))]
     y = s.notes(262, 262, 'Hinweise für den Tischler', t, 2.25, width=135)
     f = ['Lichte Weite zwischen den Wangen: %s (Tastatur %s + 2 x %s), nicht kleiner.'
@@ -441,25 +421,23 @@ def sheet_views(pdf, no):
     s = Sheet(pdf, 'Ansichten (Vorderansicht, Draufsicht, Seitenansicht)', no, 'Maßstab 1:4')
     sc = 0.25
     allp = solids()
-    # front view with lid
+    # front view
     vis, _ = project(allp, 'front')
     ox, oy = 45, 212
     place(s, vis, ox, oy, sc, 0.22)
-    s.text(ox, oy + H_TOTAL * sc + 6, 'Vorderansicht mit Deckel', 3.0, weight='bold')
-    zs = [0, Z_BASE, Z_TOP, H_TOTAL]
+    s.text(ox, oy + H_TOTAL * sc + 6, 'Vorderansicht', 3.0, weight='bold')
+    zs = [0, Z_BASE, Z_TOP, Z_STRIP]
     for a, b in zip(zs, zs[1:]):
         s.dim_v(oy + a * sc, oy + b * sc, ox - 7, fmt(b - a), ext=ox)
     s.dim_v(oy, oy + H_TOTAL * sc, ox - 16, fmt(H_TOTAL), ext=ox)
     s.dim_h(ox, ox + W * sc, oy - 6, fmt(W), ext=oy)
-    s.text(ox + W * sc + 4, oy + (Z_TOP + 12) * sc, 'Deckel', 2.2, va='center', col='#444')
-    s.text(ox + W * sc + 4, oy + (Z_TOP - 25) * sc, 'Korpus', 2.2, va='center', col='#444')
 
-    # top view without lid
-    vis, hid = project(solids(NOLID), 'top', hidden=True)
+    # top view
+    vis, hid = project(allp, 'top', hidden=True)
     ox, oy = 45, 92
     place(s, hid, ox, oy, sc, 0.12, '#888', (0, (2, 1.5)))
     place(s, vis, ox, oy, sc, 0.22)
-    s.text(ox, oy + D * sc + 18, 'Draufsicht ohne Deckel', 3.0, weight='bold')
+    s.text(ox, oy + D * sc + 18, 'Draufsicht', 3.0, weight='bold')
     s.dim_h(ox, ox + W * sc, oy + D * sc + 11, fmt(W), ext=oy + D * sc)
     xs = [0, X_PANEL_IN, X_CHEEK_L, X_KEYS_IN, X_CHEEK_R, X_WALL_R, W]
     for i, (a, b) in enumerate(zip(xs, xs[1:])):
@@ -482,7 +460,7 @@ def sheet_views(pdf, no):
     s.text(ox, oy - 21, 'gestrichelt: verdeckte Kanten (Z-Profile, Leisten 9 und 10)',
            2.0, col='#555')
 
-    # left side view with lid (first angle: placed right of the front view)
+    # left side view (first angle: placed right of the front view)
     vis, _ = project(allp, 'left')
     ox, oy = 315, 212
     place(s, vis, ox + D * sc, oy, sc, 0.22)
@@ -491,12 +469,12 @@ def sheet_views(pdf, no):
     s.text(ox + D * sc, oy - 12, 'vorn', 2.0, ha='right', col='#555')
     s.text(ox, oy - 12, 'hinten', 2.0, col='#555')
 
-    # right side view without lid: cheek profile above the end wall
-    vis, hid = project(solids(NOLID), 'right', hidden=True)
+    # right side view: cheek profile above the end wall
+    vis, hid = project(allp, 'right', hidden=True)
     ox, oy = 315, 140
     place(s, hid, ox, oy, sc, 0.12, '#888', (0, (2, 1.5)))
     place(s, vis, ox, oy, sc, 0.22)
-    s.text(ox, oy + Z_STRIP * sc + 8, 'Seitenansicht von rechts, ohne Deckel', 3.0, weight='bold')
+    s.text(ox, oy + Z_STRIP * sc + 8, 'Seitenansicht von rechts', 3.0, weight='bold')
     s.dim_h(ox, ox + D * sc, oy - 6, fmt(D), ext=oy)
     s.dim_v(oy, oy + Z_TOP * sc, ox + D * sc + 6, fmt(Z_TOP), ext=ox + D * sc)
     s.dim_v(oy, oy + Z_STRIP * sc, ox + D * sc + 14, fmt(Z_STRIP), ext=ox + D * sc)
@@ -507,13 +485,13 @@ def sheet_views(pdf, no):
 
 
 def sheet_rear(pdf, no):
-    s = Sheet(pdf, 'Rückansicht, Deckel', no, 'Maßstab 1:4')
+    s = Sheet(pdf, 'Rückansicht', no, 'Maßstab 1:4')
     sc = 0.25
-    # rear view without lid
-    vis, _ = project(solids(NOLID), 'rear')
-    ox, oy = 45, 215
+    # rear view
+    vis, _ = project(solids(), 'rear')
+    ox, oy = 45, 140
     place(s, vis, ox + W * sc, oy, sc, 0.22)
-    s.text(ox, oy + Z_STRIP * sc + 8, 'Rückansicht ohne Deckel', 3.0, weight='bold')
+    s.text(ox, oy + Z_STRIP * sc + 8, 'Rückansicht', 3.0, weight='bold')
     xr = ox + W * sc
     a, b = xr - WIN_X1 * sc, xr - WIN_X0 * sc
     s.dim_h(ox, a, oy - 7, fmt(W - WIN_X1), ext=oy)
@@ -524,39 +502,6 @@ def sheet_rear(pdf, no):
     s.dim_v(oy, oy + Z_STRIP * sc, xr + 14, fmt(Z_STRIP), ext=xr)
     s.text((a + b) / 2, oy + (Z_BASE + WIN_VC) * sc, 'Fenster', 2.1, ha='center', va='center', col='#555')
 
-    # lid: front view, top view, side view
-    lid = solids(lambda p: p.group == 'Deckel')
-    sh = [x.copy() for x in lid]
-    for x in sh:
-        x.translate(Vec(0, 0, -Z_LID0))
-    vis, _ = project(sh, 'front')
-    ox, oy = 45, 160
-    place(s, vis, ox, oy, sc, 0.22)
-    s.text(ox, oy + H_LID * sc + 6, 'Deckel - Vorderansicht', 3.0, weight='bold')
-    s.dim_v(oy, oy + LID_INSIDE * sc, ox - 7, fmt(LID_INSIDE), ext=ox)
-    s.dim_v(oy, oy + H_LID * sc, ox - 15, fmt(H_LID), ext=ox)
-    s.dim_h(ox, ox + W * sc, oy - 6, fmt(W), ext=oy)
-
-    vis, hid = project(sh, 'top', hidden=True)
-    ox, oy = 45, 60
-    place(s, hid, ox, oy, sc, 0.12, '#888', (0, (2, 1.5)))
-    place(s, vis, ox, oy, sc, 0.22)
-    s.text(ox, oy + D * sc + 6, 'Deckel - Draufsicht (gestrichelt: Deckelwände darunter)', 3.0, weight='bold')
-    s.dim_h(ox, ox + W * sc, oy - 6, fmt(W), ext=oy)
-    s.dim_v(oy, oy + D * sc, ox + W * sc + 6, fmt(D), ext=ox + W * sc)
-
-    vis, _ = project(sh, 'left')
-    ox, oy = 300, 160
-    place(s, vis, ox + D * sc, oy, sc, 0.22)
-    s.text(ox, oy + H_LID * sc + 6, 'Deckel - Seitenansicht', 3.0, weight='bold')
-    s.dim_h(ox, ox + D * sc, oy - 6, fmt(D), ext=oy)
-
-    t = ['Deckelplatte 13 liegt oben auf den vier Deckelwänden, bündig rundum.',
-         'Deckel vorn/hinten 14 über die volle Länge %s, Deckel-Seiten 15 dazwischen (%s).' % (fmt(W), fmt(LID_END_L)),
-         'Der Deckel liegt mit den Wänden auf den Korpuswänden, außen bündig. Innenhöhe %s über der Wandoberkante.'
-         % fmt(LID_INSIDE),
-         'Verschlüsse (4 Stück) und Griff setzt Patrick.']
-    s.notes(300, 132, 'Deckel', t, 2.25, width=105)
     s.save()
 
 
@@ -573,25 +518,25 @@ def section_shapes():
 
 
 def sheet_section_a(pdf, no):
+    TOPD = Z_STRIP + 13.0     # dimension lines above the strip, room for the labels in between
     s = Sheet(pdf, 'Schnitt A-A (Tastatur)', no, 'Maßstab 1:1 (auf A3)')
     sc = 1.0
     xa = 440.0
     ox, oy = 50, 120
     section_x(section_shapes(), xa, sc, ox, oy, s)
-    s.text(ox, oy + H_TOTAL + 26, 'Schnitt A-A bei x = %s (Tastatur), von rechts gesehen - vorn links' % fmt(xa),
+    s.text(ox, oy + TOPD + 26, 'Schnitt A-A bei x = %s (Tastatur), von rechts gesehen - vorn links' % fmt(xa),
            3.2, weight='bold')
-    z_ordinates(s, [0, Z_BASE, Z_KB, Z_TOP, Z_STRIP0, Z_STRIP, Z_LID1, H_TOTAL], ox, oy, sc, -1)
+    z_ordinates(s, [0, Z_BASE, Z_KB, Z_TOP, Z_STRIP0, Z_STRIP], ox, oy, sc, -1)
     z_ordinates(s, [Z_APRON0, Z_STRIP0 - CLEAT_H], ox + D, oy, sc, +1)
     ys = [0, Y_IN, Y_KB0, Y_STRIP0, Y_REAR_IN, D]
     for a, b in zip(ys, ys[1:]):
-        s.dim_h(ox + a, ox + b, oy + H_TOTAL + 6 + (6 if b - a < 8 else 0), fmt(b - a), ext=oy + H_TOTAL)
+        s.dim_h(ox + a, ox + b, oy + TOPD + 6 + (6 if b - a < 8 else 0), fmt(b - a), ext=oy + Z_STRIP + 1)
     callout(s, ox + 120, oy + Z_KB + 18, ox + 140, oy - 30, 'Tastatur Fatar TP/9S (grau, nur zur Orientierung)')
     callout(s, ox + Y_KB0 + KB_HOLE_Y[0] + Z_FLANGE / 2 - Z_T / 2, oy + Z_BASE + Z_H / 2, ox + 20, oy - 30,
             'Z-Profil 7 (Alu, nicht Tischler)')
-    callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 60, oy + Z_LID1 - 3, 'Abdeckleiste 11')
+    callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 60, oy + Z_STRIP + 4, 'Abdeckleiste 11')
     callout(s, ox + Y_REAR_IN - 4, oy + Z_APRON0 + 4, ox + D + 12, oy + Z_APRON0 - 12, 'Blende 12')
     callout(s, ox + Y_CLEAT0 + 40, oy + Z_STRIP0 - 6, ox + D + 12, oy + Z_STRIP0 + 6, 'Leiste 10 (dahinter)')
-    callout(s, ox + D - 4, oy + Z_LID1 + 3, ox + D + 12, oy + H_TOTAL + 2, 'Deckel 13 / 14')
     callout(s, ox + Y_REAR_IN + 6, oy + Z_BASE + 6, ox + D + 12, oy + Z_BASE + 2, 'Rückwand 3 (Fenster)')
     callout(s, ox + 6, oy + Z_BASE + 20, ox + 4, oy - 40, 'Vorderwand 2')
     callout(s, ox + 60, oy + 4, ox + 62, oy - 40, 'Boden 1')
@@ -604,18 +549,19 @@ def sheet_section_a(pdf, no):
 
 
 def sheet_section_b(pdf, no):
+    TOPD = Z_STRIP + 13.0     # dimension lines above the strip, room for the labels in between
     s = Sheet(pdf, 'Schnitt B-B (Frontplatte), Füllstück', no, 'Schnitt 1:1, Detail 1:2 (auf A3)')
     sc = 1.0
     xb = 100.0
     ox, oy = 50, 145
     section_x(section_shapes(), xb, sc, ox, oy, s)
-    s.text(ox, oy + H_TOTAL + 20, 'Schnitt B-B bei x = %s (Frontplatte), von rechts gesehen - vorn links'
+    s.text(ox, oy + TOPD + 20, 'Schnitt B-B bei x = %s (Frontplatte), von rechts gesehen - vorn links'
            % fmt(xb), 3.2, weight='bold')
-    z_ordinates(s, [0, Z_BASE, Z_TOP - T_FILL - FCLEAT, Z_TOP - T_FILL, Z_TOP, Z_LID1, H_TOTAL], ox, oy, sc, -1)
+    z_ordinates(s, [0, Z_BASE, Z_TOP - T_FILL - FCLEAT, Z_TOP - T_FILL, Z_TOP], ox, oy, sc, -1)
     ys = [0, Y_IN, Y_FILL0, Y_REAR_IN, D]
     for a, b in zip(ys, ys[1:]):
-        s.dim_h(ox + a, ox + b, oy + H_TOTAL + 6, fmt(b - a), ext=oy + H_TOTAL)
-    callout(s, ox + 150, oy + Z_TOP - 1, ox + 150, oy + Z_LID1 - 8, 'Frontplatte (Leiterplatte, nur zur Orientierung)')
+        s.dim_h(ox + a, ox + b, oy + TOPD + 6, fmt(b - a), ext=oy + Z_TOP + 1)
+    callout(s, ox + 150, oy + Z_TOP - 1, ox + 150, oy + Z_TOP + 22, 'Frontplatte (Leiterplatte, nur zur Orientierung)')
     callout(s, ox + Y_FILL0 + 30, oy + Z_TOP - 4, ox + D + 12, oy + Z_TOP + 6, 'Füllstück 8')
     callout(s, ox + Y_FILL0 + 30, oy + Z_TOP - T_FILL - 6, ox + D + 12, oy + Z_TOP - 16, 'Leiste 9 (dahinter)')
     callout(s, ox + Y_IN + GAP_PANEL + PANEL_HOLES[0][1], oy + Z_BASE + 25, ox + 70, oy + Z_BASE + 25,
@@ -785,8 +731,7 @@ def sheet_base(pdf, no):
          '3. Wangen 5 und 6 zwischen Vorder- und Rückwand: Wange 6 an der rechten Seitenwand, Wange 5 mit '
          '%s Innenmaß zur linken Seitenwand.' % fmt(PANEL_OPEN),
          '4. Leisten 9 und Füllstück 8 hinter der Frontplatten-Öffnung, Leisten 10 innen an die Wangen.',
-         '5. Abdeckleiste 11 und Blende 12 als eigenes Teil verleimen, lose einlegen.',
-         '6. Deckel 13-15 als eigener Kasten.']
+         '5. Abdeckleiste 11 und Blende 12 als eigenes Teil verleimen, lose einlegen.']
     s.notes(40, 52, 'Zusammenbau', t, 2.25, width=185, bullets=False)
     s.save()
 
@@ -812,7 +757,7 @@ def check(log):
     refs = model.references()
     hits = []
     for k, (sh, _) in refs.items():
-        if k in ('ref_feet', 'ref_latches', 'ref_plate_parts'):
+        if k in ('ref_feet', 'ref_plate_parts'):
             continue
         for p in PARTS:
             if sh.BoundBox.intersect(p.solid.BoundBox) and sh.common(p.solid).Volume > 1e-3:
@@ -828,7 +773,6 @@ def check(log):
           ('panel -> left cheek', refs['ref_panel'][0], get('cheek_l'), GAP_PANEL),
           ('panel -> front wall', refs['ref_panel'][0], get('front'), GAP_PANEL),
           ('panel -> filler', refs['ref_panel'][0], get('filler'), GAP_PANEL),
-          ('lid top -> strip', get('lid_top'), get('strip'), 5.0),
           ('board 3620 parts -> filler cleats', refs['ref_board3620_parts'][0],
            Part.makeCompound([p.solid for p in PARTS if p.fp.key == 'fcleat']), 1.0)]
     w('3. clearances (mm)            actual   min')
@@ -870,15 +814,14 @@ def check(log):
            6: (D - 2 * T_WALL, Z_STRIP - T_BASE, T_CHEEK), 7: (RISER_X1 - RISER_X0, Z_FLANGE, Z_H),
            8: (X_CHEEK_L - T_WALL, D - T_WALL - Y_FILL0, T_FILL), 9: (D - T_WALL - Y_FILL0, FCLEAT, FCLEAT),
            10: (Y_CLEAT1 - Y_CLEAT0, CLEAT_W, CLEAT_H), 11: (X_CHEEK_R - X_KEYS_IN, Y_REAR_IN - Y_STRIP0, T_STRIP),
-           12: (KB_W + 2 * GAP_KB_SIDE, Z_STRIP - T_STRIP - Z_APRON0, T_APRON), 13: (W, D, T_LID_TOP),
-           14: (W, H_LID - T_LID_TOP, T_LID_WALL), 15: (D - 2 * T_LID_WALL, H_LID - T_LID_TOP, T_LID_WALL)}
+           12: (KB_W + 2 * GAP_KB_SIDE, Z_STRIP - T_STRIP - Z_APRON0, T_APRON)}
     w('5. cut list vs params.py and STEP bounding boxes')
-    w('   STEP boxes include the CNC tabs and fingers (base +9, finger joints +12/24, tabs into the lid top +6),')
+    w('   STEP boxes include the CNC tabs and fingers (base +9, finger joints +12/24),')
     w('   so they are larger than the butt-joint parts by exactly those joint depths.')
     w('   pos name                                 L x B x D            params        STEP part (bbox, incl. tabs)')
     stepname = {1: 'Base', 2: 'Front wall', 3: 'Rear wall', 4: 'End wall left', 5: 'Cheek left', 6: 'Cheek right',
                 7: 'Keybed Z profile', 8: 'Filler behind the panel', 10: 'Strip cleat', 11: 'Strip behind the keys',
-                12: 'Apron under the strip', 13: 'Lid top', 14: 'Lid front/rear', 15: 'Lid end'}
+                12: 'Apron under the strip'}
     for r in cutlist():
         e = tuple(sorted(exp[r['pos']], reverse=True)[:2]) + (exp[r['pos']][2],)
         got = (r['L'], r['B'], r['T'])
