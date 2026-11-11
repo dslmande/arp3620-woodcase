@@ -48,6 +48,7 @@ class Part:
 
 PLY12, PLY9, PLY6 = "birch plywood 12", "birch plywood 9", "birch plywood 6"
 ALU2 = "aluminium 2"
+ALUZ = "aluminium Z 20 x 20 x 2"
 
 
 def kb_holes_xy():
@@ -99,8 +100,6 @@ def make_parts():
                  cover='underside painted black, edges covered by the tolex of the walls')
     for c in CL_TABS:
         base.cutouts.append(slot(X_CHEEK_L, X_CHEEK_L + T_CHEEK, Y_IN + c - TAB_W / 2, Y_IN + c + TAB_W / 2))
-    for x, y in kb_holes_xy():
-        base.holes.append(Hole(x, y, 5.0, csk=10.0, side='back', note='keybed, screw from below'))
     for x, y in FEET:
         base.holes.append(Hole(x, y, 2.5, kind='pilot', side='back', note='foot'))
     for hx, hy in PANEL_HOLES:
@@ -110,10 +109,10 @@ def make_parts():
         base.holes.append(Hole(EMU_X0 + hx, EMU_Y0 + hy, 3.4, csk=6.5, side='back', note='emulator standoff M3'))
     for hx, hy in NT_HOLES:
         base.holes.append(Hole(NT_X0 + hx, NT_Y0 + hy, 3.4, csk=6.5, side='back', note='power supply standoff M3'))
-    for ry in KB_HOLE_Y:
+    for i, ry in enumerate(KB_HOLE_Y):
+        yb = Y_KB0 + ry + (Z_BOTTOM_OFF if i == 0 else -Z_BOTTOM_OFF)   # bottom flange centre
         for x in screw_line(RISER_X0, RISER_X1, pitch=170.0):
-            if min(abs(x - kx) for kx, _ in kb_holes_xy()) > 25:
-                base.holes.append(Hole(x, Y_KB0 + ry, 4.0, csk=8.0, side='back', note='riser screw 4 x 20'))
+            base.holes.append(Hole(x, yb, 4.5, csk=9.0, side='back', note='Z profile M4 x 12'))
     P.append(base)
 
     # ------------------------------------------------------------ outer walls
@@ -181,15 +180,17 @@ def make_parts():
                 c.cutouts.append(slot(u - FILLER_TAB_W / 2, u + FILLER_TAB_W / 2, Z_TOP - T_FILL - Z_BASE, Z_TOP - Z_BASE))
         P.append(c)
 
-    # ------------------------------------------------------------ risers
+    # ------------------------------------------------------------ keybed frame: two Z profiles
+    # cross-section in (u = y - hole row, v = z - Z_BASE), extruded along x;
+    # holes are not modelled (rivet nuts M4, drilled to the keybed holes)
+    f, h, t = Z_FLANGE, Z_H, Z_T
+    zsec = [(-f / 2, h - t), (-f / 2, h), (f / 2, h), (f / 2, t), (f / 2 - t + f, t), (f / 2 - t + f, 0),
+            (f / 2 - t, 0), (f / 2 - t, h - t)]                     # bottom flange towards +u
     for i, ry in enumerate(KB_HOLE_Y):
-        yc = Y_KB0 + ry
-        r = Part('riser_%d' % (i + 1), 'Keybed riser', PLY12, T_RISER,
-                 rect(0, 0, RISER_X1 - RISER_X0, RISER_W), O=(RISER_X0, yc - RISER_W / 2, Z_BASE),
-                 cover='black paint', note='located by the keybed holes, glued and screwed from below')
-        for x, y in kb_holes_xy():
-            if abs(y - yc) < 1:
-                r.holes.append(Hole(x - RISER_X0, RISER_W / 2, 5.0, note='keybed screw'))
+        sec = zsec if i == 0 else [(-u, v) for u, v in reversed(zsec)]   # both bottom flanges point inwards
+        r = Part('riser_%d' % (i + 1), 'Keybed Z profile', ALUZ, RISER_X1 - RISER_X0, sec,
+                 O=(RISER_X0, Y_KB0 + ry, Z_BASE), U=Y, V=Z, N=X,
+                 note='aluminium Z 20 x 20 x 2; keybed screwed on from above, unit screwed to the base from below')
         P.append(r)
 
     # ------------------------------------------------------------ strip, apron, cleats (removable unit)
@@ -269,7 +270,7 @@ BY_KEY = {p.key: p for p in PARTS}
 # build.py checks that every part slides in without touching the parts already there
 ASSEMBLY = [
     ('base', None, 'base on the bench, inside up'),
-    ('riser_1', (0, 0, -1), 'risers: glue, screw from below, keybed holes aligned'),
+    ('riser_1', (0, 0, -1), 'Z profiles (with the keybed on them): screw from below through the base'),
     ('riser_2', (0, 0, -1), ''),
     ('cheek_l', (0, 0, -1), 'left cheek: tabs down into the slots of the base'),
     ('cheek_r', (0, 0, -1), 'right cheek: tabs down into the notches at the right edge of the base'),

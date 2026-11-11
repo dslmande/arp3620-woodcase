@@ -26,10 +26,10 @@ from parts import Part as FlatPart, X, Y, Z, NX, NY
 from geom2d import rect
 import model
 
-# Heights hang on KB_LIP (lower edge of the white key front), which is scaled
-# from the Fatar drawing. Set to True once it has been measured on the keybed
-# and entered in params.py; until then every sheet carries a DRAFT banner.
-HEIGHTS_CONFIRMED = False
+# Heights hang on KB_LIP (lower edge of the white key front) and on the keybed
+# frame (T_RISER). KB_LIP checked against the Fatar 1:1 drawing and the keybed
+# (11.11.2026). While False, every sheet carries a DRAFT banner.
+HEIGHTS_CONFIRMED = True
 DOC_REV = REV + '-T1'          # carpenter variant of the case revision
 
 ROOT = os.path.dirname(HERE)
@@ -60,13 +60,20 @@ WIN_V0, WIN_V1 = WIN_VC - WINDOW[2] / 2, WIN_VC + WINDOW[2] / 2
 LID_END_L = D - 2 * T_LID_WALL                  # 292
 
 
+G4 = 'Kaufteile (nicht vom Tischler)'
+
+
 class CP:
     """A carpenter part: flat outline + placement (parts.Part) plus cut list data."""
     def __init__(self, pos, name, group, fp, note=''):
         self.pos, self.name, self.group, self.fp, self.note = pos, name, group, fp, note
         self.solid = model.part_solid(fp)
 
+    size = None                                 # explicit L x B x D (profiles)
+
     def dims(self):
+        if self.size:
+            return self.size
         a, b = self.fp.size()
         return max(a, b), min(a, b), self.fp.t
 
@@ -74,10 +81,11 @@ class CP:
 def make_parts():
     L = []
     def add(pos, key, name, group, mat_t, t, outline, O, U=X, V=Y, N=Z, cutouts=(), note=''):
-        fp = FlatPart(key, name, MAT[mat_t], t, outline, None, O=O, U=U, V=V, N=N)
+        fp = FlatPart(key, name, MAT.get(mat_t, mat_t), t, outline, None, O=O, U=U, V=V, N=N)
         for c in cutouts:
             fp.cutouts.append((c, [0.0] * len(c)))
         L.append(CP(pos, name, group, fp, note))
+        return L[-1]
 
     G1, G2, G3 = 'Korpus', 'Abdeckleiste (abnehmbar)', 'Deckel'
     add(1, 'base', 'Boden', G1, 9, T_BASE, rect(0, 0, W, D), (0, 0, 0),
@@ -95,10 +103,11 @@ def make_parts():
         note='Schräge + Kabeldurchlass (Blatt 7)')
     add(6, 'cheek_r', 'Wange rechts', G1, 12, T_CHEEK, cheek, (X_CHEEK_R, Y_IN, Z_BASE), Y, Z, X,
         note='Schräge (Blatt 7), liegt an der Seitenwand')
-    for i, ry in enumerate(KB_HOLE_Y):
-        add(7, 'riser_%d' % (i + 1), 'Tastaturleiste', G1, 12, T_RISER,
-            rect(0, 0, RISER_X1 - RISER_X0, RISER_W), (RISER_X0, Y_KB0 + ry - RISER_W / 2, Z_BASE),
-            note='auf den Boden geleimt, Lage Blatt 8')
+    for zp in P0.PARTS:                         # aluminium Z profiles, same as Rev0.3 CNC
+        if zp.key.startswith('riser'):
+            c = add(7, zp.key, 'Z-Profil Tastatur', G4, 'Alu-Z 20 x 20 x 2', zp.t, zp.outline, zp.O,
+                    zp.U, zp.V, zp.N, note='stellt Patrick, wird mit der Tastatur eingeschraubt')
+            c.size = (RISER_X1 - RISER_X0, Z_FLANGE, Z_H)
     add(8, 'filler', 'Füllstück hinter der Frontplatte', G1, 9, T_FILL, rect(0, 0, PANEL_OPEN, Y_REAR_IN - Y_FILL0),
         (X_PANEL_IN, Y_FILL0, Z_TOP - T_FILL), note='oben bündig mit den Wänden')
     for x0 in (X_PANEL_IN, X_CHEEK_L - FCLEAT):
@@ -135,7 +144,7 @@ def cutlist():
         else:
             rows[k] = dict(pos=p.pos, name=p.name, group=p.group, qty=1, L=l, B=b, T=t,
                            mat=p.fp.material, note=p.note)
-    return [rows[k] for k in sorted(rows)]
+    return sorted(rows.values(), key=lambda r: (r['group'] == G4, r['pos']))
 
 
 # ------------------------------------------------------------------ sheet
@@ -379,7 +388,8 @@ def sheet_overview(pdf, no):
          'Außenflächen bündig verspachteln.',
          'Abdeckleiste (Pos. 11 mit 12) bleibt abnehmbar: nicht einleimen, sie liegt auf den Leisten Pos. 10. '
          'Der Deckel (Pos. 13-15) ist ein eigener Kasten und liegt auf den Wänden.',
-         'Nicht vom Tischler: Alu-Rückplatte 211 x 40 x 2, Gummifüße, Verschlüsse, Tolex, Tastatur, Elektronik.']
+         'Nicht vom Tischler: Alu-Z-Profile (Pos. 7), Alu-Rückplatte %s x %s x 2, Gummifüße, Verschlüsse, Tolex, '
+         'Tastatur, Elektronik.' % (fmt(PLATE_L), fmt(PLATE_H))]
     y = s.notes(262, 262, 'Hinweise für den Tischler', t, 2.25, width=135)
     f = ['Lichte Weite zwischen den Wangen: %s (Tastatur %s + 2 x %s), nicht kleiner.'
          % (fmt(KEYS_OPEN), fmt(KB_W), fmt(GAP_KB_SIDE)),
@@ -388,8 +398,8 @@ def sheet_overview(pdf, no):
          % (fmt(PANEL_OPEN), fmt(Y_FILL0 - Y_IN)),
          'Oberkante der Wände %s über Unterkante Boden, rundum gleich. Füllstück oben bündig mit den Wänden.'
          % fmt(Z_TOP),
-         'Tastaturleisten (Pos. 7) %s hoch, Oberkante %s über Unterkante Boden, auf den Boden geleimt.'
-         % (fmt(T_RISER), fmt(Z_KB))]
+         'Die Tastatur steht auf zwei Alu-Z-Profilen %s hoch (Pos. 7, stellt Patrick) und wird von unten durch '
+         'den Boden geschraubt. Auf dem Boden unter der Tastatur nichts aufleimen.' % fmt(T_RISER)]
     s.notes(262, y - 3, 'Funktionsmaße (genau einhalten)', f, 2.25, width=135)
     s.save()
 
@@ -399,7 +409,7 @@ def sheet_cutlist(pdf, no):
     cols = [('Pos.', 22, 'c'), ('Bezeichnung', 30, 'l'), ('Stück', 108, 'c'), ('Länge', 128, 'r'),
             ('Breite', 150, 'r'), ('Dicke', 168, 'r'), ('Material', 176, 'l'), ('Bemerkung', 222, 'l')]
     y = 248
-    s.text(20, 262, 'Zuschnittliste - alle Holzteile', 3.6, weight='bold')
+    s.text(20, 262, 'Zuschnittliste - alle Holzteile (Pos. 7 nur zur Info)', 3.6, weight='bold')
     s.text(20, 256, 'Länge x Breite x Dicke in mm, Fertigmaß ohne Bezug. Wangen: Zuschnitt auf das umschreibende '
            'Rechteck, Form nach Blatt 7.', 2.3, col='#333')
     for name, x, al in cols:
@@ -416,8 +426,8 @@ def sheet_cutlist(pdf, no):
         for (name, x, al), v in zip(cols, vals):
             s.text(x, y, v, 2.5, ha={'l': 'left', 'c': 'center', 'r': 'right'}[al])
         s.line([(18, y - 2.2), (402, y - 2.2)], 0.1, '#bbb')
-        a = r['qty'] * r['L'] * r['B'] / 1e6
-        tot[r['mat']] = tot.get(r['mat'], 0) + a
+        if r['group'] != G4:
+            tot[r['mat']] = tot.get(r['mat'], 0) + r['qty'] * r['L'] * r['B'] / 1e6
         y -= 6
     y -= 4
     s.text(30, y, 'Plattenbedarf netto (ohne Verschnitt): ' +
@@ -467,9 +477,9 @@ def sheet_views(pdf, no):
            col='#555')
     s.text(ox + 540 * sc, oy + (Y_STRIP0 + 68) * sc, 'Abdeckleiste 11 (abnehmbar)', 2.3, ha='center',
            va='center', col='#555')
-    s.text(ox + 540 * sc, oy + 52 * sc, 'Tastatur-Öffnung, Tastaturleisten 7', 2.3, ha='center', va='center',
+    s.text(ox + 540 * sc, oy + 52 * sc, 'Tastatur-Öffnung, Z-Profile 7', 2.3, ha='center', va='center',
            col='#555')
-    s.text(ox, oy - 21, 'gestrichelt: verdeckte Kanten (Tastaturleisten unter der Abdeckleiste, Leisten 9 und 10)',
+    s.text(ox, oy - 21, 'gestrichelt: verdeckte Kanten (Z-Profile, Leisten 9 und 10)',
            2.0, col='#555')
 
     # left side view with lid (first angle: placed right of the front view)
@@ -575,12 +585,9 @@ def sheet_section_a(pdf, no):
     ys = [0, Y_IN, Y_KB0, Y_STRIP0, Y_REAR_IN, D]
     for a, b in zip(ys, ys[1:]):
         s.dim_h(ox + a, ox + b, oy + H_TOTAL + 6 + (6 if b - a < 8 else 0), fmt(b - a), ext=oy + H_TOTAL)
-    for i, ry in enumerate(KB_HOLE_Y):
-        y0 = Y_KB0 + ry - RISER_W / 2
-        s.dim_h(ox, ox + y0, oy - 8 - 7 * i, fmt(y0), ext=(oy, oy + Z_BASE))
-        s.dim_h(ox + y0, ox + y0 + RISER_W, oy - 8 - 7 * i, fmt(RISER_W), ext=oy + Z_BASE)
     callout(s, ox + 120, oy + Z_KB + 18, ox + 140, oy - 30, 'Tastatur Fatar TP/9S (grau, nur zur Orientierung)')
-    callout(s, ox + Y_KB0 + KB_HOLE_Y[0] - 10, oy + Z_BASE + 6, ox + 20, oy - 30, 'Tastaturleiste 7')
+    callout(s, ox + Y_KB0 + KB_HOLE_Y[0] + Z_FLANGE / 2 - Z_T / 2, oy + Z_BASE + Z_H / 2, ox + 20, oy - 30,
+            'Z-Profil 7 (Alu, nicht Tischler)')
     callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 60, oy + Z_LID1 - 3, 'Abdeckleiste 11')
     callout(s, ox + Y_REAR_IN - 4, oy + Z_APRON0 + 4, ox + D + 12, oy + Z_APRON0 - 12, 'Blende 12')
     callout(s, ox + Y_CLEAT0 + 40, oy + Z_STRIP0 - 6, ox + D + 12, oy + Z_STRIP0 + 6, 'Leiste 10 (dahinter)')
@@ -590,8 +597,7 @@ def sheet_section_a(pdf, no):
     callout(s, ox + 60, oy + 4, ox + 62, oy - 40, 'Boden 1')
     t = ['Die Wände stehen auf dem Boden. Oberkante Wand %s, Abdeckleiste oben %s über Unterkante Boden.'
          % (fmt(Z_TOP), fmt(Z_STRIP)),
-         'Tastaturleisten 7: Vorderkante %s und %s ab Außenseite Vorderwand.'
-         % tuple(fmt(Y_KB0 + ry - RISER_W / 2) for ry in KB_HOLE_Y),
+         'Z-Profile 7 aus Alu (%s hoch) stellt Patrick; sie gehören nicht zur Tischlerarbeit.' % fmt(T_RISER),
          'Die Tastatur ist nur zur Orientierung grau eingezeichnet.']
     s.notes(20, 62, 'Hinweise', t, 2.3, width=200)
     s.save()
@@ -718,28 +724,23 @@ def sheet_base(pdf, no):
     ox, oy = 40, 175
     outline(s, [(0, 0), (W, 0), (W, D), (0, D)], ox, oy, sc, 0.35)
     for p in PARTS:
-        if p.group != 'Korpus' or p.fp.key in ('base', 'filler', 'cleat', 'fcleat'):
+        if p.group not in ('Korpus', G4) or p.fp.key in ('base', 'filler', 'cleat', 'fcleat'):
             continue
         b = p.solid.BoundBox
         outline(s, [(b.XMin, b.YMin), (b.XMax, b.YMin), (b.XMax, b.YMax), (b.XMin, b.YMax)], ox, oy, sc, 0.18,
                 '#555', (0, (3, 1.5)))
     s.text(ox, oy + D * sc + 8, 'Boden (Pos. 1) von oben, vorn unten - gestrichelt: was darauf steht', 2.9,
            weight='bold')
-    yr = [Y_KB0 + ry - RISER_W / 2 for ry in KB_HOLE_Y]
-    for i, y0 in enumerate(yr):
-        s.dim_v(oy, oy + y0 * sc, ox + W * sc + 7 + 9 * i, fmt(y0), ext=ox + RISER_X1 * sc)
-    s.dim_v(oy, oy + D * sc, ox + W * sc + 25, fmt(D), ext=ox + W * sc)
-    s.dim_h(ox, ox + RISER_X0 * sc, oy - 7, fmt(RISER_X0), ext=oy + yr[0] * sc)
-    s.dim_h(ox + RISER_X0 * sc, ox + RISER_X1 * sc, oy - 7, fmt(RISER_X1 - RISER_X0), ext=oy + yr[0] * sc)
-    s.dim_h(ox + RISER_X1 * sc, ox + W * sc, oy - 7, fmt(W - RISER_X1), ext=oy)
-    s.dim_h(ox, ox + W * sc, oy - 14, fmt(W), ext=oy)
-    for y0 in yr:
-        s.text(ox + (RISER_X0 + RISER_X1) / 2 * sc, oy + (y0 + RISER_W / 2) * sc, 'Tastaturleiste 7', 2.0,
-               ha='center', va='center', col='#555')
+    s.dim_v(oy, oy + D * sc, ox + W * sc + 7, fmt(D), ext=ox + W * sc)
+    s.dim_h(ox, ox + W * sc, oy - 7, fmt(W), ext=oy)
+    for p in PARTS:
+        if p.pos == 7:
+            b = p.solid.BoundBox
+            s.text(ox + (b.XMin + b.XMax) / 2 * sc, oy + (b.YMin + b.YMax) / 2 * sc, 'Z-Profil 7 (Alu)', 1.9,
+                   ha='center', va='center', col='#555')
     s.text(ox + 95 * sc, oy + 140 * sc, 'Frontplatte', 2.0, ha='center', col='#555')
-    s.text(ox, oy - 21, 'Tastaturleisten 7 (%s x %s x %s) auf den Boden leimen; ihre Lage passt zu den '
-           'Schraublöchern der Tastatur, die Patrick bohrt.' % (fmt(RISER_X1 - RISER_X0), fmt(RISER_W),
-                                                               fmt(T_RISER)), 2.1, col='#333')
+    s.text(ox, oy - 15, 'Unter der Tastatur bleibt der Boden frei: die Alu-Z-Profile 7 schraubt Patrick mit der '
+           'Tastatur von unten an (Löcher bohrt Patrick).', 2.1, col='#333')
 
     # strip with apron: cross-section 1:2
     sc = 0.5
@@ -779,7 +780,7 @@ def sheet_base(pdf, no):
            2.1, col='#333')
     s.text(ox, oy - 12, 'Abstand vorn ab Wangen-Vorderkante; hinten endet sie an der Blende 12.', 2.1, col='#333')
 
-    t = ['1. Tastaturleisten 7 auf den Boden 1 leimen.',
+    t = ['1. Boden 1 innen frei lassen: Z-Profile 7 und Tastatur schraubt Patrick später ein.',
          '2. Vorderwand 2 und Rückwand 3 auf den Boden, Seitenwände 4 dazwischen.',
          '3. Wangen 5 und 6 zwischen Vorder- und Rückwand: Wange 6 an der rechten Seitenwand, Wange 5 mit '
          '%s Innenmaß zur linken Seitenwand.' % fmt(PANEL_OPEN),
@@ -866,7 +867,7 @@ def check(log):
     # 5. cut list against params.py, computed independently
     exp = {1: (W, D, T_BASE), 2: (W, Z_TOP - T_BASE, T_WALL), 3: (W, Z_TOP - T_BASE, T_WALL),
            4: (D - 2 * T_WALL, Z_TOP - T_BASE, T_WALL), 5: (D - 2 * T_WALL, Z_STRIP - T_BASE, T_CHEEK),
-           6: (D - 2 * T_WALL, Z_STRIP - T_BASE, T_CHEEK), 7: (RISER_X1 - RISER_X0, RISER_W, T_RISER),
+           6: (D - 2 * T_WALL, Z_STRIP - T_BASE, T_CHEEK), 7: (RISER_X1 - RISER_X0, Z_FLANGE, Z_H),
            8: (X_CHEEK_L - T_WALL, D - T_WALL - Y_FILL0, T_FILL), 9: (D - T_WALL - Y_FILL0, FCLEAT, FCLEAT),
            10: (Y_CLEAT1 - Y_CLEAT0, CLEAT_W, CLEAT_H), 11: (X_CHEEK_R - X_KEYS_IN, Y_REAR_IN - Y_STRIP0, T_STRIP),
            12: (KB_W + 2 * GAP_KB_SIDE, Z_STRIP - T_STRIP - Z_APRON0, T_APRON), 13: (W, D, T_LID_TOP),
@@ -876,7 +877,7 @@ def check(log):
     w('   so they are larger than the butt-joint parts by exactly those joint depths.')
     w('   pos name                                 L x B x D            params        STEP part (bbox, incl. tabs)')
     stepname = {1: 'Base', 2: 'Front wall', 3: 'Rear wall', 4: 'End wall left', 5: 'Cheek left', 6: 'Cheek right',
-                7: 'Keybed riser', 8: 'Filler behind the panel', 10: 'Strip cleat', 11: 'Strip behind the keys',
+                7: 'Keybed Z profile', 8: 'Filler behind the panel', 10: 'Strip cleat', 11: 'Strip behind the keys',
                 12: 'Apron under the strip', 13: 'Lid top', 14: 'Lid front/rear', 15: 'Lid end'}
     for r in cutlist():
         e = tuple(sorted(exp[r['pos']], reverse=True)[:2]) + (exp[r['pos']][2],)
@@ -888,7 +889,7 @@ def check(log):
             b = step[sn][0].BoundBox
             sb = '%s x %s x %s' % tuple(fmt(v) for v in sorted((b.XLength, b.YLength, b.ZLength), reverse=True))
         elif r['pos'] == 9:
-            sb = '(not in Rev0.2: filler held by tabs)'
+            sb = '(not in the CNC version: filler held by tabs)'
         w('   %2d  %-36s %-20s %-4s  %s' % (r['pos'], r['name'], '%s x %s x %s' % (fmt(got[0]), fmt(got[1]),
                                                                                  fmt(got[2])),
                                          'ok' if ok else 'FAIL', sb))

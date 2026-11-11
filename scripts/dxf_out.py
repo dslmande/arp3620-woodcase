@@ -157,6 +157,8 @@ def main():
             os.remove(os.path.join(OUT, f))
     G = groups()
     for p, qty, keys in G:
+        if p.material.startswith('aluminium Z'):
+            continue                    # bought profiles, not cut
         fn = os.path.join(OUT, '%s_%s.dxf' % (NAME, p.key))
         part_dxf(p, qty, keys, fn)
         print('%-40s qty %d  %s' % (os.path.basename(fn), qty, keys))

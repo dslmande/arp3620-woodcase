@@ -305,11 +305,13 @@ def hardware():
     return [
         ('Tolex, black (vinyl case covering), approx. %.1f m2 incl. 25 %% waste' % tolex_area(), 'outside, see covering notes'),
         ('contact cement for tolex, wood glue (PVAc), wood filler', 'all joints glued; filler for dogbones and joint lines under the tolex'),
-        ('%d x countersunk wood screw 4 x 20' % n('base', 'riser screw'), 'base -> risers (from below)'),
+        ('2 x aluminium Z profile 20 x 20 x 2, length %s' % fmt(RISER_X1 - RISER_X0), 'keybed frame (not CNC)'),
+        ('%d x countersunk screw M4 x 12, %d x rivet nut M4 in the bottom flanges' % (n('base', 'Z profile'), n('base', 'Z profile')),
+         'base -> Z profiles (from below)'),
         ('6 x countersunk wood screw 3.5 x 20, black', 'strip -> cleats (removable strip)'),
         ('4 x countersunk screw 3.5 x 16, black', 'rear plate'),
-        ('10 x keybed screw from below through base and riser',
-         'length ~ 21 mm + thread in the keybed foot; type to be confirmed on the keybed (hole 4.5)'),
+        ('10 x pan head screw M4 x 10 with washer, 10 x rivet nut M4 in the top flanges',
+         'keybed -> Z profiles, from above through the keybed holes (take the keys over the holes off)'),
         ('4 x M3 standoff, total length %s mm (e.g. 40 + 8 and a washer)' % fmt(Z_PANEL0 - Z_BASE),
          'panel corners (panel PCB %s), M3 x 12 countersunk from below, M3 x 6 black from the top' % fmt(PANEL_T)),
         ('10 x M3 standoff %s mm, 10 x M3 x 12 countersunk' % fmt(STANDOFF), 'emulator (6), power supply (4)'),
@@ -349,7 +351,7 @@ def sheet_overview(pdf, no):
          % (fmt(W), fmt(D), fmt(Z_TOP), fmt(Z_STRIP), fmt(H_TOTAL), fmt(FOOT_H)),
          'Birch plywood 12 / 9 / 6 mm, covered in black tolex, lid with 4 latches',
          'CNC-cut, plugged together: finger joints, tabs and slots, glued',
-         'Keybed Fatar TP/9S 49 on two 12 mm risers, control panel 170 x 230 flush with the walls',
+         'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls',
          'Electronics bay under the removable strip: bus emulator 160 x 110, power supply 126 x 80',
          'Rear plate (aluminium 2 mm): USB (option), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT']
     s.text(342, 140, 'Key data', 3.2, weight='bold')
@@ -475,7 +477,7 @@ def sheet_sections(pdf, no, case, refs):
     for a_, b_ in zip(ys, ys[1:]):
         s.dim_h(ox + a_, ox + b_, oy + H_TOTAL + 5 + (4 if b_ - a_ < 8 else 0), fmt(b_ - a_), ext=oy + H_TOTAL)
     callout(s, ox + Y_KB0 + 70, oy + Z_KB + 22, ox + 70, oy + Z_KB + 22, 'Fatar TP/9S 49 (simplified)')
-    callout(s, ox + Y_KB0 + KB_HOLE_Y[0] - 8, oy + Z_BASE + 6, ox + 30, oy + Z_BASE + 26, 'riser 12')
+    callout(s, ox + Y_KB0 + KB_HOLE_Y[0] - 8, oy + Z_BASE + 6, ox + 30, oy + Z_BASE + 26, 'Z profile 20 x 20 x 2')
     callout(s, ox + Y_KB1 + 45, oy + Z_BASE + 30, ox + Y_KB1 + 45, oy + Z_TOP + 5, 'power supply (envelope)')
     callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 100, oy + Z_LID1 - 3, 'strip 9 (removable)')
     callout(s, ox + Y_REAR_IN - 4, oy + Z_APRON0 + 5, ox + D + 22, oy + Z_STRIP + 2, 'apron')
@@ -499,8 +501,8 @@ def sheet_sections(pdf, no, case, refs):
     callout(s, ox + Y_PANEL0 + 12.5, oy + Z_BASE + 30, ox + 60, oy + Z_TOP + 12, 'standoff M3 (panel corner)')
 
     n = ['Heights follow from the keybed: the lower edge of the white key fronts (%s above the mounting plane,' % fmt(KB_LIP),
-         'scaled from the Fatar drawing) sits %s above the wall top. Measure it on the real keybed before cutting -' % fmt(LIP_ABOVE_WALL),
-         'all heights follow from it (params.py: KB_LIP). Board spacer %s and %s for parts and plugs under the'
+         'Fatar drawing 1:1, checked on the keybed) sits %s above the wall top. The keybed stands on Z profiles %s high -' % (fmt(LIP_ABOVE_WALL), fmt(T_RISER)),
+         'all heights follow from both (params.py: KB_LIP, T_RISER). Board spacer %s and %s for parts and plugs under the'
          % (fmt(BOARD_SPACER), fmt(BOARD_PARTS_BELOW)),
          '3620 board are estimates. Electronics are simplified boxes (parts height emulator %s, power supply %s).'
          % (fmt(EMU_PARTS), fmt(NT_PARTS))]
@@ -588,7 +590,7 @@ def sheet_cheeks(pdf, no, G):
 
 
 def sheet_inner(pdf, no, G):
-    s = Sheet(pdf, 'Strip, risers, cleats, filler', no, 'scale 1:3 / 1:2')
+    s = Sheet(pdf, 'Strip, cleats, filler, Z profiles', no, 'scale 1:3 / 1:2')
     get = lambda key: next(g for g in G if key in g[2])
     sc = 1 / 3
     p, q, k = get('strip'); part_block(s, p, q, k, 25, 210, sc)
@@ -596,9 +598,9 @@ def sheet_inner(pdf, no, G):
     s.text(25, 200, 'seen from above; notches at the rear edge for the apron; screws into the cleats, countersunk on top (black screws)', 2.0)
     p, q, k = get('apron'); part_block(s, p, q, k, 25, 170, sc)
     s.text(25, 160, 'tabs up into the strip notches, glued; reaches 10 mm below the wall top', 2.0)
-    p, q, k = get('riser_1'); part_block(s, p, q, k, 25, 130, sc)
-    hole_table(s, p, 270, 140, fs=1.9, maxw=120)
-    s.text(25, 120, 'two risers along the rows of keybed feet, glued and screwed from below; align them with two keybed screws as pins', 2.0)
+    s.text(25, 130, 'Keybed frame: two aluminium Z profiles 20 x 20 x 2, length %s (bought, not CNC)' % fmt(RISER_X1 - RISER_X0), 2.4, weight='bold')
+    s.text(25, 125, 'top flanges centred under the rows of keybed holes, bottom flanges point inwards; rivet nuts M4 in both flanges', 2.0)
+    s.text(25, 121, 'keybed screwed onto the profiles from above, then the unit screwed to the base from below', 2.0)
     sc2 = 0.5
     p, q, k = get('cleat_l'); part_block(s, p, q, k, 30, 70, sc2)
     s.text(30, 56, 'lying flat, tabs through the cheek;', 1.9)
@@ -665,6 +667,8 @@ def sheet_lists(pdf, no, G):
     y -= 4.2
     area = {}
     for p, q, k in G:
+        if p.material.startswith('aluminium Z'):
+            continue          # bought profiles, listed under hardware
         l, w = p.size()
         for x, v in zip(xs, (p.name, str(q), p.material, fmt(l), fmt(w), p.cover)):
             s.text(x, y, v, 2.1)
@@ -686,14 +690,14 @@ def sheet_lists(pdf, no, G):
     x2, y2 = 300, 270
     s.text(x2 - 0, y2, 'Assembly', 3.2, weight='bold'); y2 -= 6
     steps = ['CNC: cut all parts as per DXF, drill and countersink (CSK_BACK = countersink on the far face).',
-             'Check KB_LIP and the screws on the real keybed first; fit the keybed onto the risers dry.',
+             'Screw the keybed onto the Z profiles first (keys over the holes off); fit the unit into the case dry.',
              'Dry fit the whole case first (order on sheet %d), then take it apart and glue.' % (no - 1)]
     steps += [st for _, _, st in ASSEMBLY if st][:]
     steps += ['Strip unit: apron tabs up into the strip, glued; the strip stays removable (screws into the cleats).',
               'Lid: front and rear onto the top, ends from the sides; glue.',
               'Fill dogbones and joint lines on the outside, sand flush, round all outside edges to about R2.',
               'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.',
-              'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed screwed from below.']
+              'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.']
     for i, st in enumerate(steps):
         lines = _wrap(tr('%d. %s' % (i + 1, st)), 52)
         for l in lines:
@@ -702,8 +706,7 @@ def sheet_lists(pdf, no, G):
     y2 -= 4
     s.text(x2, y2, 'Open points', 3.2, weight='bold'); y2 -= 6
     for st in ['Sheet thickness: measure the plywood, enter it in params.py (T_*) and regenerate.',
-               'KB_LIP %s (key front lower edge) scaled from the Fatar drawing - measure.' % fmt(KB_LIP),
-               'Keybed screw type and length (foot hole 4.5).',
+               'Keybed screws: check length against the keys (foot hole 4.5).',
                'Board spacer %s and parts height under the 3620 board.' % fmt(BOARD_SPACER),
                'Rear plate parts and their hole sizes.',
                'Latch type; optional handle and case corners.']:

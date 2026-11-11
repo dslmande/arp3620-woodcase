@@ -7,7 +7,7 @@ Coordinate system (whole case):
   z  up, 0 = underside of the base (feet are below z = 0)
 """
 
-REV = "Rev0.2"
+REV = "Rev0.3"
 NAME = "ARP3620_Woodcase_" + REV
 
 # ---------------------------------------------------------------- material
@@ -17,7 +17,7 @@ T_CHEEK = 12.0       # keyboard cheeks
 T_STRIP = 9.0        # raised strip behind the keys (removable)
 T_APRON = 9.0        # apron under the rear edge of the strip
 T_FILL = 9.0         # filler behind the control panel
-T_RISER = 12.0       # keybed risers
+T_RISER = 20.0       # keybed on two aluminium Z profiles 20 x 20 x 2 (height)
 T_LID_WALL = 9.0
 T_LID_TOP = 6.0
 T_PLATE = 2.0        # aluminium rear plate
@@ -84,16 +84,16 @@ Y_STRIP0 = Y_KB1 - STRIP_OVERLAP                      # 161.5
 
 # ---------------------------------------------------------------- layout in z
 Z_BASE = T_BASE                                       # 9, top of the base
-Z_KB = Z_BASE + T_RISER                               # 21, keybed mounting plane
-Z_TOP = Z_KB + KB_LIP - LIP_ABOVE_WALL                # 59, top of all outer walls
-WALL_H = Z_TOP - Z_BASE                               # 50
-Z_PANEL0 = Z_TOP - PANEL_T                            # 57.4, underside of the panel
-Z_STRIP = round(Z_KB + KB_BLACK + STRIP_ABOVE_BLACK)  # 82, top of the strip
-Z_STRIP0 = Z_STRIP - T_STRIP                          # 73
+Z_KB = Z_BASE + T_RISER                               # 29, keybed mounting plane
+Z_TOP = Z_KB + KB_LIP - LIP_ABOVE_WALL                # 67, top of all outer walls
+WALL_H = Z_TOP - Z_BASE                               # 58
+Z_PANEL0 = Z_TOP - PANEL_T                            # 65.4, underside of the panel
+Z_STRIP = round(Z_KB + KB_BLACK + STRIP_ABOVE_BLACK)  # 90, top of the strip
+Z_STRIP0 = Z_STRIP - T_STRIP                          # 81
 Z_LID0 = Z_TOP                                        # lid sits on the walls
-Z_LID1 = Z_TOP + LID_INSIDE                           # 89, underside of the lid top
+Z_LID1 = Z_TOP + LID_INSIDE                           # 97, underside of the lid top
 H_LID = LID_INSIDE + T_LID_TOP                        # 36
-H_TOTAL = Z_LID1 + T_LID_TOP                          # 95 without feet
+H_TOTAL = Z_LID1 + T_LID_TOP                          # 103 without feet
 
 # ---------------------------------------------------------------- CNC joints
 # All wooden parts are cut on a CNC router and plugged together (glued):
@@ -101,7 +101,7 @@ H_TOTAL = Z_LID1 + T_LID_TOP                          # 95 without feet
 # lid top, tabs through slots for the cheeks, the filler and the strip cleats.
 FIT = 0.15               # play per joint: notches and slots this much wider than the tab
 DOG_R = 3.2              # dogbone radius in inside corners, end mills up to 6.35 mm
-N_FINGER = 5             # fingers over the wall height (50 mm -> 10 mm each)
+N_FINGER = 5             # fingers over the wall height (58 mm -> 11.6 mm each)
 N_FINGER_LID = 3         # fingers over the lid wall height (30 mm -> 10 mm each)
 TAB_W = 40.0             # tabs of the walls into the base and the lid top
 CHEEK_TAB_V = (12.0, 38.0)   # cheek tabs through the front/rear wall, height above the base
@@ -121,8 +121,14 @@ STRIP_SCREW_Y = (195.0, 235.0, 275.0)
 FCLEAT = 12.0                        # filler cleats 12 x 12
 
 # ---------------------------------------------------------------- risers
-RISER_W = 30.0
+# Keybed frame: two aluminium Z profiles 20 x 20 x 2 (as on the MS2600 clone).
+# The keybed is screwed onto the top flanges from above (keys over the holes
+# taken off), then the unit is screwed to the base from below. Top flange
+# centred on the row of keybed holes, bottom flanges point inwards under the
+# keybed (clear of the emulator behind it). Rivet nuts M4 in both flanges.
+Z_FLANGE, Z_H, Z_T = 20.0, T_RISER, 2.0
 RISER_X0, RISER_X1 = 210.0, 880.0
+Z_BOTTOM_OFF = Z_FLANGE - Z_T                         # 18, bottom flange centre from the hole row
 
 # ---------------------------------------------------------------- electronics (envelopes)
 STANDOFF = 6.0           # board standoffs on the base

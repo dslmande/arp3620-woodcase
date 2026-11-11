@@ -11,16 +11,16 @@ Everything is generated from one parameter file: 3D model with collision,
 joint and assembly checks, a DXF per part plus one per sheet thickness, renders
 and an 11-sheet production drawing.
 
-**Status: Rev0.2, design stage — not built yet.** Read the open points below
+**Status: Rev0.3, design stage — not built yet.** Read the open points below
 before cutting.
 
-![Case without lid](images/ARP3620_Woodcase_Rev0.2_front.png)
+![Case without lid](images/ARP3620_Woodcase_Rev0.3_front.png)
 
 | | |
 |---|---|
-| ![Electronics bay](images/ARP3620_Woodcase_Rev0.2_open.png) | ![Rear](images/ARP3620_Woodcase_Rev0.2_rear.png) |
+| ![Electronics bay](images/ARP3620_Woodcase_Rev0.3_open.png) | ![Rear](images/ARP3620_Woodcase_Rev0.3_rear.png) |
 | Strip lifted: electronics bay | Rear: connector plate |
-| ![Exploded](images/ARP3620_Woodcase_Rev0.2_exploded.png) | ![Corner](images/ARP3620_Woodcase_Rev0.2_corner.png) |
+| ![Exploded](images/ARP3620_Woodcase_Rev0.3_exploded.png) | ![Corner](images/ARP3620_Woodcase_Rev0.3_corner.png) |
 | Plugged together (exploded) | Front left corner: fingers, tabs, dogbones |
 
 ## Concept
@@ -28,9 +28,14 @@ before cutting.
 - **Layout as on the original and the 2014 clone:** control panel on the left,
   flush with the walls, keybed on the right between two cheeks, a raised strip
   behind the keys.
-- **Heights follow from the keybed.** The keybed stands on two 12 mm risers so
-  that the lower edge of the white key fronts sits just above the wall top. This
-  leaves 48 mm under the control panel for the 3620 board.
+- **Heights follow from the keybed.** The keybed is screwed onto two aluminium
+  Z profiles 20 × 20 × 2 (as on the MS2600 clone): from above through the keybed
+  holes into rivet nuts in the top flanges, with the keys over the holes taken
+  off. The unit is then screwed to the base from below into rivet nuts in the
+  bottom flanges, which point inwards under the keybed. The lower edge of the
+  white key fronts (39.3 above the mounting plane, Fatar drawing 1:1, checked on
+  the keybed) sits just above the wall top. This leaves 56 mm under the control
+  panel for the 3620 board.
 - **Electronics bay behind the keybed**, under the removable strip: bus emulator
   (160 × 110) and power supply board (126 × 80). Cables to the panel section run
   through a notch in the left cheek.
@@ -59,20 +64,20 @@ before cutting.
 - **Play 0.15 mm** per joint: notches and slots are that much wider than the
   tab (`FIT`). Joint depth equals the sheet thickness — **measure the plywood
   and enter the real thickness** (`T_*` in `params.py`) before cutting.
-- Glue all joints. Only the risers keep two screws from below, the strip stays
-  removable on screws, the keybed is screwed from below as before.
+- Glue all joints. The strip stays removable on screws, the keybed unit is
+  screwed from below through the base.
 - **Assembly order** (checked in the model, each part slides into place without
-  touching the parts already there): base, risers, cheeks down, cleats through
+  touching the parts already there): base, Z profiles, cheeks down, cleats through
   the cheeks, filler into the left cheek, front wall, rear wall, end walls from
   the sides. Drawing sheet 10.
 
 | | |
 |---|---|
-| Outside | 911 × 310 mm, walls 59 high, strip 82, with lid 95 (+ feet 12) |
+| Outside | 911 × 310 mm, walls 67 high, strip 90, with lid 103 (+ feet 12) |
 | Material | birch plywood 12 / 9 / 6 mm, black tolex, aluminium rear plate |
 | Mass | approx. 5.7 kg wood and plate (lid 1.6 kg), without keybed and electronics |
-| Keybed | Fatar TP/9S 49 (683 × 161.5), screwed from below through base and risers |
-| Control panel | 170 × 230, PCB 1.6, on four M3 standoffs 48.4 mm from the base |
+| Keybed | Fatar TP/9S 49 (683 × 161.5) on two aluminium Z profiles 20 × 20 × 2, 670 long |
+| Control panel | 170 × 230, PCB 1.6, on four M3 standoffs 56.4 mm from the base |
 
 ## Differences to the original 3620
 
@@ -88,12 +93,12 @@ before cutting.
 
 | Path | Content |
 |---|---|
-| [`production/ARP3620_Woodcase_Rev0.2_drawing.pdf`](production/ARP3620_Woodcase_Rev0.2_drawing.pdf) | Drawing, A3, 11 sheets: overview, general arrangement, sections, every part with dimensions and hole tables, joints and assembly order, cut list, hardware |
-| [`production/ARP3620_Woodcase_Rev0.2_drawing_de.pdf`](production/ARP3620_Woodcase_Rev0.2_drawing_de.pdf) | The same drawing in German (Zeichnung auf Deutsch); texts in `scripts/lang_de.py` |
+| [`production/ARP3620_Woodcase_Rev0.3_drawing.pdf`](production/ARP3620_Woodcase_Rev0.3_drawing.pdf) | Drawing, A3, 11 sheets: overview, general arrangement, sections, every part with dimensions and hole tables, joints and assembly order, cut list, hardware |
+| [`production/ARP3620_Woodcase_Rev0.3_drawing_de.pdf`](production/ARP3620_Woodcase_Rev0.3_drawing_de.pdf) | The same drawing in German (Zeichnung auf Deutsch); texts in `scripts/lang_de.py` |
 | [`production/carpenter/`](production/carpenter/) | Drawing for a carpenter without CNC (German, A3, 8 sheets): the same case with butt joints (walls on the base, front and rear wall full length, filler on two cleats), cut list, views, sections and part sketches with straight edges only, no holes. Made by `scripts/carpenter.py`, checked against `params.py` and the STEP (`check_carpenter.txt`) |
 | [`production/dxf/`](production/dxf/) | One DXF (R12, mm) per distinct part, seen from its front face, origin at its lower left corner. Layers `OUTLINE`, `CUTOUT`, `DRILL`, `CSK_FRONT`, `CSK_BACK` (countersink on the far face), `PILOT`, `ENGRAVE`, `NOTE` |
 | [`production/dxf/sheets/`](production/dxf/sheets/) | One DXF per plywood thickness (12 / 9 / 6 mm) with every part in its quantity on a 2500 × 1250 sheet, laid out in rows — for the CNC shop to nest |
-| [`production/ARP3620_Woodcase_Rev0.2.step`](production/ARP3620_Woodcase_Rev0.2.step) | All case parts as solids |
+| [`production/ARP3620_Woodcase_Rev0.3.step`](production/ARP3620_Woodcase_Rev0.3.step) | All case parts as solids |
 | `model/` | FreeCAD file, assembly STEP with simplified reference bodies (keybed, panel, boards), check report, DXF preview |
 | `images/` | Renders |
 | `scripts/` | Generator, see below |
@@ -125,11 +130,8 @@ apron and rear plate parts.
 - **Sheet thickness.** Measure the plywood and enter it in `params.py`
   (`T_WALL`, `T_BASE` …), then run `scripts/make.sh`: slots and joint depths
   follow from it.
-- **Key front height.** The lower edge of the white key fronts, 39 mm above the
-  mounting plane, is scaled from the Fatar drawing. All case heights follow
-  from it (`KB_LIP` in `params.py`). Measure it on the real keybed first.
-- **Keybed screws.** The feet have 4.5 mm holes; screw type and length still to
-  be confirmed on the keybed.
+- **Keybed screws.** The feet have 4.5 mm holes; M4 screws from above into
+  rivet nuts in the Z profiles. Check that the heads clear the keys put back on.
 - **Space under the control panel.** The 12 mm board spacer and 25 mm for parts
   and plugs under the 3620 board are estimates. Check them with the built board.
 - **Rear plate.** The hole sizes are placeholders until the sockets and
@@ -138,6 +140,9 @@ apron and rear plate parts.
 
 ## Revisions
 
+- **Rev0.3** — keybed on two aluminium Z profiles 20 × 20 × 2 instead of
+  12 mm plywood risers (as on the MS2600 clone); everything 8 mm higher.
+  KB_LIP 39 confirmed (Fatar drawing 1:1: 39.3). Carpenter drawing Rev0.3-T1.
 - **Rev0.2** — CNC plug-together: finger joints, tabs, slots, dogbones; no
   screws in the carcass, filler cleats dropped, strip cleats plug through the
   cheeks. Control panel as PCB 1.6 (standoffs 48.4 mm). Sheet DXFs per

@@ -19,7 +19,7 @@ DATA = {
     'Base': 'Boden',
     'Walls': 'Wände',
     'Cheeks': 'Wangen',
-    'Strip, risers, cleats, filler': 'Leiste, Auflageleisten, Träger, Füllbrett',
+    'Strip, cleats, filler, Z profiles': 'Leiste, Träger, Füllbrett, Z-Profile',
     'Lid': 'Deckel',
     'Rear plate': 'Rückplatte',
     'Joints, CNC, assembly order': 'Verbindungen, CNC, Montagereihenfolge',
@@ -30,8 +30,8 @@ DATA = {
         'CNC-gefräst und gesteckt: Fingerzinken, Zapfen und Schlitze, verleimt',
     'Birch plywood 12 / 9 / 6 mm, covered in black tolex, lid with 4 latches':
         'Birke-Multiplex 12 / 9 / 6 mm, schwarz mit Tolex bezogen, Deckel mit 4 Verschlüssen',
-    'Keybed Fatar TP/9S 49 on two 12 mm risers, control panel 170 x 230 flush with the walls':
-        'Keybed Fatar TP/9S 49 auf zwei 12-mm-Auflageleisten, Frontplatte 170 x 230 bündig mit den Wänden',
+    'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls':
+        'Keybed Fatar TP/9S 49 auf zwei Alu-Z-Profilen 20 x 20 x 2, Frontplatte 170 x 230 bündig mit den Wänden',
     'Electronics bay under the removable strip: bus emulator 160 x 110, power supply 126 x 80':
         'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 110, Netzteil 126 x 80',
     'Rear plate (aluminium 2 mm): USB (option), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT':
@@ -55,7 +55,7 @@ DATA = {
     'Right side, with lid': 'Seitenansicht rechts, mit Deckel',
     # sections
     'Fatar TP/9S 49 (simplified)': 'Fatar TP/9S 49 (vereinfacht)',
-    'riser 12': 'Auflageleiste 12',
+    'Z profile 20 x 20 x 2': 'Z-Profil 20 x 20 x 2',
     'power supply (envelope)': 'Netzteil (Hüllkörper)',
     'strip 9 (removable)': 'Leiste 9 (abnehmbar)',
     'apron': 'Schürze',
@@ -72,7 +72,7 @@ DATA = {
     'End wall right': 'Seitenwand rechts',
     'Filler behind the panel': 'Füllbrett hinter der Frontplatte',
     'Front wall': 'Vorderwand',
-    'Keybed riser': 'Auflageleiste Keybed',
+    'Keybed Z profile': 'Z-Profil Keybed',
     'Lid end': 'Deckel Seite',
     'Lid front/rear': 'Deckel vorn/hinten',
     'Lid top': 'Deckelplatte',
@@ -102,8 +102,9 @@ DATA = {
     'underside painted black, edges covered by the tolex of the walls':
         'Unterseite schwarz lackiert, Kanten vom Tolex der Wände bedeckt',
     # hole notes
-    'keybed, screw from below': 'Keybed, Schraube von unten',
-    'riser screw 4 x 20': 'Schraube Auflageleiste 4 x 20',
+    'Z profile M4 x 12': 'Z-Profil M4 x 12',
+    '10 x pan head screw M4 x 10 with washer, 10 x rivet nut M4 in the top flanges':
+        '10 x Linsenkopfschraube M4 x 10 mit Scheibe, 10 x Einnietmutter M4 in den oberen Schenkeln',
     'panel standoff M3': 'Bolzen Frontplatte M3',
     'emulator standoff M3': 'Bolzen Emulator M3',
     'power supply standoff M3': 'Bolzen Netzteil M3',
@@ -151,9 +152,11 @@ DATA = {
         '(schwarze Schrauben)',
     'tabs up into the strip notches, glued; reaches 10 mm below the wall top':
         'Zapfen nach oben in die Kerben der Leiste, verleimt; reicht 10 mm unter die Wandoberkante',
-    'two risers along the rows of keybed feet, glued and screwed from below; align them with two keybed screws as pins':
-        'zwei Auflageleisten unter den Reihen der Keybed-Füße, verleimt und von unten verschraubt; '
-        'mit zwei Keybed-Schrauben als Stifte ausrichten',
+    'top flanges centred under the rows of keybed holes, bottom flanges point inwards; rivet nuts M4 in both flanges':
+        'obere Schenkel mittig unter den Lochreihen des Keybeds, untere Schenkel zeigen nach innen; '
+        'Einnietmuttern M4 in beiden Schenkeln',
+    'keybed screwed onto the profiles from above, then the unit screwed to the base from below':
+        'Keybed von oben auf die Profile schrauben, dann die Einheit von unten mit dem Boden verschrauben',
     'lying flat, tabs through the cheek;': 'liegend, Zapfen durch die Wange;',
     'tabs into the left end wall, the rear wall and through the left cheek;':
         'Zapfen in die linke Seitenwand, die Rückwand und durch die linke Wange;',
@@ -190,12 +193,15 @@ DATA = {
     'contact cement for tolex, wood glue (PVAc), wood filler': 'Kontaktkleber für Tolex, Holzleim (PVAc), Holzspachtel',
     'all joints glued; filler for dogbones and joint lines under the tolex':
         'alle Verbindungen verleimt; Spachtel für Dogbones und Fugen unter dem Tolex',
-    'base -> risers (from below)': 'Boden -> Auflageleisten (von unten)',
+    'base -> Z profiles (from below)': 'Boden -> Z-Profile (von unten)',
+    'keybed frame (not CNC)': 'Keybed-Rahmen (nicht CNC)',
+    'keybed -> Z profiles, from above through the keybed holes (take the keys over the holes off)':
+        'Keybed -> Z-Profile, von oben durch die Keybed-Löcher (Tasten über den Löchern abnehmen)',
     '6 x countersunk wood screw 3.5 x 20, black': '6 x Senkkopf-Holzschraube 3.5 x 20, schwarz',
     'strip -> cleats (removable strip)': 'Leiste -> Träger (Leiste abnehmbar)',
     '4 x countersunk screw 3.5 x 16, black': '4 x Senkschraube 3.5 x 16, schwarz',
     'rear plate': 'Rückplatte',
-    '10 x keybed screw from below through base and riser': '10 x Keybed-Schraube von unten durch Boden und Auflageleiste',
+
     'length ~ 21 mm + thread in the keybed foot; type to be confirmed on the keybed (hole 4.5)':
         'Länge ~ 21 mm + Gewinde im Keybed-Fuß; Typ am Keybed prüfen (Loch 4.5)',
     'emulator (6), power supply (4)': 'Emulator (6), Netzteil (4)',
@@ -209,8 +215,8 @@ DATA = {
     'Assembly': 'Montage',
     'CNC: cut all parts as per DXF, drill and countersink (CSK_BACK = countersink on the far face).':
         'CNC: alle Teile nach DXF fräsen, bohren und senken (CSK_BACK = Senkung auf der Rückseite).',
-    'Check KB_LIP and the screws on the real keybed first; fit the keybed onto the risers dry.':
-        'Zuerst KB_LIP und die Schrauben am echten Keybed prüfen; Keybed trocken auf die Auflageleisten setzen.',
+    'Screw the keybed onto the Z profiles first (keys over the holes off); fit the unit into the case dry.':
+        'Zuerst das Keybed auf die Z-Profile schrauben (Tasten über den Löchern abnehmen); die Einheit trocken einpassen.',
     'Strip unit: apron tabs up into the strip, glued; the strip stays removable (screws into the cleats).':
         'Leiste: Zapfen der Schürze nach oben in die Leiste, verleimt; die Leiste bleibt abnehmbar '
         '(Schrauben in die Träger).',
@@ -220,19 +226,20 @@ DATA = {
         'Dogbones und Fugen außen spachteln, bündig schleifen, alle Außenkanten auf etwa R2 runden.',
     'Paint the inside black, then tolex outside with contact cement; wrap 20 mm over the top edges.':
         'Innen schwarz lackieren, dann außen Tolex mit Kontaktkleber; 20 mm über die Oberkanten umschlagen.',
-    'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed screwed from below.':
-        'Rückplatte, Verschlüsse, Füße; Frontplatte auf die Bolzen, Elektronik auf den Boden, Keybed von unten '
-        'verschrauben.',
+    'Rear plate, latches, feet; panel on its standoffs, electronics on the base, keybed unit screwed from below.':
+        'Rückplatte, Verschlüsse, Füße; Frontplatte auf die Bolzen, Elektronik auf den Boden, Keybed-Einheit von '
+        'unten verschrauben.',
     'Open points': 'Offene Punkte',
     'Sheet thickness: measure the plywood, enter it in params.py (T_*) and regenerate.':
         'Plattenstärke: Multiplex messen, in params.py (T_*) eintragen und neu erzeugen.',
-    'Keybed screw type and length (foot hole 4.5).': 'Typ und Länge der Keybed-Schrauben (Loch im Fuß 4.5).',
+    'Keybed screws: check length against the keys (foot hole 4.5).':
+        'Keybed-Schrauben: Länge gegen die Tasten prüfen (Loch im Fuß 4.5).',
     'Rear plate parts and their hole sizes.': 'Teile der Rückplatte und ihre Lochgrößen.',
     'Latch type; optional handle and case corners.': 'Typ der Verschlüsse; optional Griff und Kofferecken.',
     # assembly order (parts.py)
     'base on the bench, inside up': 'Boden auf die Werkbank, Innenseite oben',
-    'risers: glue, screw from below, keybed holes aligned':
-        'Auflageleisten: verleimen, von unten verschrauben, Keybed-Löcher fluchtend',
+    'Z profiles (with the keybed on them): screw from below through the base':
+        'Z-Profile (mit dem Keybed darauf): von unten durch den Boden verschrauben',
     'left cheek: tabs down into the slots of the base': 'linke Wange: Zapfen von oben in die Schlitze des Bodens',
     'right cheek: tabs down into the notches at the right edge of the base':
         'rechte Wange: Zapfen von oben in die Kerben am rechten Bodenrand',
@@ -280,10 +287,10 @@ TEMPLATES = [
     ('control panel (PCB %s)', 'Frontplatte (Leiterplatte {0})'),
     ('Heights follow from the keybed: the lower edge of the white key fronts (%s above the mounting plane,',
      'Die Höhen folgen aus dem Keybed: Die Unterkante der weißen Tastenfronten ({0} über der Auflage,'),
-    ('scaled from the Fatar drawing) sits %s above the wall top. Measure it on the real keybed before cutting -',
-     'aus der Fatar-Zeichnung abgegriffen) liegt {0} über der Wandoberkante. Vor dem Zuschnitt am echten Keybed messen –'),
-    ('all heights follow from it (params.py: KB_LIP). Board spacer %s and %s for parts and plugs under the',
-     'alle Höhen hängen daran (params.py: KB_LIP). Abstand Board–Frontplatte {0} und {1} für Bauteile und Stecker unter dem'),
+    ('Fatar drawing 1:1, checked on the keybed) sits %s above the wall top. The keybed stands on Z profiles %s high -',
+     'Fatar-Zeichnung 1:1, am Keybed geprüft) liegt {0} über der Wandoberkante. Das Keybed steht auf {1} hohen Z-Profilen –'),
+    ('all heights follow from both (params.py: KB_LIP, T_RISER). Board spacer %s and %s for parts and plugs under the',
+     'alle Höhen hängen daran (params.py: KB_LIP, T_RISER). Abstand Board–Frontplatte {0} und {1} für Bauteile und Stecker unter dem'),
     ('3620 board are estimates. Electronics are simplified boxes (parts height emulator %s, power supply %s).',
      '3620-Board sind Schätzwerte. Elektronik als vereinfachte Quader (Bauhöhe Emulator {0}, Netzteil {1}).'),
     ('window, corners R %s', 'Fenster, Ecken R {0}'),
@@ -302,6 +309,11 @@ TEMPLATES = [
     ('Tolex, black (vinyl case covering), approx. %s m2 incl. 25 % waste',
      'Tolex schwarz (Vinyl-Kofferbezug), ca. {0} m² inkl. 25 % Verschnitt'),
     ('%s x countersunk wood screw 4 x 20', '{0} x Senkkopf-Holzschraube 4 x 20'),
+    ('2 x aluminium Z profile 20 x 20 x 2, length %s', '2 x Alu-Z-Profil 20 x 20 x 2, Länge {0}'),
+    ('%s x countersunk screw M4 x 12, %s x rivet nut M4 in the bottom flanges',
+     '{0} x Senkkopfschraube M4 x 12, {1} x Einnietmutter M4 in den unteren Schenkeln'),
+    ('Keybed frame: two aluminium Z profiles 20 x 20 x 2, length %s (bought, not CNC)',
+     'Keybed-Rahmen: zwei Alu-Z-Profile 20 x 20 x 2, Länge {0} (Kaufteil, nicht CNC)'),
     ('4 x M3 standoff, total length %s mm (e.g. 40 + 8 and a washer)',
      '4 x Abstandsbolzen M3, Gesamtlänge {0} mm (z. B. 40 + 8 und eine Scheibe)'),
     ('panel corners (panel PCB %s), M3 x 12 countersunk from below, M3 x 6 black from the top',

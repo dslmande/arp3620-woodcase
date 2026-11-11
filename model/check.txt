@@ -14,26 +14,26 @@ lid top -> panel                      30.00    25.00
 lid rear -> apron                      3.00     2.50
 lid end right -> right cheek           3.00     2.50
 lid front -> keys                      6.00     2.50
-board parts -> base                    9.80     3.00
-panel jacks -> base                   16.40     3.00
-emulator parts -> strip               34.40    10.00
-emulator parts -> apron               11.14     2.00
-psu parts -> strip                    20.40    10.00
-psu -> apron                          17.00     2.00
+board parts -> base                   17.80     3.00
+panel jacks -> base                   24.40     3.00
+emulator parts -> strip               42.40    10.00
+emulator parts -> apron               18.83     2.00
+psu parts -> strip                    28.40    10.00
+psu -> apron                          17.56     2.00
 emulator -> left cheek                 8.00     3.00
 emulator -> psu                       16.00     3.00
-emulator -> keybed                     4.65     1.00
+emulator -> keybed                    12.49     1.00
 rear plate parts -> rear wall          1.00     0.50
 rear plate parts -> emulator           6.00     2.00
-rear plate parts -> apron              3.00     2.00
+rear plate parts -> apron             11.00     2.00
 
 joints: parts in contact (distance 0)
   29 joints checked
-outer shell: 95 voids, largest 58.09, 0.42, 0.42, 0.35 cm3 (rear window 58.1)
+outer shell: 93 voids, largest 58.09, 0.42, 0.42, 0.35 cm3 (rear window 58.1)
 
 assembly order (each part moved 40 mm back along its direction, 1 mm steps)
   base                    base on the bench, inside up
-  riser_1    (0, 0, -1)   risers: glue, screw from below, keybed holes aligned
+  riser_1    (0, 0, -1)   Z profiles (with the keybed on them): screw from below through the base
   riser_2    (0, 0, -1)   
   cheek_l    (0, 0, -1)   left cheek: tabs down into the slots of the base
   cheek_r    (0, 0, -1)   right cheek: tabs down into the notches at the right edge of the base
@@ -52,6 +52,6 @@ assembly order (each part moved 40 mm back along its direction, 1 mm steps)
   lid_end_l  (1, 0, 0)    ends from the sides: fingers, tabs into the lid top
   lid_end_r  (-1, 0, 0)   
 
-mass wood + plate: 5.66 kg (lid 1.59 kg), without tolex, keybed, electronics
-outside: 911 x 310 x 95 mm (with lid, without feet)
-checked pairs: 95, problems: 0
+mass wood + plate: 5.93 kg (lid 1.59 kg), without tolex, keybed, electronics
+outside: 911 x 310 x 103 mm (with lid, without feet)
+checked pairs: 94, problems: 0
