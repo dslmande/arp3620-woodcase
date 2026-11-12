@@ -7,7 +7,7 @@ Coordinate system (whole case):
   z  up, 0 = underside of the base (feet are below z = 0)
 """
 
-REV = "Rev0.4"
+REV = "Rev0.5"
 NAME = "ARP3620_Woodcase_" + REV
 
 # ---------------------------------------------------------------- material
@@ -71,7 +71,7 @@ W = X_WALL_R + T_WALL                                 # 911
 Y_IN = T_WALL                                         # 12, inner face front wall
 Y_KB0 = Y_IN + GAP_KB_FRONT                           # 15, front of the keys
 Y_KB1 = Y_KB0 + KB_D                                  # 176.5
-BAY_D = 121.5            # electronics bay behind the keybed (emulator is 110 deep)
+BAY_D = 121.5            # electronics bay behind the keybed (emulator 80 deep, 40 free behind it)
 Y_REAR_IN = Y_KB1 + BAY_D                             # 298
 D = Y_REAR_IN + T_WALL                                # 310
 Y_PANEL0 = Y_IN + GAP_PANEL                           # 14
@@ -125,10 +125,13 @@ Z_BOTTOM_OFF = Z_FLANGE - Z_T                         # 18, bottom flange centre
 
 # ---------------------------------------------------------------- electronics (envelopes)
 STANDOFF = 6.0           # board standoffs on the base
-EMU_W, EMU_D = 160.0, 110.0
+# Bus emulator Rev0.3 (160 x 80): KiCad x = 0 at the left cheek, KiCad y = 0 at the rear wall.
+# Holes here in case direction (y from the keybed side): y = 80 - y_kicad. The Pico's USB goes
+# to the rear plate through a panel-mount extension (Adafruit 3258); its plug needs 15 behind the board.
+EMU_W, EMU_D = 160.0, 80.0
 EMU_X0, EMU_Y0 = 206.0, 178.0
-EMU_PARTS = 22.0         # tallest parts (TO-220 upright, plugs)
-EMU_HOLES = [(5, 5), (99.6, 5), (155, 5), (5, 105), (99.6, 105), (155, 105)]
+EMU_PARTS = 22.0         # tallest parts (Pico on long pin headers 15-20, TO-220 upright, plugs)
+EMU_HOLES = [(5, 75), (155, 75), (5, 5), (155, 5), (118.11, 75), (93.345, 5)]
 NT_W, NT_D = 126.0, 80.0
 NT_X0, NT_Y0 = 376.0, 195.0
 NT_PARTS = 36.0          # heat sinks SK104 35 mm
@@ -136,27 +139,31 @@ NT_HOLES = [(3.81, 3.81), (121.92, 3.81), (3.81, 76.2), (121.92, 76.2)]
 PCB_T = 1.6
 
 # ---------------------------------------------------------------- rear plate (aluminium 2 mm, outside)
-PLATE_L, PLATE_H = 211.0, 40.0
+PLATE_L, PLATE_H = 251.0, 40.0
 PLATE_X_RIGHT = 460.0    # case x of the plate's left end seen from the rear
 PLATE_Z0 = Z_BASE + 5.0  # 14
 PLATE_R = 3.0
-WINDOW = (12.0, 199.0, 26.0, 5.0)    # plate coords u0, u1, height (centred), corner radius
-PLATE_SCREWS = [(6.0, 6.0), (205.0, 6.0), (6.0, 34.0), (205.0, 34.0)]
+WINDOW = (12.0, 239.0, 26.0, 5.0)    # plate coords u0, u1, height (centred), corner radius
+PLATE_SCREWS = [(6.0, 6.0), (245.0, 6.0), (6.0, 34.0), (245.0, 34.0)]
 PLATE_SCREW_D, PLATE_SCREW_CSK = 3.5, 7.0
 # u along the plate seen from the rear, v from the lower edge.
-# Deep parts (USB) sit at the left end, behind the power supply board;
-# behind the emulator only parts up to 25 mm deep fit.
+# The USB panel-mount socket sits at the left end, behind the power supply board;
+# behind the emulator 40 mm depth are free.
 # Hole sizes are placeholders until the parts are chosen (see README).
 PLATE_ITEMS = [
     # u,    v,   label top,     label bottom, holes [(du, dv, d)]
-    (26.0,  20.0, "USB",        "(option)",  [(0, 0, 24.0), (-9.5, 12.0, 3.2), (9.5, -12.0, 3.2)]),
+    (26.0,  20.0, "USB",        "",          [(-8.65, 0, 3.2), (8.65, 0, 3.2)]),   # Adafruit 3258, cut-out below
     (54.0,  20.0, "DC IN",      "12-24 V",   [(0, 0, 11.0)]),
     (78.0,  20.0, "POWER",      "OFF",       [(0, 0, 6.5)]),
     (102.0, 20.0, "SUPPLY 2600", "INT",      [(0, 0, 6.5)]),
     (141.0, 20.0, "MIDI IN",    "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
     (181.0, 20.0, "MIDI OUT",   "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
+    (221.0, 20.0, "MIDI THRU",  "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
 ]
 PLATE_TEXT_H = 2.5
+# rounded cut-outs (u, v, width, height, radius): Micro-B socket of the panel-mount cable
+# Adafruit 3258 between its two M3 screws 17.3 apart (size not in the data: placeholder, check on the part)
+PLATE_CUTOUTS = [(26.0, 20.0, 10.0, 6.0, 1.5)]
 
 # ---------------------------------------------------------------- base holes
 FEET = [(40.0, 40.0), (W / 2, 40.0), (W - 40.0, 40.0),

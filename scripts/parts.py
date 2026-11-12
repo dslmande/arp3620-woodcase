@@ -236,6 +236,9 @@ def make_parts():
         pl.texts.append((u, v + 13.0, top))
         if bot:
             pl.texts.append((u, v - 13.0 - PLATE_TEXT_H, bot))
+    for u, v, w, h, r in PLATE_CUTOUTS:
+        pl.cutouts.append(([(u - w / 2, v - h / 2), (u + w / 2, v - h / 2), (u + w / 2, v + h / 2), (u - w / 2, v + h / 2)],
+                           [r] * 4))
     P.append(pl)
     return P
 

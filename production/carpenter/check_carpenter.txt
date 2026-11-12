@@ -1,4 +1,4 @@
-Carpenter variant Rev0.4-T1 - checks against params.py and ARP3620_Woodcase_Rev0.4.step
+Carpenter variant Rev0.5-T1 - checks against params.py and ARP3620_Woodcase_Rev0.5.step
 KB_LIP = 39 (measured)
 
 1. overlap between carpenter parts: none
@@ -15,8 +15,8 @@ KB_LIP = 39 (measured)
    wood in carpenter, not in STEP: 34498 mm3 (holes, dogbones, fit gaps, radii, filler cleats 14976)
    wood in STEP, not in carpenter: 587 mm3 - expected: only the rounded corners of the cable notch (R8)
    and of the rear window (R5), which are square here. Anything else would be a mistake.
-     corner 64 mm3 at x 261.0..266.0 y 298.0..310.0 z 21.0..26.0
-     corner 64 mm3 at x 261.0..266.0 y 298.0..310.0 z 42.0..47.0
+     corner 64 mm3 at x 221.0..226.0 y 298.0..310.0 z 21.0..26.0
+     corner 64 mm3 at x 221.0..226.0 y 298.0..310.0 z 42.0..47.0
      corner 64 mm3 at x 443.0..448.0 y 298.0..310.0 z 42.0..47.0
      corner 64 mm3 at x 443.0..448.0 y 298.0..310.0 z 21.0..26.0
      corner 165 mm3 at x 186.0..198.0 y 282.0..290.0 z 31.0..39.0

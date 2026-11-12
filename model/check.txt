@@ -12,19 +12,19 @@ panel -> filler                        2.00     2.00
 board parts -> base                   17.80     3.00
 panel jacks -> base                   24.40     3.00
 emulator parts -> strip               42.40    10.00
-emulator parts -> apron               18.83     2.00
+emulator parts -> apron               38.66     2.00
 psu parts -> strip                    28.40    10.00
 psu -> apron                          17.56     2.00
 emulator -> left cheek                 8.00     3.00
 emulator -> psu                       16.00     3.00
 emulator -> keybed                    12.49     1.00
-rear plate parts -> rear wall          1.00     0.50
-rear plate parts -> emulator           6.00     2.00
-rear plate parts -> apron             11.00     2.00
+rear plate parts -> rear wall          3.00     0.50
+rear plate parts -> emulator          36.00     2.00
+rear plate parts -> apron             13.00     2.00
 
 joints: parts in contact (distance 0)
   21 joints checked
-outer shell: 93 voids, largest 58.09, 0.42, 0.42, 0.35 cm3 (rear window 58.1)
+outer shell: 93 voids, largest 70.57, 0.42, 0.42, 0.35 cm3 (rear window 70.6)
 
 assembly order (each part moved 40 mm back along its direction, 1 mm steps)
   base                    base on the bench, inside up
@@ -44,4 +44,4 @@ assembly order (each part moved 40 mm back along its direction, 1 mm steps)
 
 mass wood + plate: 4.34 kg, without tolex, keybed, electronics
 outside: 911 x 310 x 90 mm (strip top, without feet)
-checked pairs: 48, problems: 0
+checked pairs: 47, problems: 0

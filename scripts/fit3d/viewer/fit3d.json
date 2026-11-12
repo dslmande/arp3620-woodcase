@@ -1,7 +1,7 @@
 {
  "title": "ARP 3620 Passprobe",
- "date": "11.11.2026",
- "rev": "Rev0.4-T1",
+ "date": "13.11.2026",
+ "rev": "Rev0.5-T1",
  "boards": {
   "panel": {
    "name": "Frontplatte (Leiterplatte) Rev0.3",
@@ -48,7 +48,7 @@
    ]
   },
   "emu": {
-   "name": "Bus-Emulator Rev0.2",
+   "name": "Bus-Emulator Rev0.3",
    "file": "emu.glb",
    "matrix": [
     1000.0,
@@ -539,53 +539,78 @@
    "hit": false
   },
   {
-   "name": "J4 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "J7 body",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
    "name": "J7 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
-   "name": "J3 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "name": "U6 plug Pico",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U6 plug USB",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J4 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
    "name": "J8 body",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
    "name": "J8 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J1 body",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J1 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J2 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
    "name": "J5 plug",
-   "group": "Bus-Emulator Rev0.2 (Hüllen)",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J1 body",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J1 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J2 body",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J2 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J3 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J11 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J10 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
@@ -660,10 +685,10 @@
   },
   {
    "check": "Emulator -> Abdeckleiste/Blende",
-   "d": 23.15,
+   "d": 19.59,
    "need": 2.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 plug",
+   "a": "Bus-Emulator Rev0.3: U6 plug USB",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -676,10 +701,10 @@
   },
   {
    "check": "Emulator -> Rückwand",
-   "d": 10.0,
+   "d": 22.96,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "a": "Bus-Emulator Rev0.3: U6 plug USB",
    "b": "Holz: 3 Rückwand"
   },
   {
@@ -695,15 +720,23 @@
    "d": 10.0,
    "need": 2.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: Leiterplatte",
+   "a": "Bus-Emulator Rev0.3: Leiterplatte",
    "b": "Netzteil Rev0.1: Leiterplatte"
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 7.86,
+   "d": 15.6,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J7 plug",
+   "a": "Bus-Emulator Rev0.3: U6 plug USB",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
+  },
+  {
+   "check": "Pico-USB-Stecker -> Rückwand, Rückplatten-Teile",
+   "d": 15.6,
+   "need": 2.0,
+   "ok": true,
+   "a": "Bus-Emulator Rev0.3: U6 plug USB",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
@@ -711,7 +744,7 @@
    "d": 4.06,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.2: J5 plug",
+   "a": "Bus-Emulator Rev0.3: J7 plug",
    "b": "Keybed: Keybed Rahmen"
   },
   {
@@ -740,10 +773,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 5312,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1740,
-  "Platinen untereinander": 30042,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 3973,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 5856,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1910,
+  "Platinen untereinander": 38678,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4381,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  },
  "hits": {},

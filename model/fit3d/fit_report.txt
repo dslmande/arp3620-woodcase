@@ -1,12 +1,12 @@
-ARP 3620 - Passprobe in 3D (Gehäuse Rev0.4-T1, Ausführung Tischler)
-Platinen: Frontplatte (Leiterplatte) Rev0.3 (ARP3620_Front_Rev0.3.kicad_pcb), Board 3620-007 Rev0.5 (ARP3620_Rev0.5.kicad_pcb), Bus-Emulator Rev0.2 (Emulator3620_Rev0.2.kicad_pcb), Netzteil Rev0.1 (Netzteil3620_Rev0.1.kicad_pcb)
-Körper: 365 (davon 332 aus KiCad, 80 Hüllen ohne 3D-Modell)
+ARP 3620 - Passprobe in 3D (Gehäuse Rev0.5-T1, Ausführung Tischler)
+Platinen: Frontplatte (Leiterplatte) Rev0.3 (ARP3620_Front_Rev0.3.kicad_pcb), Board 3620-007 Rev0.5 (ARP3620_Rev0.5.kicad_pcb), Bus-Emulator Rev0.3 (Emulator3620_Rev0.3.kicad_pcb), Netzteil Rev0.1 (Netzteil3620_Rev0.1.kicad_pcb)
+Körper: 399 (davon 366 aus KiCad, 85 Hüllen ohne 3D-Modell)
 
 1. Kollisionen (Volumen > 0,05 mm³)
-   Platinen/Bauteile gegen Holz und Z-Profile                  5312 Paare geprüft
-   Keybed gegen Holz, Z-Profile, Platinen                      1740 Paare geprüft
-   Platinen untereinander                                     30042 Paare geprüft
-   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        3973 Paare geprüft
+   Platinen/Bauteile gegen Holz und Z-Profile                  5856 Paare geprüft
+   Keybed gegen Holz, Z-Profile, Platinen                      1910 Paare geprüft
+   Platinen untereinander                                     38678 Paare geprüft
+   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        4381 Paare geprüft
    Bolzen, Rückplatte, Frontplattenteile gegen Holz             188 Paare geprüft
    keine
 
@@ -15,13 +15,14 @@ Körper: 365 (davon 332 aus KiCad, 80 Hüllen ohne 3D-Modell)
    Board 3620 + Bauteile -> Wände, Wange, Füllstück    7.00    1.0  ok   Board 3620-007 Rev0.5: Leiterplatte / Holz: 2 Vorderwand
    Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden    24.40    2.0  ok   Frontplatte Teile: GX16 Interface / Holz: 1 Boden
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
-   Emulator -> Abdeckleiste/Blende                    23.15    2.0  ok   Bus-Emulator Rev0.2: J7 plug / Holz: 12 Blende unter der Abdeckleiste
+   Emulator -> Abdeckleiste/Blende                    19.59    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
    Netzteil -> Abdeckleiste/Blende                    17.58    2.0  ok   Netzteil Rev0.1: HS1 body / Holz: 12 Blende unter der Abdeckleiste
-   Emulator -> Rückwand                               10.00    1.0  ok   Bus-Emulator Rev0.2: Leiterplatte / Holz: 3 Rückwand
+   Emulator -> Rückwand                               22.96    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
    Netzteil -> Rückwand                               23.00    1.0  ok   Netzteil Rev0.1: Leiterplatte / Holz: 3 Rückwand
-   Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.2: Leiterplatte / Netzteil Rev0.1: Leiterplatte
-   Emulator/Netzteil -> Rückplatten-Teile              7.86    1.0  ok   Bus-Emulator Rev0.2: J7 plug / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Emulator -> Keybed                                  4.06    1.0  ok   Bus-Emulator Rev0.2: J5 plug / Keybed: Keybed Rahmen
+   Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.1: Leiterplatte
+   Emulator/Netzteil -> Rückplatten-Teile             15.60    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    15.60    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Emulator -> Keybed                                  4.06    1.0  ok   Bus-Emulator Rev0.3: J7 plug / Keybed: Keybed Rahmen
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links
@@ -47,11 +48,13 @@ Körper: 365 (davon 332 aus KiCad, 80 Hüllen ohne 3D-Modell)
    Board 3620-007 Rev0.5              PJ301BM: bushing M6, 5.5 long (4.5 thread), same source
    Board 3620-007 Rev0.5              NKK SB4011NCHC-RO: body (assumed; nkkswitches.com not reachable, Digi-Key: rear panel mount, solder lugs, cut-out 12.5)
    Board 3620-007 Rev0.5              SB4011: bushing and red plunger dia 12.5 to 23 (assumed)
-   Bus-Emulator Rev0.2                TE Micro-MaTch 215079 female on board: insulator height 4.00 (Digi-Key 8-215079-0)
-   Bus-Emulator Rev0.2                Micro-MaTch ribbon plug, to 18 (assumed; TE drawing not reachable)
-   Bus-Emulator Rev0.2                Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
-   Bus-Emulator Rev0.2                TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)
-   Bus-Emulator Rev0.2                MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)
+   Bus-Emulator Rev0.3                TE Micro-MaTch 215079 female on board: insulator height 4.00 (Digi-Key 8-215079-0)
+   Bus-Emulator Rev0.3                Micro-MaTch ribbon plug, to 18 (assumed; TE drawing not reachable)
+   Bus-Emulator Rev0.3                Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
+   Bus-Emulator Rev0.3                TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)
+   Bus-Emulator Rev0.3                MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)
+   Bus-Emulator Rev0.3                Pico 2 on long pin headers 15-20 (emulator session, 12.11.2026), board 1.0, USB socket 3.3
+   Bus-Emulator Rev0.3                Micro-B plug of the panel-mount cable Adafruit 3258: 12 wide, 15 behind the board edge (emulator session, 13.11.2026) plus 5 for the cable bend; height for headers 15-20
    Frontplatte Teile                  envelope as in model.py (GX16 dia 22 x 32, ACJS dia 16 x 30)
    Frontplatte Teile                  E-Switch 300DP6 terminals to 23 below the panel top (datasheet)
    Frontplatte Teile                  E-Switch 300DP6 housing 12.70 x 11.43, 16.4 below the panel top (datasheet)

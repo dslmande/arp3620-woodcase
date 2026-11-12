@@ -52,7 +52,7 @@ PLACE = {
     'psu': Placement(V(NT_X0, NT_Y0, Z_BASE + STANDOFF), Rotation()),
 }
 NAMES = {'panel': 'Frontplatte (Leiterplatte) Rev0.3', 'board': 'Board 3620-007 Rev0.5',
-         'emu': 'Bus-Emulator Rev0.2', 'psu': 'Netzteil Rev0.1'}
+         'emu': 'Bus-Emulator Rev0.3', 'psu': 'Netzteil Rev0.1'}
 
 
 def local_origin(k):
@@ -119,6 +119,12 @@ ENVELOPES = {
          'TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)'),
         ('plug', 'front', 'fp', None, 0.100 * IN, 0.100 * IN + 0.520 * IN,
          'MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)')],
+    'RaspberryPi_Pico_Common_THT': [
+        ('plug Pico', 'front', 'fp', None, 0, 20.0 + 1.0 + 3.3,
+         'Pico 2 on long pin headers 15-20 (emulator session, 12.11.2026), board 1.0, USB socket 3.3'),
+        ('plug USB', 'front', 'out_y', (12.0, 20.0), 15.0 + 1.0 - 2.5, 20.0 + 1.0 + 3.3 + 2.0,
+         'Micro-B plug of the panel-mount cable Adafruit 3258: 12 wide, 15 behind the board edge (emulator session, '
+         '13.11.2026) plus 5 for the cable bend; height for headers 15-20')],
     'TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical': [
         ('body', 'front', 'fp', None, 0, 4.0, 'TE Micro-MaTch 215079 female on board: insulator height 4.00 '
                                               '(Digi-Key 8-215079-0)'),
@@ -130,7 +136,8 @@ ENVELOPES = {
                                                                'Fischer SK104 35 mm, upright')],
 }
 # KiCad models that the export could not find (file missing in the library): envelope instead
-MISSING_MODELS = {'emu': {'J1', 'J7'}, 'psu': {'HS1', 'HS2'}}
+MISSING_MODELS = {'emu': {'J1', 'J2', 'J7'}, 'psu': {'HS1', 'HS2'}}
+ENVELOPES['TE_MTA-100_640456-7_1x07_P2.54mm_Vertical'] = ENVELOPES['TE_MTA-100_640456-5_1x05_P2.54mm_Vertical']
 ENVELOPES['TE_Micro-MaTch_1-215079-6_2x08_P1.27mm_Vertical'] = ENVELOPES['TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical']
 # Measured by Patrick on board 3620 (11.11.2026): tallest parts 18 mm on the part side, the WIMA
 # capacitors C2/C4 and the KK headers with their crimp housings plugged in. Taken from the board
@@ -163,6 +170,9 @@ def envelope_shapes(k):
             za, zb = (t + z0, t + z1) if side == 'front' else (-z1, -z0)
             if kind == 'fp':
                 s = Part.makeBox(x1 - x0, y1 - y0, zb - za, V(x0, y0, za))
+            elif kind == 'out_y':
+                w, d = size                          # leaves the board towards local +y (rear), from the courtyard edge
+                s = Part.makeBox(w, d, zb - za, V(cx - w / 2, y1 - 2.0, za))
             elif kind in ('box', 'slot'):
                 w, d = size
                 if kind == 'slot' and (x1 - x0) > (y1 - y0):
@@ -446,6 +456,8 @@ def main():
         ('Netzteil -> Rückwand', psu, rear, 1.0),
         ('Emulator -> Netzteil', emu, psu, 2.0),
         ('Emulator/Netzteil -> Rückplatten-Teile', emu + psu, G('Rückplatte'), 1.0),
+        ('Pico-USB-Stecker -> Rückwand, Rückplatten-Teile', [b for b in emu if 'plug USB' in b[1]],
+         rear + G('Rückplatte'), 2.0),
         ('Emulator -> Keybed', emu, keyb, 1.0),
         ('Keybed in Ruhe -> Abdeckleiste', [b for b in keyb if not pressed(b)], strip, 2.0),
         ('Tasten gedrückt -> Vorderwand / Z-Profil', [b for b in keyb if pressed(b)],
