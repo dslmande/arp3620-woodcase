@@ -37,9 +37,9 @@ before cutting.
   the keybed) sits just above the wall top. This leaves 56 mm under the control
   panel for the 3620 board.
 - **Electronics bay behind the keybed**, under the removable strip: bus emulator
-  Rev0.3 (160 × 80) and power supply board (126 × 80). The Pico's USB goes to
-  the rear plate through a panel-mount cable (Adafruit 3258); its plug needs
-  15 mm behind the board, 40 mm are free. Cables to the panel section run
+  Rev0.3 (160 × 86) and power supply board (126 × 80). The Pico's USB goes to
+  the rear plate through a panel-mount cable (Adafruit 3258); its plug lies
+  over the board, the cable bends down behind it (34 mm free to the rear wall). Cables to the panel section run
   through a notch in the left cheek.
 - **Rear connector plate** (aluminium 2 mm) over a window in the rear wall: USB
   (panel-mount cable), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU. The connection to
@@ -147,7 +147,7 @@ apron and rear plate parts.
 
 ## Revisions
 
-- **Rev0.5** — bus emulator Rev0.3 (160 × 80 instead of 160 × 110, six M3
+- **Rev0.5** — bus emulator Rev0.3 (160 × 86 instead of 160 × 110, six M3
   holes, other positions); rear plate 251 long with a third DIN socket MIDI
   THRU, window in the rear wall 227 long; USB as panel-mount cable Adafruit
   3258 (two M3, cut-out) instead of the dia 24 placeholder. Carpenter drawing

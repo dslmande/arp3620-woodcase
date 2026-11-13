@@ -71,7 +71,7 @@ W = X_WALL_R + T_WALL                                 # 911
 Y_IN = T_WALL                                         # 12, inner face front wall
 Y_KB0 = Y_IN + GAP_KB_FRONT                           # 15, front of the keys
 Y_KB1 = Y_KB0 + KB_D                                  # 176.5
-BAY_D = 121.5            # electronics bay behind the keybed (emulator 80 deep, 40 free behind it)
+BAY_D = 121.5            # electronics bay behind the keybed (emulator 86 deep, 34 free behind it)
 Y_REAR_IN = Y_KB1 + BAY_D                             # 298
 D = Y_REAR_IN + T_WALL                                # 310
 Y_PANEL0 = Y_IN + GAP_PANEL                           # 14
@@ -125,13 +125,14 @@ Z_BOTTOM_OFF = Z_FLANGE - Z_T                         # 18, bottom flange centre
 
 # ---------------------------------------------------------------- electronics (envelopes)
 STANDOFF = 6.0           # board standoffs on the base
-# Bus emulator Rev0.3 (160 x 80): KiCad x = 0 at the left cheek, KiCad y = 0 at the rear wall.
-# Holes here in case direction (y from the keybed side): y = 80 - y_kicad. The Pico's USB goes
-# to the rear plate through a panel-mount extension (Adafruit 3258); its plug needs 15 behind the board.
-EMU_W, EMU_D = 160.0, 80.0
+# Bus emulator Rev0.3 (160 x 86): KiCad x = 0 at the left cheek, KiCad y = 0 at the rear wall.
+# Holes here in case direction (y from the keybed side): y = 86 - y_kicad. The Pico's USB goes
+# to the rear plate through a panel-mount extension (Adafruit 3258); its plug lies over the board,
+# the socket 15 in front of the rear edge, and the cable bends down behind the edge.
+EMU_W, EMU_D = 160.0, 86.0
 EMU_X0, EMU_Y0 = 206.0, 178.0
 EMU_PARTS = 22.0         # tallest parts (Pico on long pin headers 15-20, TO-220 upright, plugs)
-EMU_HOLES = [(5, 75), (155, 75), (5, 5), (155, 5), (118.11, 75), (93.345, 5)]
+EMU_HOLES = [(5, 81), (155, 81), (5, 5), (155, 5), (118.11, 81), (93.345, 5)]
 NT_W, NT_D = 126.0, 80.0
 NT_X0, NT_Y0 = 376.0, 195.0
 NT_PARTS = 36.0          # heat sinks SK104 35 mm
@@ -148,7 +149,7 @@ PLATE_SCREWS = [(6.0, 6.0), (245.0, 6.0), (6.0, 34.0), (245.0, 34.0)]
 PLATE_SCREW_D, PLATE_SCREW_CSK = 3.5, 7.0
 # u along the plate seen from the rear, v from the lower edge.
 # The USB panel-mount socket sits at the left end, behind the power supply board;
-# behind the emulator 40 mm depth are free.
+# behind the emulator 34 mm depth are free.
 # Hole sizes are placeholders until the parts are chosen (see README).
 PLATE_ITEMS = [
     # u,    v,   label top,     label bottom, holes [(du, dv, d)]

@@ -15,14 +15,14 @@ Körper: 399 (davon 366 aus KiCad, 85 Hüllen ohne 3D-Modell)
    Board 3620 + Bauteile -> Wände, Wange, Füllstück    7.00    1.0  ok   Board 3620-007 Rev0.5: Leiterplatte / Holz: 2 Vorderwand
    Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden    24.40    2.0  ok   Frontplatte Teile: GX16 Interface / Holz: 1 Boden
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
-   Emulator -> Abdeckleiste/Blende                    19.59    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
+   Emulator -> Abdeckleiste/Blende                    17.04    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
    Netzteil -> Abdeckleiste/Blende                    17.58    2.0  ok   Netzteil Rev0.1: HS1 body / Holz: 12 Blende unter der Abdeckleiste
-   Emulator -> Rückwand                               22.96    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
+   Emulator -> Rückwand                               18.91    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
    Netzteil -> Rückwand                               23.00    1.0  ok   Netzteil Rev0.1: Leiterplatte / Holz: 3 Rückwand
    Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.1: Leiterplatte
-   Emulator/Netzteil -> Rückplatten-Teile             15.60    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    15.60    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Emulator -> Keybed                                  4.06    1.0  ok   Bus-Emulator Rev0.3: J7 plug / Keybed: Keybed Rahmen
+   Emulator/Netzteil -> Rückplatten-Teile             11.56    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    11.56    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Emulator -> Keybed                                  4.34    1.0  ok   Bus-Emulator Rev0.3: J1 plug / Keybed: Keybed Rahmen
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links
@@ -54,7 +54,7 @@ Körper: 399 (davon 366 aus KiCad, 85 Hüllen ohne 3D-Modell)
    Bus-Emulator Rev0.3                TE 640456 header: base 0.100, polarizing wall 0.305 (ENG_CD_640456_W3)
    Bus-Emulator Rev0.3                MTA-100 IDC plug 0.520 high on the header base (TE catalog 82056 p. 14)
    Bus-Emulator Rev0.3                Pico 2 on long pin headers 15-20 (emulator session, 12.11.2026), board 1.0, USB socket 3.3
-   Bus-Emulator Rev0.3                Micro-B plug of the panel-mount cable Adafruit 3258: 12 wide, 15 behind the board edge (emulator session, 13.11.2026) plus 5 for the cable bend; height for headers 15-20
+   Bus-Emulator Rev0.3                Micro-B plug of the panel-mount cable Adafruit 3258 over the board: socket 15 in front of the rear edge, plug and strain relief 10-12 above the board (emulator session, 13.11.2026), cable bend 15 behind the edge; height also covers the Pico on headers 15-20
    Frontplatte Teile                  envelope as in model.py (GX16 dia 22 x 32, ACJS dia 16 x 30)
    Frontplatte Teile                  E-Switch 300DP6 terminals to 23 below the panel top (datasheet)
    Frontplatte Teile                  E-Switch 300DP6 housing 12.70 x 11.43, 16.4 below the panel top (datasheet)

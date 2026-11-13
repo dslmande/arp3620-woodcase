@@ -12,14 +12,14 @@ panel -> filler                        2.00     2.00
 board parts -> base                   17.80     3.00
 panel jacks -> base                   24.40     3.00
 emulator parts -> strip               42.40    10.00
-emulator parts -> apron               38.66     2.00
+emulator parts -> apron               33.50     2.00
 psu parts -> strip                    28.40    10.00
 psu -> apron                          17.56     2.00
 emulator -> left cheek                 8.00     3.00
 emulator -> psu                       16.00     3.00
 emulator -> keybed                    12.49     1.00
 rear plate parts -> rear wall          3.00     0.50
-rear plate parts -> emulator          36.00     2.00
+rear plate parts -> emulator          30.00     2.00
 rear plate parts -> apron             13.00     2.00
 
 joints: parts in contact (distance 0)

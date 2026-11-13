@@ -35,7 +35,7 @@
   },
   {
    "check": "Emulator -> Abdeckleiste/Blende",
-   "d": 19.59,
+   "d": 17.04,
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -51,7 +51,7 @@
   },
   {
    "check": "Emulator -> Rückwand",
-   "d": 22.96,
+   "d": 18.91,
    "need": 1.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -75,7 +75,7 @@
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 15.6,
+   "d": 11.56,
    "need": 1.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -83,7 +83,7 @@
   },
   {
    "check": "Pico-USB-Stecker -> Rückwand, Rückplatten-Teile",
-   "d": 15.6,
+   "d": 11.56,
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -91,10 +91,10 @@
   },
   {
    "check": "Emulator -> Keybed",
-   "d": 4.06,
+   "d": 4.34,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.3: J7 plug",
+   "a": "Bus-Emulator Rev0.3: J1 plug",
    "b": "Keybed: Keybed Rahmen"
   },
   {

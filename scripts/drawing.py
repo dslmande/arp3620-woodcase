@@ -350,7 +350,7 @@ def sheet_overview(pdf, no):
          'Birch plywood 12 / 9 mm, covered in black tolex, no lid',
          'CNC-cut, plugged together: finger joints, tabs and slots, glued',
          'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls',
-         'Electronics bay under the removable strip: bus emulator 200 x 80, power supply 126 x 80',
+         'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 126 x 80',
          'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU']
     s.text(342, 140, 'Key data', 3.2, weight='bold')
     yy = 134
@@ -629,7 +629,7 @@ def sheet_plate(pdf, no, G):
          'Seen from the rear, the plate starts %s from the left end of the case;' % fmt(W - PLATE_X_RIGHT),
          'its lower edge is %s above the underside of the base.' % fmt(PLATE_Z0),
          'The window in the rear wall takes the bodies of the parts.',
-         'Behind the emulator 40 mm depth is free; the USB panel-mount',
+         'Behind the emulator 34 mm depth is free; the USB panel-mount',
          'cable (Adafruit 3258) sits at the left end, behind the power supply.',
          'Hole sizes are placeholders until the parts are chosen.']
     for i, l in enumerate(n):

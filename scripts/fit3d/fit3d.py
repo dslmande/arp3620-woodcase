@@ -122,9 +122,10 @@ ENVELOPES = {
     'RaspberryPi_Pico_Common_THT': [
         ('plug Pico', 'front', 'fp', None, 0, 20.0 + 1.0 + 3.3,
          'Pico 2 on long pin headers 15-20 (emulator session, 12.11.2026), board 1.0, USB socket 3.3'),
-        ('plug USB', 'front', 'out_y', (12.0, 20.0), 15.0 + 1.0 - 2.5, 20.0 + 1.0 + 3.3 + 2.0,
-         'Micro-B plug of the panel-mount cable Adafruit 3258: 12 wide, 15 behind the board edge (emulator session, '
-         '13.11.2026) plus 5 for the cable bend; height for headers 15-20')],
+        ('plug USB', 'front', 'out_y', (13.0, 32.0), 8.0, 20.0 + 1.0 + 3.3 + 2.0,
+         'Micro-B plug of the panel-mount cable Adafruit 3258 over the board: socket 15 in front of the rear edge, '
+         'plug and strain relief 10-12 above the board (emulator session, 13.11.2026), cable bend 15 behind the edge; '
+         'height also covers the Pico on headers 15-20')],
     'TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical': [
         ('body', 'front', 'fp', None, 0, 4.0, 'TE Micro-MaTch 215079 female on board: insulator height 4.00 '
                                               '(Digi-Key 8-215079-0)'),

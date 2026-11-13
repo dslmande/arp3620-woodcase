@@ -31,8 +31,8 @@ DATA = {
         'Birke-Multiplex 12 / 9 mm, schwarz mit Tolex bezogen, ohne Deckel',
     'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls':
         'Keybed Fatar TP/9S 49 auf zwei Alu-Z-Profilen 20 x 20 x 2, Frontplatte 170 x 230 bündig mit den Wänden',
-    'Electronics bay under the removable strip: bus emulator 200 x 80, power supply 126 x 80':
-        'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 200 x 80, Netzteil 126 x 80',
+    'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 126 x 80':
+        'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 86, Netzteil 126 x 80',
     'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU':
         'Rückplatte (Aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU',
     'front left, strip in place': 'vorn links, Leiste aufgesetzt',
@@ -163,8 +163,8 @@ DATA = {
         'mit 4 Senkschrauben 3.5 x 16 (Vorbohrungen in der Rückwand).',
     'The window in the rear wall takes the bodies of the parts.':
         'Das Fenster in der Rückwand nimmt die Bauteilkörper auf.',
-    'Behind the emulator 40 mm depth is free; the USB panel-mount':
-        'Hinter dem Emulator sind 40 mm Tiefe frei; das USB-Einbau-',
+    'Behind the emulator 34 mm depth is free; the USB panel-mount':
+        'Hinter dem Emulator sind 34 mm Tiefe frei; das USB-Einbau-',
     'cable (Adafruit 3258) sits at the left end, behind the power supply.':
         'kabel (Adafruit 3258) sitzt am linken Ende hinter dem Netzteil.',
     'Hole sizes are placeholders until the parts are chosen.':
