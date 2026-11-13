@@ -91,10 +91,10 @@
   },
   {
    "check": "Emulator -> Keybed",
-   "d": 4.34,
+   "d": 4.05,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.3: J1 plug",
+   "a": "Bus-Emulator Rev0.3: J9 plug",
    "b": "Keybed: Keybed Rahmen"
   },
   {
@@ -147,10 +147,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 5856,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1910,
-  "Platinen untereinander": 38678,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4381,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 5872,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1915,
+  "Platinen untereinander": 38932,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4393,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  }
 }
