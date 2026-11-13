@@ -136,7 +136,12 @@ EMU_HOLES = [(5, 81), (155, 81), (5, 5), (155, 5), (118.11, 81), (93.345, 5)]
 NT_W, NT_D = 126.0, 80.0
 NT_X0, NT_Y0 = 376.0, 195.0
 NT_PARTS = 36.0          # heat sinks SK104 35 mm
-NT_HOLES = [(3.81, 3.81), (121.92, 3.81), (3.81, 76.2), (121.92, 76.2)]
+# Power supply Rev0.1 turned 180 deg about the centre of its place (Patrick 2026-11-13): connectors
+# J2-J4 at the left edge towards the emulator, J1 (DC in) front right. Holes from KiCad (x right,
+# y down from the top edge), turned into case direction (x from the left, y from the keybed side).
+NT_ROT = 180
+NT_HOLES_KICAD = [(3.81, 3.81), (121.92, 3.81), (3.81, 76.2), (121.92, 76.2)]
+NT_HOLES = [(NT_W - x, y) if NT_ROT == 180 else (x, NT_D - y) for x, y in NT_HOLES_KICAD]
 PCB_T = 1.6
 
 # ---------------------------------------------------------------- rear plate (aluminium 2 mm, outside)

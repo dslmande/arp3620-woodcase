@@ -49,7 +49,9 @@ PLACE = {
     # controls fitted from the back reach up to the panel. Board = panel - 5 mm all round.
     'board': Placement(V(PX0 + 5 + 160, PY0 + 5, Z_BOARD_B), Rotation(V(0, 1, 0), 180)),
     'emu': Placement(V(EMU_X0, EMU_Y0, Z_BASE + STANDOFF), Rotation()),
-    'psu': Placement(V(NT_X0, NT_Y0, Z_BASE + STANDOFF), Rotation()),
+    # power supply turned NT_ROT about the centre of its place (180: lower left KiCad corner at the rear right)
+    'psu': (Placement(V(NT_X0 + NT_W, NT_Y0 + NT_D, Z_BASE + STANDOFF), Rotation(V(0, 0, 1), 180)) if NT_ROT == 180
+            else Placement(V(NT_X0, NT_Y0, Z_BASE + STANDOFF), Rotation())),
 }
 NAMES = {'panel': 'Frontplatte (Leiterplatte) Rev0.3', 'board': 'Board 3620-007 Rev0.5',
          'emu': 'Bus-Emulator Rev0.3', 'psu': 'Netzteil Rev0.1'}
@@ -460,6 +462,10 @@ def main():
         ('Pico-USB-Stecker -> Rückwand, Rückplatten-Teile', [b for b in emu if 'plug USB' in b[1]],
          rear + G('Rückplatte'), 2.0),
         ('Emulator -> Keybed', emu, keyb, 1.0),
+        ('Netzteil -> Keybed', psu, keyb, 1.0),
+        ('Netzteil -> Rückplatten-Teile', psu, G('Rückplatte'), 1.0),
+        ('Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte',
+         [b for b in psu if b[1].startswith('HS')], emu + keyb + strip + rear + G('Rückplatte'), 5.0),
         ('Keybed in Ruhe -> Abdeckleiste', [b for b in keyb if not pressed(b)], strip, 2.0),
         ('Tasten gedrückt -> Vorderwand / Z-Profil', [b for b in keyb if pressed(b)],
          [b for b in G('Holz') if b[1].startswith('2 ')] + G('Z-Profil'), 1.0),

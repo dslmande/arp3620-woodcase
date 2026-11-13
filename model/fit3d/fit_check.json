@@ -43,10 +43,10 @@
   },
   {
    "check": "Netzteil -> Abdeckleiste/Blende",
-   "d": 17.58,
+   "d": 17.57,
    "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS1 body",
+   "a": "Netzteil Rev0.1: HS2 body",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -96,6 +96,30 @@
    "ok": true,
    "a": "Bus-Emulator Rev0.3: J1 plug",
    "b": "Keybed: Keybed Rahmen"
+  },
+  {
+   "check": "Netzteil -> Keybed",
+   "d": 21.23,
+   "need": 1.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: HS1 body",
+   "b": "Keybed: Keybed Rahmen"
+  },
+  {
+   "check": "Netzteil -> Rückplatten-Teile",
+   "d": 18.72,
+   "need": 1.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: HS2 body",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
+  },
+  {
+   "check": "Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte",
+   "d": 17.57,
+   "need": 5.0,
+   "ok": true,
+   "a": "Netzteil Rev0.1: HS2 body",
+   "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
    "check": "Keybed in Ruhe -> Abdeckleiste",

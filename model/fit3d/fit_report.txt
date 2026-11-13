@@ -16,13 +16,16 @@ Körper: 399 (davon 366 aus KiCad, 85 Hüllen ohne 3D-Modell)
    Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden    24.40    2.0  ok   Frontplatte Teile: GX16 Interface / Holz: 1 Boden
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
    Emulator -> Abdeckleiste/Blende                    17.04    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
-   Netzteil -> Abdeckleiste/Blende                    17.58    2.0  ok   Netzteil Rev0.1: HS1 body / Holz: 12 Blende unter der Abdeckleiste
+   Netzteil -> Abdeckleiste/Blende                    17.57    2.0  ok   Netzteil Rev0.1: HS2 body / Holz: 12 Blende unter der Abdeckleiste
    Emulator -> Rückwand                               18.91    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
    Netzteil -> Rückwand                               23.00    1.0  ok   Netzteil Rev0.1: Leiterplatte / Holz: 3 Rückwand
    Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.1: Leiterplatte
    Emulator/Netzteil -> Rückplatten-Teile             11.56    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
    Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    11.56    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
    Emulator -> Keybed                                  4.34    1.0  ok   Bus-Emulator Rev0.3: J1 plug / Keybed: Keybed Rahmen
+   Netzteil -> Keybed                                 21.23    1.0  ok   Netzteil Rev0.1: HS1 body / Keybed: Keybed Rahmen
+   Netzteil -> Rückplatten-Teile                      18.72    1.0  ok   Netzteil Rev0.1: HS2 body / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte   17.57    5.0  ok   Netzteil Rev0.1: HS2 body / Holz: 12 Blende unter der Abdeckleiste
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links
