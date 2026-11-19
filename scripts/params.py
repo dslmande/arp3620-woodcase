@@ -135,7 +135,7 @@ EMU_PARTS = 22.0         # tallest parts (Pico on long pin headers 15-20, TO-220
 EMU_HOLES = [(5, 81), (155, 81), (5, 5), (155, 5), (118.11, 81), (96.52, 5)]
 # Power supply Rev0.2 (113 x 78, R5), turned 180 deg (Patrick 2026-11-13): the angled KK row J2-J4
 # (KiCad bottom edge) faces the rear wall with 26 for pins, plugs and cables behind the edge, J1
-# (DC in, wire entry outwards) at the right. 12 further forward than Rev0.1 for that space.
+# (DC in, wire entry outwards) at the right. 13 further forward than Rev0.1 for that space (Patrick 2026-11-19).
 # Holes from KiCad (x right, y down from the top edge), turned into case direction
 # (x from the left, y from the keybed side).
 NT_W, NT_D = 113.0, 78.0
