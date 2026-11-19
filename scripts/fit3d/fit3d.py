@@ -54,7 +54,7 @@ PLACE = {
             else Placement(V(NT_X0, NT_Y0, Z_BASE + STANDOFF), Rotation())),
 }
 NAMES = {'panel': 'Frontplatte (Leiterplatte) Rev0.3', 'board': 'Board 3620-007 Rev0.5',
-         'emu': 'Bus-Emulator Rev0.3', 'psu': 'Netzteil Rev0.1'}
+         'emu': 'Bus-Emulator Rev0.3', 'psu': 'Netzteil Rev0.2'}
 
 
 def local_origin(k):
@@ -139,7 +139,15 @@ ENVELOPES = {
                                                                'Fischer SK104 35 mm, upright')],
 }
 # KiCad models that the export could not find (file missing in the library): envelope instead
-MISSING_MODELS = {'emu': {'J1', 'J2', 'J7'}, 'psu': {'HS1', 'HS2'}}
+MISSING_MODELS = {'emu': {'J1', 'J2', 'J7'}, 'psu': set()}
+# power supply Rev0.2 (power supply session, 13.11.2026)
+for _n in (2, 3, 4, 5, 6):
+    ENVELOPES['Molex_KK-254_7395_1x%02d_P2.54mm_Horizontal_HL' % _n] = [
+        ('plug KK angled', 'front', 'out_-y', (0, 28.0), 0, 10.0,
+         'angled KK header: pins about 6 over the edge, crimp housing, about 20 for the cables (power supply session)')]
+ENVELOPES['TEKO_444.15_Schirmhaube'] = [('body', 'front', 'fp', None, 0, 12.5, 'TEKO 444.15 shield can 12.5')]
+ENVELOPES['TO-220-3_liegend_FK237_HL'] = [('measured clip FK237', 'front', 'fp', None, 0, 12.7,
+                                          'TO-220 lying with clip heat sink FK237 12.7')]
 ENVELOPES['TE_MTA-100_640456-7_1x07_P2.54mm_Vertical'] = ENVELOPES['TE_MTA-100_640456-5_1x05_P2.54mm_Vertical']
 ENVELOPES['TE_Micro-MaTch_1-215079-6_2x08_P1.27mm_Vertical'] = ENVELOPES['TE_Micro-MaTch_2-215079-0_2x10_P1.27mm_Vertical']
 # Measured by Patrick on board 3620 (11.11.2026): tallest parts 18 mm on the part side, the WIMA
@@ -161,6 +169,9 @@ def envelope_shapes(k):
     t = K[k]['thickness']
     for p in K[k]['parts']:
         env = ENVELOPES.get(p['fp'])
+        if not env and k == 'psu' and not p['models'] and not p['fp'].startswith(('MountingHole', 'MH_')):
+            env = [('body', 'front', 'fp', None, 0, NT_PARTS, 'no 3D model: power supply parts height NT_PARTS '
+                    '(power supply session, 13.11.2026)')]
         if not env:
             continue
         modelled = p['models'] and p['ref'] not in MISSING_MODELS.get(k, ())
@@ -176,6 +187,9 @@ def envelope_shapes(k):
             elif kind == 'out_y':
                 w, d = size                          # leaves the board towards local +y (rear), from the courtyard edge
                 s = Part.makeBox(w, d, zb - za, V(cx - w / 2, y1 - 2.0, za))
+            elif kind == 'out_-y':
+                w, d = size                          # leaves the board towards local -y (KiCad bottom edge), courtyard wide
+                s = Part.makeBox(x1 - x0, d, zb - za, V(x0, y0 + 2.0 - d, za))
             elif kind in ('box', 'slot'):
                 w, d = size
                 if kind == 'slot' and (x1 - x0) > (y1 - y0):
@@ -464,8 +478,8 @@ def main():
         ('Emulator -> Keybed', emu, keyb, 1.0),
         ('Netzteil -> Keybed', psu, keyb, 1.0),
         ('Netzteil -> Rückplatten-Teile', psu, G('Rückplatte'), 1.0),
-        ('Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte',
-         [b for b in psu if b[1].startswith('HS')], emu + keyb + strip + rear + G('Rückplatte'), 5.0),
+        ('Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile', [b for b in psu if 'plug KK' in b[1]],
+         rear + G('Rückplatte'), 2.0),
         ('Keybed in Ruhe -> Abdeckleiste', [b for b in keyb if not pressed(b)], strip, 2.0),
         ('Tasten gedrückt -> Vorderwand / Z-Profil', [b for b in keyb if pressed(b)],
          [b for b in G('Holz') if b[1].startswith('2 ')] + G('Z-Profil'), 1.0),

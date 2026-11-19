@@ -37,8 +37,8 @@ before cutting.
   the keybed) sits just above the wall top. This leaves 56 mm under the control
   panel for the 3620 board.
 - **Electronics bay behind the keybed**, under the removable strip: bus emulator
-  Rev0.3 (160 × 86) and power supply board (126 × 80, turned 180° so its
-  connectors J2–J4 face the emulator, DC terminal J1 front right). The Pico's USB goes to
+  Rev0.3 (160 × 86) and power supply board Rev0.2 (113 × 78, turned 180° so
+  the angled connectors J2–J4 face the rear wall, DC terminal J1 at the right). The Pico's USB goes to
   the rear plate through a panel-mount cable (Adafruit 3258); its plug lies
   over the board, the cable bends down behind it (34 mm free to the rear wall). Cables to the panel section run
   through a notch in the left cheek.
@@ -139,9 +139,8 @@ apron and rear plate parts.
   and plugs under the 3620 board are estimates. Check them with the built board.
 - **Rear plate.** The hole sizes are placeholders until the sockets and
   switches are chosen.
-- **Bus emulator Rev0.3** is not on the main branch of the board project yet
-  (Patrick reviews it). Its standoff holes in the base follow it; check again
-  if it changes.
+- **Power supply Rev0.2** is still being routed. Its standoff holes in the base
+  follow the current layout; check again if the board changes.
 - **USB cut-out** in the rear plate (10 × 6 between the two M3 screws of the
   Adafruit 3258 socket, 17.3 apart) is a placeholder: check it on the part.
 - **Hardware.** Optional handle and case corners.
@@ -152,7 +151,8 @@ apron and rear plate parts.
   holes, other positions); rear plate 251 long with a third DIN socket MIDI
   THRU, window in the rear wall 227 long; USB as panel-mount cable Adafruit
   3258 (two M3, cut-out) instead of the dia 24 placeholder; power supply
-  turned 180° in its place (base holes turned with it). Carpenter drawing
+  Rev0.2 (113 × 78 instead of 126 × 80, 15 high instead of 36), turned 180°
+  with its connectors to the rear wall, 12 further forward. Carpenter drawing
   Rev0.5-T1.
 - **Rev0.4** — no lid: lid top, lid walls and draw latches dropped (Patrick,
   11.11.2026); 6 mm plywood no longer needed. Case height 90 at the strip.

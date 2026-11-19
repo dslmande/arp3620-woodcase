@@ -1,6 +1,6 @@
 {
  "title": "ARP 3620 Passprobe",
- "date": "13.11.2026",
+ "date": "19.11.2026",
  "rev": "Rev0.5-T1",
  "boards": {
   "panel": {
@@ -70,7 +70,7 @@
    ]
   },
   "psu": {
-   "name": "Netzteil Rev0.1",
+   "name": "Netzteil Rev0.2",
    "file": "psu.glb",
    "matrix": [
     -1000.0,
@@ -85,9 +85,9 @@
     0.0,
     -1000.0,
     0.0,
-    502.0,
+    489.0,
     15.0,
-    -275.0,
+    -260.0,
     1.0
    ]
   }
@@ -539,6 +539,11 @@
    "hit": false
   },
   {
+   "name": "J11 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "U6 plug Pico",
    "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
@@ -549,52 +554,7 @@
    "hit": false
   },
   {
-   "name": "J10 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "J4 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J9 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J8 body",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J8 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J3 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J1 body",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J1 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J5 plug",
-   "group": "Bus-Emulator Rev0.3 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J11 plug",
    "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
@@ -609,6 +569,36 @@
    "hit": false
   },
   {
+   "name": "J9 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J10 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J3 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J8 body",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J8 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J5 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "J7 body",
    "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
@@ -619,38 +609,93 @@
    "hit": false
   },
   {
-   "name": "U1 body",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "J1 body",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
-   "name": "J4 plug",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "J1 plug",
+   "group": "Bus-Emulator Rev0.3 (Hüllen)",
    "hit": false
   },
   {
-   "name": "HS2 body",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "TP5 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
   {
-   "name": "J3 plug",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "TP3 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
   {
-   "name": "HS1 body",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "U3 measured clip FK237",
+   "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
   {
-   "name": "J2 plug",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "name": "TP2 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP1 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "SH1 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J3 plug KK angled",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J4 plug KK angled",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP7 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP6 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "L3 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U4 measured clip FK237",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP4 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
   {
    "name": "U2 body",
-   "group": "Netzteil Rev0.1 (Hüllen)",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J2 plug KK angled",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U1 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   }
  ],
@@ -698,10 +743,10 @@
   },
   {
    "check": "Netzteil -> Abdeckleiste/Blende",
-   "d": 17.57,
+   "d": 30.67,
    "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -714,10 +759,10 @@
   },
   {
    "check": "Netzteil -> Rückwand",
-   "d": 23.0,
+   "d": 13.07,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: Leiterplatte",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Holz: 3 Rückwand"
   },
   {
@@ -726,14 +771,14 @@
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: Leiterplatte",
-   "b": "Netzteil Rev0.1: Leiterplatte"
+   "b": "Netzteil Rev0.2: Leiterplatte"
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 11.56,
+   "d": 6.37,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.3: U6 plug USB",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
@@ -754,27 +799,27 @@
   },
   {
    "check": "Netzteil -> Keybed",
-   "d": 21.23,
+   "d": 8.57,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS1 body",
+   "a": "Netzteil Rev0.2: SH1 body",
    "b": "Keybed: Keybed Rahmen"
   },
   {
    "check": "Netzteil -> Rückplatten-Teile",
-   "d": 18.72,
+   "d": 6.37,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
-   "check": "Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte",
-   "d": 17.57,
-   "need": 5.0,
+   "check": "Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile",
+   "d": 6.37,
+   "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
-   "b": "Holz: 12 Blende unter der Abdeckleiste"
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
    "check": "Keybed in Ruhe -> Abdeckleiste",
@@ -802,10 +847,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 5872,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1915,
-  "Platinen untereinander": 38932,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4393,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6080,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1980,
+  "Platinen untereinander": 42724,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4549,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  },
  "hits": {},

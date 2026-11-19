@@ -31,8 +31,8 @@ DATA = {
         'Birke-Multiplex 12 / 9 mm, schwarz mit Tolex bezogen, ohne Deckel',
     'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls':
         'Keybed Fatar TP/9S 49 auf zwei Alu-Z-Profilen 20 x 20 x 2, Frontplatte 170 x 230 bündig mit den Wänden',
-    'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 126 x 80':
-        'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 86, Netzteil 126 x 80',
+    'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 113 x 78':
+        'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 86, Netzteil 113 x 78',
     'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU':
         'Rückplatte (Aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU',
     'front left, strip in place': 'vorn links, Leiste aufgesetzt',

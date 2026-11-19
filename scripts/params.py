@@ -133,14 +133,16 @@ EMU_W, EMU_D = 160.0, 86.0
 EMU_X0, EMU_Y0 = 206.0, 178.0
 EMU_PARTS = 22.0         # tallest parts (Pico on long pin headers 15-20, TO-220 upright, plugs)
 EMU_HOLES = [(5, 81), (155, 81), (5, 5), (155, 5), (118.11, 81), (96.52, 5)]
-NT_W, NT_D = 126.0, 80.0
-NT_X0, NT_Y0 = 376.0, 195.0
-NT_PARTS = 36.0          # heat sinks SK104 35 mm
-# Power supply Rev0.1 turned 180 deg about the centre of its place (Patrick 2026-11-13): connectors
-# J2-J4 at the left edge towards the emulator, J1 (DC in) front right. Holes from KiCad (x right,
-# y down from the top edge), turned into case direction (x from the left, y from the keybed side).
+# Power supply Rev0.2 (113 x 78, R5), turned 180 deg (Patrick 2026-11-13): the angled KK row J2-J4
+# (KiCad bottom edge) faces the rear wall with 26 for pins, plugs and cables behind the edge, J1
+# (DC in, wire entry outwards) at the right. 12 further forward than Rev0.1 for that space.
+# Holes from KiCad (x right, y down from the top edge), turned into case direction
+# (x from the left, y from the keybed side).
+NT_W, NT_D = 113.0, 78.0
+NT_X0, NT_Y0 = 376.0, 182.0
+NT_PARTS = 15.0          # shield can 12.5, clip heat sinks FK237 12.7, upright diodes and choke 13-15
 NT_ROT = 180
-NT_HOLES_KICAD = [(3.81, 3.81), (121.92, 3.81), (3.81, 76.2), (121.92, 76.2)]
+NT_HOLES_KICAD = [(5.0, 5.0), (108.0, 5.0), (5.0, 73.0), (108.0, 73.0)]
 NT_HOLES = [(NT_W - x, y) if NT_ROT == 180 else (x, NT_D - y) for x, y in NT_HOLES_KICAD]
 PCB_T = 1.6
 

@@ -43,10 +43,10 @@
   },
   {
    "check": "Netzteil -> Abdeckleiste/Blende",
-   "d": 17.57,
+   "d": 30.67,
    "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -59,10 +59,10 @@
   },
   {
    "check": "Netzteil -> Rückwand",
-   "d": 23.0,
+   "d": 13.07,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: Leiterplatte",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Holz: 3 Rückwand"
   },
   {
@@ -71,14 +71,14 @@
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: Leiterplatte",
-   "b": "Netzteil Rev0.1: Leiterplatte"
+   "b": "Netzteil Rev0.2: Leiterplatte"
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 11.56,
+   "d": 6.37,
    "need": 1.0,
    "ok": true,
-   "a": "Bus-Emulator Rev0.3: U6 plug USB",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
@@ -99,27 +99,27 @@
   },
   {
    "check": "Netzteil -> Keybed",
-   "d": 21.23,
+   "d": 8.57,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS1 body",
+   "a": "Netzteil Rev0.2: SH1 body",
    "b": "Keybed: Keybed Rahmen"
   },
   {
    "check": "Netzteil -> Rückplatten-Teile",
-   "d": 18.72,
+   "d": 6.37,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
-   "check": "Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte",
-   "d": 17.57,
-   "need": 5.0,
+   "check": "Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile",
+   "d": 6.37,
+   "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.1: HS2 body",
-   "b": "Holz: 12 Blende unter der Abdeckleiste"
+   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
    "check": "Keybed in Ruhe -> Abdeckleiste",
@@ -147,10 +147,10 @@
   }
  ],
  "counts": {
-  "Platinen/Bauteile gegen Holz und Z-Profile": 5872,
-  "Keybed gegen Holz, Z-Profile, Platinen": 1915,
-  "Platinen untereinander": 38932,
-  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4393,
+  "Platinen/Bauteile gegen Holz und Z-Profile": 6080,
+  "Keybed gegen Holz, Z-Profile, Platinen": 1980,
+  "Platinen untereinander": 42724,
+  "Platinen gegen Bolzen, Rückplatte, Frontplattenteile": 4549,
   "Bolzen, Rückplatte, Frontplattenteile gegen Holz": 188
  }
 }

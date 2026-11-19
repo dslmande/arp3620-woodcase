@@ -1,12 +1,12 @@
 ARP 3620 - Passprobe in 3D (Gehäuse Rev0.5-T1, Ausführung Tischler)
-Platinen: Frontplatte (Leiterplatte) Rev0.3 (ARP3620_Front_Rev0.3.kicad_pcb), Board 3620-007 Rev0.5 (ARP3620_Rev0.5.kicad_pcb), Bus-Emulator Rev0.3 (Emulator3620_Rev0.3.kicad_pcb), Netzteil Rev0.1 (Netzteil3620_Rev0.1.kicad_pcb)
-Körper: 400 (davon 367 aus KiCad, 86 Hüllen ohne 3D-Modell)
+Platinen: Frontplatte (Leiterplatte) Rev0.3 (ARP3620_Front_Rev0.3.kicad_pcb), Board 3620-007 Rev0.5 (ARP3620_Rev0.5.kicad_pcb), Bus-Emulator Rev0.3 (Emulator3620_Rev0.3.kicad_pcb), Netzteil Rev0.2 (Netzteil3620_Rev0.2.kicad_pcb)
+Körper: 413 (davon 380 aus KiCad, 95 Hüllen ohne 3D-Modell)
 
 1. Kollisionen (Volumen > 0,05 mm³)
-   Platinen/Bauteile gegen Holz und Z-Profile                  5872 Paare geprüft
-   Keybed gegen Holz, Z-Profile, Platinen                      1915 Paare geprüft
-   Platinen untereinander                                     38932 Paare geprüft
-   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        4393 Paare geprüft
+   Platinen/Bauteile gegen Holz und Z-Profile                  6080 Paare geprüft
+   Keybed gegen Holz, Z-Profile, Platinen                      1980 Paare geprüft
+   Platinen untereinander                                     42724 Paare geprüft
+   Platinen gegen Bolzen, Rückplatte, Frontplattenteile        4549 Paare geprüft
    Bolzen, Rückplatte, Frontplattenteile gegen Holz             188 Paare geprüft
    keine
 
@@ -16,16 +16,16 @@ Körper: 400 (davon 367 aus KiCad, 86 Hüllen ohne 3D-Modell)
    Frontplatten-Teile (GX16, ACJS, Wippe) -> Boden    24.40    2.0  ok   Frontplatte Teile: GX16 Interface / Holz: 1 Boden
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
    Emulator -> Abdeckleiste/Blende                    17.04    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
-   Netzteil -> Abdeckleiste/Blende                    17.57    2.0  ok   Netzteil Rev0.1: HS2 body / Holz: 12 Blende unter der Abdeckleiste
+   Netzteil -> Abdeckleiste/Blende                    30.67    2.0  ok   Netzteil Rev0.2: J3 plug KK angled / Holz: 12 Blende unter der Abdeckleiste
    Emulator -> Rückwand                               18.91    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
-   Netzteil -> Rückwand                               23.00    1.0  ok   Netzteil Rev0.1: Leiterplatte / Holz: 3 Rückwand
-   Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.1: Leiterplatte
-   Emulator/Netzteil -> Rückplatten-Teile             11.56    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Netzteil -> Rückwand                               13.07    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Holz: 3 Rückwand
+   Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.2: Leiterplatte
+   Emulator/Netzteil -> Rückplatten-Teile              6.37    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
    Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    11.56    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
    Emulator -> Keybed                                  4.05    1.0  ok   Bus-Emulator Rev0.3: J9 plug / Keybed: Keybed Rahmen
-   Netzteil -> Keybed                                 21.23    1.0  ok   Netzteil Rev0.1: HS1 body / Keybed: Keybed Rahmen
-   Netzteil -> Rückplatten-Teile                      18.72    1.0  ok   Netzteil Rev0.1: HS2 body / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Netzteil-Kühlkörper -> Emulator, Keybed, Leiste, Rückwand, Rückplatte   17.57    5.0  ok   Netzteil Rev0.1: HS2 body / Holz: 12 Blende unter der Abdeckleiste
+   Netzteil -> Keybed                                  8.57    1.0  ok   Netzteil Rev0.2: SH1 body / Keybed: Keybed Rahmen
+   Netzteil -> Rückplatten-Teile                       6.37    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile    6.37    2.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links
@@ -62,9 +62,11 @@ Körper: 400 (davon 367 aus KiCad, 86 Hüllen ohne 3D-Modell)
    Frontplatte Teile                  E-Switch 300DP6 terminals to 23 below the panel top (datasheet)
    Frontplatte Teile                  E-Switch 300DP6 housing 12.70 x 11.43, 16.4 below the panel top (datasheet)
    Frontplatte Teile                  E-Switch 300DP6 bezel 19.85 x 15.80, rocker 13.8 above the panel (datasheet)
-   Netzteil Rev0.1                    Fischer SK104 35 mm, upright
-   Netzteil Rev0.1                    Molex KK header with crimp housing plugged in, measured on board 3620 by Patrick, 11.11.2026: 18 on the part side
-   Netzteil Rev0.1                    Mean Well SI06W8: 25.4 x 25.4 x 10.2 +-0.5 (MeanWell_SI06W8_DI06W8.pdf)
+   Netzteil Rev0.2                    angled KK header: pins about 6 over the edge, crimp housing, about 20 for the cables (power supply session)
+   Netzteil Rev0.2                    no 3D model: power supply parts height NT_PARTS (power supply session, 13.11.2026)
+   Netzteil Rev0.2                    TEKO 444.15 shield can 12.5
+   Netzteil Rev0.2                    Mean Well SI06W8: 25.4 x 25.4 x 10.2 +-0.5 (MeanWell_SI06W8_DI06W8.pdf)
+   Netzteil Rev0.2                    TO-220 lying with clip heat sink FK237 12.7
    Rückplatte                         envelope
 
 Einbaulage: Frontplatte bündig mit den Wänden (Oberkante 67), Board 3620 12 darunter an 8 Bolzen,

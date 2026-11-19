@@ -350,7 +350,7 @@ def sheet_overview(pdf, no):
          'Birch plywood 12 / 9 mm, covered in black tolex, no lid',
          'CNC-cut, plugged together: finger joints, tabs and slots, glued',
          'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls',
-         'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 126 x 80',
+         'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 113 x 78',
          'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU']
     s.text(342, 140, 'Key data', 3.2, weight='bold')
     yy = 134
