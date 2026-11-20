@@ -73,9 +73,9 @@ checks = [
     ('emulator -> left cheek', 'ref_emulator', 'cheek_l', 3.0),
     ('emulator -> psu', 'ref_emulator_parts', 'ref_psu_parts', 3.0),
     ('emulator -> keybed', 'ref_emulator', 'ref_keybed_frame', 1.0),
-    ('rear plate parts -> rear wall', 'ref_plate_parts', 'rear', 0.5),
     ('rear plate parts -> emulator', 'ref_plate_parts', 'ref_emulator_parts', 2.0),
     ('rear plate parts -> apron', 'ref_plate_parts', 'apron', 2.0),
+    ('rear plate parts -> psu', 'ref_plate_parts', 'ref_psu_parts', 2.0),
 ]
 report.append('')
 report.append('%-34s %8s %8s' % ('clearance', 'mm', 'min'))

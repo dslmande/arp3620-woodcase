@@ -57,7 +57,7 @@ DATA = {
     'power supply (envelope)': 'Netzteil (Hüllkörper)',
     'strip 9 (removable)': 'Leiste 9 (abnehmbar)',
     'apron': 'Schürze',
-    'rear plate + socket': 'Rückplatte + Buchse',
+    'rear plate (inside) + socket': 'Rückplatte (innen) + Buchse',
     'rear wall (window)': 'Rückwand (Fenster)',
     '3620 board (envelope)': '3620-Board (Hüllkörper)',
     'standoff M3 (panel corner)': 'Abstandsbolzen M3 (Ecke Frontplatte)',
@@ -102,10 +102,12 @@ DATA = {
     'emulator standoff M3': 'Bolzen Emulator M3',
     'power supply standoff M3': 'Bolzen Netzteil M3',
     'foot': 'Fuß',
-    'rear plate, screw 3.5 x 16': 'Rückplatte, Schraube 3.5 x 16',
+    'rear plate from inside, pan head wood screw 3.0 x 10': 'Rückplatte von innen, Linsenkopf-Holzschraube 3.0 x 10',
     'screw 3.5 x 20 into cleat': 'Schraube 3.5 x 20 in den Träger',
     'keybed screw': 'Keybed-Schraube',
-    'screw 3.5 x 16': 'Schraube 3.5 x 16',
+    'pan head wood screw 3.0 x 10 from inside': 'Linsenkopf-Holzschraube 3.0 x 10 von innen',
+    'tolex outside, over the top edge, 8 mm down the inside (rear plate below)':
+        'Tolex außen, über die Oberkante, 8 mm innen herunter (darunter die Rückplatte)',
     # base, walls, cheeks
     'seen from above (inside). Countersinks: dashed = on the underside. Coordinates x/y from the front left corner.':
         'von oben (innen) gesehen. Senkungen: gestrichelt = auf der Unterseite. Koordinaten x/y ab der Ecke vorne links.',
@@ -114,9 +116,9 @@ DATA = {
         'Von außen gesehen. Zinken an beiden Enden, Zapfen in den Boden, Schlitz für die linke Wange. '
         'Das rechte Ende nimmt Seitenwand und rechte Wange zusammen auf (24 tief).',
     'Seen from inside. Notches in the top edge for the filler tabs, slot for the left cheek, '
-    'window for the bodies of the rear plate parts.':
+    'window for the rear plate, which is screwed on from inside.':
         'Von innen gesehen. Kerben in der Oberkante für die Zapfen des Füllbretts, Schlitz für die linke Wange, '
-        'Fenster für die Bauteile der Rückplatte.',
+        'Fenster für die Rückplatte, die von innen angeschraubt wird.',
     'End walls seen from the right. Fingers at both ends (bottom, middle and top finger belong to the '
     'end wall), tabs into the base;':
         'Seitenwände von rechts gesehen. Zinken an beiden Enden (unterer, mittlerer und oberer Zinken gehören '
@@ -158,15 +160,15 @@ DATA = {
     'Aluminium 2 mm, black anodised, legend engraved or printed white.':
         'Aluminium 2 mm, schwarz eloxiert, Beschriftung weiß graviert oder gedruckt.',
     'Seen from outside (from the rear of the case).': 'Von außen gesehen (von hinten auf das Gehäuse).',
-    'Mounted on the outside of the rear wall, over the tolex,': 'Außen auf die Rückwand montiert, über dem Tolex,',
-    'with 4 countersunk screws 3.5 x 16 (pilot holes in the rear wall).':
-        'mit 4 Senkschrauben 3.5 x 16 (Vorbohrungen in der Rückwand).',
-    'The window in the rear wall takes the bodies of the parts.':
-        'Das Fenster in der Rückwand nimmt die Bauteilkörper auf.',
-    'Behind the emulator 34 mm depth is free; the USB panel-mount':
-        'Hinter dem Emulator sind 34 mm Tiefe frei; das USB-Einbau-',
-    'cable (Adafruit 3258) sits at the left end, behind the power supply.':
-        'kabel (Adafruit 3258) sitzt am linken Ende hinter dem Netzteil.',
+    'Mounted on the inner face of the rear wall, screwed from inside:':
+        'Innen an die Rückwand gesetzt, von innen geschraubt:',
+    'The window in the rear wall shows the plate and its legend.':
+        'Das Fenster in der Rückwand zeigt die Platte mit ihrer Beschriftung.',
+    'The USB panel-mount cable (Adafruit 3258) sits at the left end, behind the power supply.':
+        'Das USB-Einbaukabel (Adafruit 3258) sitzt am linken Ende hinter dem Netzteil.',
+    '8 x pan head wood screw 3.0 x 10': '8 x Linsenkopf-Holzschraube 3.0 x 10',
+    '8 pan head wood screws 3.0 x 10 through the plate into the wall (pilot holes 2).':
+        '8 Linsenkopf-Holzschrauben 3.0 x 10 durch die Platte ins Holz (Vorbohrung 2).',
     'Hole sizes are placeholders until the parts are chosen.':
         'Lochgrößen sind Platzhalter, bis die Bauteile gewählt sind.',
     # lists
@@ -184,7 +186,7 @@ DATA = {
         'Keybed -> Z-Profile, von oben durch die Keybed-Löcher (Tasten über den Löchern abnehmen)',
     '6 x countersunk wood screw 3.5 x 20, black': '6 x Senkkopf-Holzschraube 3.5 x 20, schwarz',
     'strip -> cleats (removable strip)': 'Leiste -> Träger (Leiste abnehmbar)',
-    '4 x countersunk screw 3.5 x 16, black': '4 x Senkschraube 3.5 x 16, schwarz',
+    'rear plate, from inside into the rear wall': 'Rückplatte, von innen in die Rückwand',
     'rear plate': 'Rückplatte',
 
     'length ~ 21 mm + thread in the keybed foot; type to be confirmed on the keybed (hole 4.5)':

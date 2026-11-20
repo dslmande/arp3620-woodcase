@@ -17,15 +17,15 @@ Körper: 413 (davon 380 aus KiCad, 95 Hüllen ohne 3D-Modell)
    Frontplatten-Teile -> Board 3620                    0.75    0.5  ok   Frontplatte Teile: S1 Wippe (Gehäuse) / Board 3620-007 Rev0.5: Leiterplatte
    Emulator -> Abdeckleiste/Blende                    17.04    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 12 Blende unter der Abdeckleiste
    Netzteil -> Abdeckleiste/Blende                    30.67    2.0  ok   Netzteil Rev0.2: J4 plug KK angled / Holz: 12 Blende unter der Abdeckleiste
-   Emulator -> Rückwand                               18.91    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
+   Emulator -> Rückwand                               18.75    1.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Holz: 3 Rückwand
    Netzteil -> Rückwand                               13.07    1.0  ok   Netzteil Rev0.2: J4 plug KK angled / Holz: 3 Rückwand
    Emulator -> Netzteil                               10.00    2.0  ok   Bus-Emulator Rev0.3: Leiterplatte / Netzteil Rev0.2: Leiterplatte
-   Emulator/Netzteil -> Rückplatten-Teile              6.37    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Pico-USB-Stecker -> Rückwand, Rückplatten-Teile    11.56    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Emulator/Netzteil -> Rückplatten-Teile              3.81    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Pico-USB-Stecker -> Rückwand, Rückplatten-Teile     8.22    2.0  ok   Bus-Emulator Rev0.3: U6 plug USB / Rückplatte: Teile an der Rückplatte (Hüllen)
    Emulator -> Keybed                                  4.05    1.0  ok   Bus-Emulator Rev0.3: J9 plug / Keybed: Keybed Rahmen
    Netzteil -> Keybed                                  8.55    1.0  ok   Netzteil Rev0.2: SH1 body / Keybed: Keybed Rahmen
-   Netzteil -> Rückplatten-Teile                       6.37    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
-   Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile    6.37    2.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Netzteil -> Rückplatten-Teile                       3.81    1.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
+   Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile    3.81    2.0  ok   Netzteil Rev0.2: J3 plug KK angled / Rückplatte: Teile an der Rückplatte (Hüllen)
    Keybed in Ruhe -> Abdeckleiste                      4.50    2.0  ok   Keybed: Keybed Rahmen / Holz: 11 Abdeckleiste
    Tasten gedrückt -> Vorderwand / Z-Profil            3.36    1.0  ok   Keybed: Tasten weiß gedrückt / Holz: 2 Vorderwand
    Keybed -> Wangen                                    3.00    2.0  ok   Keybed: Keybed Rahmen / Holz: 5 Wange links

@@ -51,7 +51,7 @@
   },
   {
    "check": "Emulator -> Rückwand",
-   "d": 18.91,
+   "d": 18.75,
    "need": 1.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -75,7 +75,7 @@
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 6.37,
+   "d": 3.81,
    "need": 1.0,
    "ok": true,
    "a": "Netzteil Rev0.2: J3 plug KK angled",
@@ -83,7 +83,7 @@
   },
   {
    "check": "Pico-USB-Stecker -> Rückwand, Rückplatten-Teile",
-   "d": 11.56,
+   "d": 8.22,
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -107,7 +107,7 @@
   },
   {
    "check": "Netzteil -> Rückplatten-Teile",
-   "d": 6.37,
+   "d": 3.81,
    "need": 1.0,
    "ok": true,
    "a": "Netzteil Rev0.2: J3 plug KK angled",
@@ -115,7 +115,7 @@
   },
   {
    "check": "Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile",
-   "d": 6.37,
+   "d": 3.81,
    "need": 2.0,
    "ok": true,
    "a": "Netzteil Rev0.2: J3 plug KK angled",

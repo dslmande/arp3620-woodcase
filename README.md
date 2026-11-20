@@ -42,7 +42,10 @@ before cutting.
   the rear plate through a panel-mount cable (Adafruit 3258); its plug lies
   over the board, the cable bends down behind it (34 mm free to the rear wall). Cables to the panel section run
   through a notch in the left cheek.
-- **Rear connector plate** (aluminium 2 mm) over a window in the rear wall: USB
+- **Rear connector plate** (aluminium 2 mm, 254 × 40) behind a window in the
+  rear wall: it sits on the inner face of the wall and is held from inside by
+  eight pan head wood screws 3.0 × 10; the window (239 × 28) shows the plate
+  and its legend, nothing is screwed on from outside. USB
   (panel-mount cable), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU. The connection to
   the ARP 2600 (6-pin GX16) sits on the control panel.
 - **No lid** (since Rev0.4): the case ends with the walls at 67 and the strip
@@ -146,11 +149,14 @@ apron and rear plate parts.
 ## Revisions
 
 - **Rev0.5** — bus emulator Rev0.3 (160 × 86 instead of 160 × 110, six M3
-  holes, other positions); rear plate 251 long with a third DIN socket MIDI
-  THRU, window in the rear wall 227 long; USB as panel-mount cable Adafruit
+  holes, other positions); rear plate 254 long with a third DIN socket MIDI
+  THRU, window in the rear wall 239 long; USB as panel-mount cable Adafruit
   3258 (two M3, cut-out) instead of the dia 24 placeholder; power supply
   Rev0.2 (113 × 78 instead of 126 × 80, 15 high instead of 36), turned 180°
-  with its connectors to the rear wall, 12 further forward. Carpenter drawing
+  with its connectors to the rear wall, 12 further forward; rear plate moved
+  inside the rear wall, screwed from inside with eight wood screws (window 239 × 28,
+  plate 254 × 40, legend inside the window, MIDI OUT/THRU moved left of the
+  Pico's USB plug). Carpenter drawing
   Rev0.5-T1.
 - **Rev0.4** — no lid: lid top, lid walls and draw latches dropped (Patrick,
   11.11.2026); 6 mm plywood no longer needed. Case height 90 at the strip.

@@ -132,7 +132,7 @@ def feet():
 def plate_parts():
     """Bodies of the rear plate parts behind the plate (envelopes)."""
     out = []
-    yi = D + TOLEX                                  # inner face of the plate
+    yi = Y_REAR_IN - T_PLATE                        # inner face of the plate (plate inside the rear wall)
     for u, v, top, bot, holes in PLATE_ITEMS:
         x = PLATE_X_RIGHT - u
         z = PLATE_Z0 + v

@@ -309,7 +309,7 @@ def hardware():
         ('%d x countersunk screw M4 x 12, %d x rivet nut M4 in the bottom flanges' % (n('base', 'Z profile'), n('base', 'Z profile')),
          'base -> Z profiles (from below)'),
         ('6 x countersunk wood screw 3.5 x 20, black', 'strip -> cleats (removable strip)'),
-        ('4 x countersunk screw 3.5 x 16, black', 'rear plate'),
+        ('%d x %s' % (len(PLATE_SCREWS), PLATE_SCREW), 'rear plate, from inside into the rear wall'),
         ('10 x pan head screw M4 x 10 with washer, 10 x rivet nut M4 in the top flanges',
          'keybed -> Z profiles, from above through the keybed holes (take the keys over the holes off)'),
         ('4 x M3 standoff, total length %s mm (e.g. 40 + 8 and a washer)' % fmt(Z_PANEL0 - Z_BASE),
@@ -480,7 +480,7 @@ def sheet_sections(pdf, no, case, refs):
     callout(s, ox + Y_KB1 + 45, oy + Z_BASE + 30, ox + Y_KB1 + 45, oy + Z_TOP + 5, 'power supply (envelope)')
     callout(s, ox + Y_STRIP0 + 100, oy + Z_STRIP - 4, ox + Y_STRIP0 + 100, oy + Z_STRIP + 4, 'strip 9 (removable)')
     callout(s, ox + Y_REAR_IN - 4, oy + Z_APRON0 + 5, ox + D + 22, oy + Z_STRIP + 2, 'apron')
-    callout(s, ox + D + TOLEX + 1, oy + PLATE_Z0 + 30, ox + D + 22, oy + PLATE_Z0 + 18, 'rear plate + socket')
+    callout(s, ox + Y_REAR_IN - 1, oy + PLATE_Z0 + 30, ox + D + 22, oy + PLATE_Z0 + 18, 'rear plate (inside) + socket')
     callout(s, ox + Y_REAR_IN + 6, oy + Z_BASE + 8, ox + D + 22, oy + Z_BASE + 4, 'rear wall (window)')
 
     # section B-B through the control panel
@@ -539,7 +539,7 @@ def sheet_walls(pdf, no, G):
     s.dim_v(T((0, v0))[1], T((0, v1))[1], xr + 16, fmt(v1 - v0), ext=T((u1, 0))[0])
     s.text(xr + 20, T((0, v1))[1] + 1, 'window, corners R %s' % fmt(WINDOW[3]), 2.0)
     s.text(30, 138, 'Seen from inside. Notches in the top edge for the filler tabs, slot for the left cheek, '
-                    'window for the bodies of the rear plate parts.', 2.0)
+                    'window for the rear plate, which is screwed on from inside.', 2.0)
     hole_table(s, p, 30, 132, fs=1.9, maxw=300)
     p, q, k = get('end_l'); part_block(s, p, q, k, 30, 62, sc)
     p, q, k = get('end_r'); part_block(s, p, q, k, 160, 62, sc)
@@ -624,13 +624,13 @@ def sheet_plate(pdf, no, G):
     hole_table(s, p, ox, 172, fs=2.0, maxw=220)
     n = ['Aluminium 2 mm, black anodised, legend engraved or printed white.',
          'Seen from outside (from the rear of the case).',
-         'Mounted on the outside of the rear wall, over the tolex,',
-         'with 4 countersunk screws 3.5 x 16 (pilot holes in the rear wall).',
+         'Mounted on the inner face of the rear wall, screwed from inside:',
+         '%d %s through the plate into the wall (pilot holes %s).' % (
+             len(PLATE_SCREWS), PLATE_SCREW.replace('screw', 'screws'), fmt(PLATE_SCREW_PILOT)),
          'Seen from the rear, the plate starts %s from the left end of the case;' % fmt(W - PLATE_X_RIGHT),
          'its lower edge is %s above the underside of the base.' % fmt(PLATE_Z0),
-         'The window in the rear wall takes the bodies of the parts.',
-         'Behind the emulator 34 mm depth is free; the USB panel-mount',
-         'cable (Adafruit 3258) sits at the left end, behind the power supply.',
+         'The window in the rear wall shows the plate and its legend.',
+         'The USB panel-mount cable (Adafruit 3258) sits at the left end, behind the power supply.',
          'Hole sizes are placeholders until the parts are chosen.']
     for i, l in enumerate(n):
         s.text(150, 168 - i * 4.4, l, 2.2, weight='bold' if i == len(n) - 1 else 'normal')

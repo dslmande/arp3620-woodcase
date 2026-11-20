@@ -146,17 +146,24 @@ NT_HOLES_KICAD = [(5.0, 5.0), (108.0, 5.0), (5.0, 73.0), (108.0, 73.0)]
 NT_HOLES = [(NT_W - x, y) if NT_ROT == 180 else (x, NT_D - y) for x, y in NT_HOLES_KICAD]
 PCB_T = 1.6
 
-# ---------------------------------------------------------------- rear plate (aluminium 2 mm, outside)
-PLATE_L, PLATE_H = 251.0, 40.0
+# ---------------------------------------------------------------- rear plate (aluminium 2 mm, inside)
+# Fastened from inside (Patrick 2026-11-20): the plate lies on the inner face of the rear wall and is held by
+# plain wood screws through the plate into the wall; the window shows the plate with its legend, the sockets
+# sit 13 behind the outer face. Plate top 56 stays under the apron (57); the tolex wraps only 8 mm down the
+# inside of the rear wall (behind the apron). Screws along the top and bottom edge hold the plate against the
+# push of the plugs.
+PLATE_L, PLATE_H = 254.0, 40.0
 PLATE_X_RIGHT = 460.0    # case x of the plate's left end seen from the rear
-PLATE_Z0 = Z_BASE + 5.0  # 14
+PLATE_Z0 = Z_BASE + 7.0  # 16
 PLATE_R = 3.0
-WINDOW = (12.0, 239.0, 26.0, 5.0)    # plate coords u0, u1, height (centred), corner radius
-PLATE_SCREWS = [(6.0, 6.0), (245.0, 6.0), (6.0, 34.0), (245.0, 34.0)]
-PLATE_SCREW_D, PLATE_SCREW_CSK = 3.5, 7.0
+WINDOW = (12.0, 251.0, 28.0, 5.0)    # plate coords u0, u1, height (centred), corner radius
+PLATE_SCREWS = [(u, v) for u in (6.0, 87.0, 167.0, 248.0) for v in (3.0, 37.0)]
+PLATE_SCREW = 'pan head wood screw 3.0 x 10'
+PLATE_SCREW_HOLE, PLATE_SCREW_PILOT = 3.5, 2.0
+PLATE_LABEL_DV = 10.0    # legend above / below the part centre, inside the window
 # u along the plate seen from the rear, v from the lower edge.
-# The USB panel-mount socket sits at the left end, behind the power supply board;
-# behind the emulator 34 mm depth are free.
+# The USB panel-mount socket sits at the left end, behind the power supply board. MIDI OUT and THRU sit
+# left of the gap behind the Pico's USB plug (case x 281..294), MIDI IN right of it.
 # Hole sizes are placeholders until the parts are chosen (see README).
 PLATE_ITEMS = [
     # u,    v,   label top,     label bottom, holes [(du, dv, d)]
@@ -164,9 +171,9 @@ PLATE_ITEMS = [
     (54.0,  20.0, "DC IN",      "12-24 V",   [(0, 0, 11.0)]),
     (78.0,  20.0, "POWER",      "OFF",       [(0, 0, 6.5)]),
     (102.0, 20.0, "SUPPLY 2600", "INT",      [(0, 0, 6.5)]),
-    (141.0, 20.0, "MIDI IN",    "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
-    (181.0, 20.0, "MIDI OUT",   "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
-    (221.0, 20.0, "MIDI THRU",  "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
+    (148.0, 20.0, "MIDI IN",    "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
+    (198.0, 20.0, "MIDI OUT",   "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
+    (234.0, 20.0, "MIDI THRU",  "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
 ]
 PLATE_TEXT_H = 2.5
 # rounded cut-outs (u, v, width, height, radius): Micro-B socket of the panel-mount cable

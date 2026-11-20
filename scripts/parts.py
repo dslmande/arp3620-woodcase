@@ -124,7 +124,8 @@ def make_parts():
             f[2] = notches([X_PANEL_IN + c for c in FILL_REAR], FILLER_TAB_W + 6, T_FILL)
         w = jpart(key, name, PLY12, T_WALL, rect(0, 0, W, WALL_H), None, f,
                   O=(0, y0, Z_BASE), U=X, V=Z, N=NY,
-                  cover='tolex outside, over the top edge, 20 mm down the inside')
+                  cover='tolex outside, over the top edge, 20 mm down the inside'
+                  if key == 'front' else 'tolex outside, over the top edge, 8 mm down the inside (rear plate below)')
         w.cutouts.append(cheek_tab)
         if key == 'rear':
             u0, u1, h, r = WINDOW
@@ -132,8 +133,8 @@ def make_parts():
             xa, xb = PLATE_X_RIGHT - u1, PLATE_X_RIGHT - u0
             w.cutouts.append((rect(xa, vc - h / 2, xb, vc + h / 2), [r] * 4))
             for su, sv in PLATE_SCREWS:
-                w.holes.append(Hole(PLATE_X_RIGHT - su, PLATE_Z0 + sv - Z_BASE, 2.5, kind='pilot',
-                                    side='back', note='rear plate, screw 3.5 x 16'))
+                w.holes.append(Hole(PLATE_X_RIGHT - su, PLATE_Z0 + sv - Z_BASE, PLATE_SCREW_PILOT, kind='pilot',
+                                    side='front', note='rear plate from inside, ' + PLATE_SCREW))
         P.append(w)
 
     for key, name, x0 in (('end_l', 'End wall left', 0.0), ('end_r', 'End wall right', W - T_WALL)):
@@ -226,16 +227,16 @@ def make_parts():
 
     # ------------------------------------------------------------ rear plate
     pl = Part('plate', 'Rear plate', ALU2, T_PLATE, rect(0, 0, PLATE_L, PLATE_H), [PLATE_R] * 4,
-              O=(PLATE_X_RIGHT, D + TOLEX, PLATE_Z0), U=NX, V=Z, N=Y,
+              O=(PLATE_X_RIGHT, Y_REAR_IN - T_PLATE, PLATE_Z0), U=NX, V=Z, N=Y,
               cover='black anodised, engraved white (or printed)')
     for su, sv in PLATE_SCREWS:
-        pl.holes.append(Hole(su, sv, PLATE_SCREW_D, csk=PLATE_SCREW_CSK, side='front', note='screw 3.5 x 16'))
+        pl.holes.append(Hole(su, sv, PLATE_SCREW_HOLE, side='back', note=PLATE_SCREW + ' from inside'))
     for u, v, top, bot, holes in PLATE_ITEMS:
         for du, dv, d in holes:
             pl.holes.append(Hole(u + du, v + dv, d, note=top))
-        pl.texts.append((u, v + 13.0, top))
+        pl.texts.append((u, v + PLATE_LABEL_DV, top))
         if bot:
-            pl.texts.append((u, v - 13.0 - PLATE_TEXT_H, bot))
+            pl.texts.append((u, v - PLATE_LABEL_DV - PLATE_TEXT_H, bot))
     for u, v, w, h, r in PLATE_CUTOUTS:
         pl.cutouts.append(([(u - w / 2, v - h / 2), (u + w / 2, v - h / 2), (u + w / 2, v + h / 2), (u - w / 2, v + h / 2)],
                            [r] * 4))

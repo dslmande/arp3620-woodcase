@@ -660,7 +660,7 @@ def sheet_parts(pdf, no):
     s.dim_v(oy + WIN_V1 * sc, oy + WALL_H * sc, ox + W * sc + 8, fmt(WALL_H - WIN_V1), ext=ox + W * sc)
     s.dim_v(oy, oy + WALL_H * sc, ox + W * sc + 18, fmt(WALL_H), ext=ox + W * sc)
     s.text(ox, oy - 22, 'Höhenmaße ab Unterkante Rückwand. Fenster %s x %s, Ecken eckig - die Alu-Anschlussplatte '
-           'deckt es von außen ab.' % (fmt(wb - wa), fmt(WIN_V1 - WIN_V0)), 2.1, col='#333')
+           'wird von innen dahinter geschraubt.' % (fmt(wb - wa), fmt(WIN_V1 - WIN_V0)), 2.1, col='#333')
     s.save()
 
 
