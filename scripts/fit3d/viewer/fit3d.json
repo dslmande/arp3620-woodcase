@@ -1,6 +1,6 @@
 {
  "title": "ARP 3620 Passprobe",
- "date": "19.11.2026",
+ "date": "20.11.2026",
  "rev": "Rev0.5-T1",
  "boards": {
   "panel": {
@@ -619,67 +619,12 @@
    "hit": false
   },
   {
-   "name": "TP5 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "TP3 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "U3 measured clip FK237",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "TP2 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "TP1 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "SH1 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J3 plug KK angled",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "J4 plug KK angled",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "TP7 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "TP6 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "L3 body",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
-   "name": "U4 measured clip FK237",
-   "group": "Netzteil Rev0.2 (Hüllen)",
-   "hit": false
-  },
-  {
    "name": "TP4 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U1 body",
    "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
@@ -689,12 +634,67 @@
    "hit": false
   },
   {
+   "name": "SH1 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP1 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "L3 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U3 measured clip FK237",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J4 plug KK angled",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
    "name": "J2 plug KK angled",
    "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   },
   {
-   "name": "U1 body",
+   "name": "TP6 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP3 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP5 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "U4 measured clip FK237",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "J3 plug KK angled",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP7 body",
+   "group": "Netzteil Rev0.2 (Hüllen)",
+   "hit": false
+  },
+  {
+   "name": "TP2 body",
    "group": "Netzteil Rev0.2 (Hüllen)",
    "hit": false
   }
@@ -746,7 +746,7 @@
    "d": 30.67,
    "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "a": "Netzteil Rev0.2: J4 plug KK angled",
    "b": "Holz: 12 Blende unter der Abdeckleiste"
   },
   {
@@ -762,7 +762,7 @@
    "d": 13.07,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "a": "Netzteil Rev0.2: J4 plug KK angled",
    "b": "Holz: 3 Rückwand"
   },
   {
@@ -799,7 +799,7 @@
   },
   {
    "check": "Netzteil -> Keybed",
-   "d": 8.57,
+   "d": 8.55,
    "need": 1.0,
    "ok": true,
    "a": "Netzteil Rev0.2: SH1 body",
