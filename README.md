@@ -139,8 +139,6 @@ apron and rear plate parts.
   and plugs under the 3620 board are estimates. Check them with the built board.
 - **Rear plate.** The hole sizes are placeholders until the sockets and
   switches are chosen.
-- **Power supply Rev0.2** is still being routed. Its standoff holes in the base
-  follow the current layout; check again if the board changes.
 - **USB cut-out** in the rear plate (10 × 6 between the two M3 screws of the
   Adafruit 3258 socket, 17.3 apart) is a placeholder: check it on the part.
 - **Hardware.** Optional handle and case corners.
