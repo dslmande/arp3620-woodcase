@@ -33,8 +33,8 @@ DATA = {
         'Keybed Fatar TP/9S 49 auf zwei Alu-Z-Profilen 20 x 20 x 2, Frontplatte 170 x 230 bündig mit den Wänden',
     'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 113 x 78':
         'Elektronikfach unter der abnehmbaren Leiste: Bus-Emulator 160 x 86, Netzteil 113 x 78',
-    'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU':
-        'Rückplatte (Aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU',
+    'Rear plate (PCB 1.6 mm): USB, DC IN, POWER, MIDI IN, MIDI OUT, MIDI THRU':
+        'Rückplatte (Leiterplatte 1,6 mm): USB, DC IN, POWER, MIDI IN, MIDI OUT, MIDI THRU',
     'front left, strip in place': 'vorn links, Leiste aufgesetzt',
     'rear: connector plate': 'hinten: Anschlussplatte',
     'strip lifted: electronics bay (emulator, power supply)': 'Leiste abgehoben: Elektronikfach (Emulator, Netzteil)',
@@ -76,13 +76,15 @@ DATA = {
     'birch plywood 12': 'Birke-Multiplex 12',
     'birch plywood 9': 'Birke-Multiplex 9',
     'aluminium 2': 'Aluminium 2',
+    'PCB FR4 1.6': 'Leiterplatte FR4 1,6',
     'seen from above': 'von oben gesehen',
     'seen from below': 'von unten gesehen',
     'seen from the front': 'von vorn gesehen',
     'seen from the rear': 'von hinten gesehen',
     'seen from the right': 'von rechts gesehen',
     'seen from the left': 'von links gesehen',
-    'black anodised, engraved white (or printed)': 'schwarz eloxiert, weiß graviert (oder gedruckt)',
+    'PCB ARP3620_Rear_Rev0.2: black solder mask, legend in exposed gold':
+        'Leiterplatte ARP3620_Rear_Rev0.2: Lötstopp schwarz, Beschriftung offenes Gold',
     'black paint': 'schwarz lackiert',
     'black paint, glued into the strip': 'schwarz lackiert, in die Leiste geleimt',
     'tolex on both faces and the top edge': 'Tolex auf beiden Seiten und der Oberkante',
@@ -157,8 +159,8 @@ DATA = {
         'Zapfen in die linke Seitenwand, die Rückwand und durch die linke Wange;',
     'flush with the wall top': 'bündig mit der Wandoberkante',
     # rear plate
-    'Aluminium 2 mm, black anodised, legend engraved or printed white.':
-        'Aluminium 2 mm, schwarz eloxiert, Beschriftung weiß graviert oder gedruckt.',
+    'PCB FR4 1.6 mm (ARP3620_Rear_Rev0.2), black solder mask, legend in exposed gold.':
+        'Leiterplatte FR4 1,6 mm (ARP3620_Rear_Rev0.2), Lötstopp schwarz, Beschriftung offenes Gold.',
     'Seen from outside (from the rear of the case).': 'Von außen gesehen (von hinten auf das Gehäuse).',
     'Mounted on the inner face of the rear wall, screwed from inside:':
         'Innen an die Rückwand gesetzt, von innen geschraubt:',

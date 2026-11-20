@@ -368,7 +368,7 @@ def sheet_overview(pdf, no):
          'Bezug: das Gehäuse wird außen mit schwarzem Tolex bezogen. Holzfugen und Schraubenköpfe auf den '
          'Außenflächen bündig verspachteln.',
          'Abdeckleiste (Pos. 11 mit 12) bleibt abnehmbar: nicht einleimen, sie liegt auf den Leisten Pos. 10.',
-         'Nicht vom Tischler: Alu-Z-Profile (Pos. 7), Alu-Rückplatte %s x %s x 2, Gummifüße, Tolex, '
+         'Nicht vom Tischler: Alu-Z-Profile (Pos. 7), Rückplatte (Leiterplatte) %s x %s x 1,6, Gummifüße, Tolex, '
          'Tastatur, Elektronik.' % (fmt(PLATE_L), fmt(PLATE_H))]
     y = s.notes(262, 262, 'Hinweise für den Tischler', t, 2.25, width=135)
     f = ['Lichte Weite zwischen den Wangen: %s (Tastatur %s + 2 x %s), nicht kleiner.'
@@ -659,7 +659,7 @@ def sheet_parts(pdf, no):
     s.dim_v(oy + WIN_V0 * sc, oy + WIN_V1 * sc, ox + W * sc + 8, fmt(WIN_V1 - WIN_V0), ext=ox + W * sc)
     s.dim_v(oy + WIN_V1 * sc, oy + WALL_H * sc, ox + W * sc + 8, fmt(WALL_H - WIN_V1), ext=ox + W * sc)
     s.dim_v(oy, oy + WALL_H * sc, ox + W * sc + 18, fmt(WALL_H), ext=ox + W * sc)
-    s.text(ox, oy - 22, 'Höhenmaße ab Unterkante Rückwand. Fenster %s x %s, Ecken eckig - die Alu-Anschlussplatte '
+    s.text(ox, oy - 22, 'Höhenmaße ab Unterkante Rückwand. Fenster %s x %s, Ecken eckig - die Anschlussplatte (Leiterplatte) '
            'wird von innen dahinter geschraubt.' % (fmt(wb - wa), fmt(WIN_V1 - WIN_V0)), 2.1, col='#333')
     s.save()
 

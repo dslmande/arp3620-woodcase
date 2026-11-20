@@ -351,7 +351,7 @@ def sheet_overview(pdf, no):
          'CNC-cut, plugged together: finger joints, tabs and slots, glued',
          'Keybed Fatar TP/9S 49 on two aluminium Z profiles 20 x 20 x 2, control panel 170 x 230 flush with the walls',
          'Electronics bay under the removable strip: bus emulator 160 x 86, power supply 113 x 78',
-         'Rear plate (aluminium 2 mm): USB, DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU']
+         'Rear plate (PCB 1.6 mm): USB, DC IN, POWER, MIDI IN, MIDI OUT, MIDI THRU']
     s.text(342, 140, 'Key data', 3.2, weight='bold')
     yy = 134
     for l in t:
@@ -622,7 +622,7 @@ def sheet_plate(pdf, no, G):
         prev = u
     s.dim_v(oy, T((0, PLATE_ITEMS[0][1]))[1], ox + PLATE_L + 8, fmt(PLATE_ITEMS[0][1]), ext=ox + PLATE_L)
     hole_table(s, p, ox, 172, fs=2.0, maxw=220)
-    n = ['Aluminium 2 mm, black anodised, legend engraved or printed white.',
+    n = ['PCB FR4 1.6 mm (ARP3620_Rear_Rev0.2), black solder mask, legend in exposed gold.',
          'Seen from outside (from the rear of the case).',
          'Mounted on the inner face of the rear wall, screwed from inside:',
          '%d %s through the plate into the wall (pilot holes %s).' % (

@@ -174,7 +174,7 @@
    "hit": false
   },
   {
-   "name": "Alu-Rückplatte",
+   "name": "Rückplatte (Leiterplatte)",
    "group": "Rückplatte",
    "hit": false
   },
@@ -775,15 +775,15 @@
   },
   {
    "check": "Emulator/Netzteil -> Rückplatten-Teile",
-   "d": 3.81,
+   "d": 3.28,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "a": "Bus-Emulator Rev0.3: U6 plug USB",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
    "check": "Pico-USB-Stecker -> Rückwand, Rückplatten-Teile",
-   "d": 8.22,
+   "d": 3.28,
    "need": 2.0,
    "ok": true,
    "a": "Bus-Emulator Rev0.3: U6 plug USB",
@@ -807,18 +807,18 @@
   },
   {
    "check": "Netzteil -> Rückplatten-Teile",
-   "d": 3.81,
+   "d": 4.4,
    "need": 1.0,
    "ok": true,
-   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "a": "Netzteil Rev0.2: J2 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {
    "check": "Netzteil-Stecker KK -> Rückwand, Rückplatten-Teile",
-   "d": 3.81,
+   "d": 4.4,
    "need": 2.0,
    "ok": true,
-   "a": "Netzteil Rev0.2: J3 plug KK angled",
+   "a": "Netzteil Rev0.2: J2 plug KK angled",
    "b": "Rückplatte: Teile an der Rückplatte (Hüllen)"
   },
   {

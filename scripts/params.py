@@ -18,7 +18,7 @@ T_STRIP = 9.0        # raised strip behind the keys (removable)
 T_APRON = 9.0        # apron under the rear edge of the strip
 T_FILL = 9.0         # filler behind the control panel
 T_RISER = 20.0       # keybed on two aluminium Z profiles 20 x 20 x 2 (height)
-T_PLATE = 2.0        # aluminium rear plate
+T_PLATE = 1.6        # rear plate: PCB FR4 1.6 (ARP3620_Rear_Rev0.2)
 TOLEX = 1.0          # allowance for tolex plus glue on every covered face
 # The joints use these nominal thicknesses. Measure the sheets before cutting
 # and enter the real values: slot widths and joint depths follow from them.
@@ -146,7 +146,10 @@ NT_HOLES_KICAD = [(5.0, 5.0), (108.0, 5.0), (5.0, 73.0), (108.0, 73.0)]
 NT_HOLES = [(NT_W - x, y) if NT_ROT == 180 else (x, NT_D - y) for x, y in NT_HOLES_KICAD]
 PCB_T = 1.6
 
-# ---------------------------------------------------------------- rear plate (aluminium 2 mm, inside)
+# ---------------------------------------------------------------- rear plate (PCB 1.6 mm, inside)
+# The plate is a PCB like the control panel (Patrick 2026-11-20): ARP3620_Rear_Rev0.2, FR4 1.6, black solder
+# mask, legend in exposed gold, corners R2. Its holes, cut-outs and legend are made by
+# tools/pcb/rueckplatte_pcb.py in the main project; the values here follow that board.
 # Fastened from inside (Patrick 2026-11-20): the plate lies on the inner face of the rear wall and is held by
 # plain wood screws through the plate into the wall; the window shows the plate with its legend, the sockets
 # sit 13 behind the outer face. Plate top 56 stays under the apron (57); the tolex wraps only 8 mm down the
@@ -155,30 +158,41 @@ PCB_T = 1.6
 PLATE_L, PLATE_H = 254.0, 40.0
 PLATE_X_RIGHT = 460.0    # case x of the plate's left end seen from the rear
 PLATE_Z0 = Z_BASE + 7.0  # 16
-PLATE_R = 3.0
+PLATE_R = 2.0
 WINDOW = (12.0, 251.0, 28.0, 5.0)    # plate coords u0, u1, height (centred), corner radius
 PLATE_SCREWS = [(u, v) for u in (6.0, 87.0, 167.0, 248.0) for v in (3.0, 37.0)]
 PLATE_SCREW = 'pan head wood screw 3.0 x 10'
 PLATE_SCREW_HOLE, PLATE_SCREW_PILOT = 3.5, 2.0
-PLATE_LABEL_DV = 10.0    # legend above / below the part centre, inside the window
+PLATE_LABEL_BASE = (30.5, 7.5)    # baselines of the legend above / below the parts, inside the window
 # u along the plate seen from the rear, v from the lower edge.
-# The USB panel-mount socket sits at the left end, behind the power supply board. MIDI OUT and THRU sit
-# left of the gap behind the Pico's USB plug (case x 281..294), MIDI IN right of it.
-# Hole sizes are placeholders until the parts are chosen (see README).
+# The three MIDI sockets sit at an even pitch of 37 (Patrick 2026-11-20); the Pico's USB plug behind the
+# plate (case x 281..294, u 166..179) lies in the middle between MIDI IN and MIDI OUT. USB, DC IN and POWER
+# are centred between the left end of the window and the MIDI IN flange, behind the power supply board.
+# Parts (datasheets in the main project, doku/datenblatt): USB Adafruit 3258 (flange 25.5 x 10 inside, M3
+# from outside), DC IN Cliff DC-13A FC681492 (flange inside, M2), POWER Ninigi KN3(C)-101A-A1 (TME TSP101AA1,
+# bushing 12.2), MIDI Rean NYS325 (body 15, flange outside, M3 at 22.2). SUPPLY 2600/INT dropped (Patrick
+# 2026-11-20).
+# env: what sits behind the plate, ('cyl', d, depth) or ('box', du0, du1, dv0, dv1, depth)
 PLATE_ITEMS = [
-    # u,    v,   label top,     label bottom, holes [(du, dv, d)]
-    (26.0,  20.0, "USB",        "",          [(-8.65, 0, 3.2), (8.65, 0, 3.2)]),   # Adafruit 3258, cut-out below
-    (54.0,  20.0, "DC IN",      "12-24 V",   [(0, 0, 11.0)]),
-    (78.0,  20.0, "POWER",      "OFF",       [(0, 0, 6.5)]),
-    (102.0, 20.0, "SUPPLY 2600", "INT",      [(0, 0, 6.5)]),
-    (148.0, 20.0, "MIDI IN",    "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
-    (198.0, 20.0, "MIDI OUT",   "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
-    (234.0, 20.0, "MIDI THRU",  "",          [(0, 0, 16.0), (-12.5, 0, 3.2), (12.5, 0, 3.2)]),
+    # u,    v,   label top,   label bottom, holes [(du, dv, d)], envelope
+    (51.0,  20.0, "USB",       "",          [(-8.65, 0, 3.5), (8.65, 0, 3.5)],
+     ('box', -12.75, 12.75, -5.0, 5.0, 27.0)),
+    (79.0,  20.0, "DC IN",     "12-24 V",   [(-6.5, 0, 2.4), (9.0, 0, 2.4)],
+     ('box', -11.0, 13.5, -5.0, 5.0, 15.0)),
+    (103.0, 20.0, "POWER",     "OFF",       [(0, 0, 12.2)],
+     ('box', -8.0, 8.0, -9.5, 9.5, 30.0)),
+    (154.0, 20.0, "MIDI IN",   "",          [(0, 0, 15.5), (-11.1, 0, 3.2), (11.1, 0, 3.2)],
+     ('cyl', 17.0, 22.0)),
+    (191.0, 20.0, "MIDI OUT",  "",          [(0, 0, 15.5), (-11.1, 0, 3.2), (11.1, 0, 3.2)],
+     ('cyl', 17.0, 22.0)),
+    (228.0, 20.0, "MIDI THRU", "",          [(0, 0, 15.5), (-11.1, 0, 3.2), (11.1, 0, 3.2)],
+     ('cyl', 17.0, 22.0)),
 ]
 PLATE_TEXT_H = 2.5
-# rounded cut-outs (u, v, width, height, radius): Micro-B socket of the panel-mount cable
-# Adafruit 3258 between its two M3 screws 17.3 apart (size not in the data: placeholder, check on the part)
-PLATE_CUTOUTS = [(26.0, 20.0, 10.0, 6.0, 1.5)]
+# cut-outs (u, v of the centre, width, height, corner radii from the lower left, anticlockwise):
+# Micro-B plug of the Adafruit 3258; DC-13A body, round end (R3.4) to the left of the pin at u 79
+PLATE_CUTOUTS = [(51.0, 20.0, 11.0, 8.0, [1.5] * 4),
+                 (80.8, 20.0, 10.4, 6.8, [3.39, 0.5, 0.5, 3.39])]
 
 # ---------------------------------------------------------------- base holes
 FEET = [(40.0, 40.0), (W / 2, 40.0), (W - 40.0, 40.0),

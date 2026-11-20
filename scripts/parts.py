@@ -48,6 +48,7 @@ class Part:
 
 PLY12, PLY9 = "birch plywood 12", "birch plywood 9"
 ALU2 = "aluminium 2"
+PCB16 = "PCB FR4 1.6"
 ALUZ = "aluminium Z 20 x 20 x 2"
 
 
@@ -226,20 +227,20 @@ def make_parts():
     P.append(f)
 
     # ------------------------------------------------------------ rear plate
-    pl = Part('plate', 'Rear plate', ALU2, T_PLATE, rect(0, 0, PLATE_L, PLATE_H), [PLATE_R] * 4,
+    pl = Part('plate', 'Rear plate', PCB16, T_PLATE, rect(0, 0, PLATE_L, PLATE_H), [PLATE_R] * 4,
               O=(PLATE_X_RIGHT, Y_REAR_IN - T_PLATE, PLATE_Z0), U=NX, V=Z, N=Y,
-              cover='black anodised, engraved white (or printed)')
+              cover='PCB ARP3620_Rear_Rev0.2: black solder mask, legend in exposed gold')
     for su, sv in PLATE_SCREWS:
         pl.holes.append(Hole(su, sv, PLATE_SCREW_HOLE, side='back', note=PLATE_SCREW + ' from inside'))
-    for u, v, top, bot, holes in PLATE_ITEMS:
+    for u, v, top, bot, holes, _env in PLATE_ITEMS:
         for du, dv, d in holes:
             pl.holes.append(Hole(u + du, v + dv, d, note=top))
-        pl.texts.append((u, v + PLATE_LABEL_DV, top))
+        pl.texts.append((u, PLATE_LABEL_BASE[0], top))
         if bot:
-            pl.texts.append((u, v - PLATE_LABEL_DV - PLATE_TEXT_H, bot))
-    for u, v, w, h, r in PLATE_CUTOUTS:
+            pl.texts.append((u, PLATE_LABEL_BASE[1], bot))
+    for u, v, w, h, radii in PLATE_CUTOUTS:
         pl.cutouts.append(([(u - w / 2, v - h / 2), (u + w / 2, v - h / 2), (u + w / 2, v + h / 2), (u - w / 2, v + h / 2)],
-                           [r] * 4))
+                           list(radii)))
     P.append(pl)
     return P
 

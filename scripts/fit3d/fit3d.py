@@ -371,7 +371,7 @@ def main():
     for p in CARP:
         bodies.append(('Holz' if p.group != CNS['G4'] else 'Z-Profil', '%d %s' % (p.pos, p.name), p.solid, ''))
     plate = next(q for q in P0.PARTS if q.key == 'plate')
-    bodies.append(('Rückplatte', 'Alu-Rückplatte', model.part_solid(plate), ''))
+    bodies.append(('Rückplatte', 'Rückplatte (Leiterplatte)', model.part_solid(plate), ''))
     bodies.append(('Rückplatte', 'Teile an der Rückplatte (Hüllen)', model.plate_parts(), 'envelope'))
     for n, s in keybed_bodies().items():
         bodies.append(('Keybed', n, s, 'simplified (model.keybed)'))
@@ -436,7 +436,7 @@ def main():
     counts['Bolzen, Rückplatte, Frontplattenteile gegen Holz'] = test(
         others, wood, 'Teile gegen Gehäuse',
         allow=lambda a, b: ('Bolzen' in a[1] and b[1].startswith('1 ')) or
-                           (a[0] == 'Rückplatte' and a[1] == 'Alu-Rückplatte' and False))
+                           (a[0] == 'Rückplatte' and a[1] == 'Rückplatte (Leiterplatte)' and False))
     # the panel standoffs stand on the base (1 Boden) by design: allowed above
 
     # ---- clearances

@@ -133,17 +133,17 @@ def plate_parts():
     """Bodies of the rear plate parts behind the plate (envelopes)."""
     out = []
     yi = Y_REAR_IN - T_PLATE                        # inner face of the plate (plate inside the rear wall)
-    for u, v, top, bot, holes in PLATE_ITEMS:
+    for u, v, top, bot, holes, env in PLATE_ITEMS:
         x = PLATE_X_RIGHT - u
         z = PLATE_Z0 + v
-        d0 = holes[0][2]
-        if d0 >= 15:
-            dd, depth = (20.0, 20.0) if d0 < 20 else (24.0, 30.0)
-            out.append(cyly(x, z, yi - depth, yi, dd))
-        elif d0 >= 10:
-            out.append(cyly(x, z, yi - 20.0, yi, 12.0))
+        if env[0] == 'cyl':
+            out.append(cyly(x, z, yi - env[2], yi, env[1]))
+            # flange screws M3 x 10 from outside, nuts behind the plate (corners 6.4, 8 deep)
+            for du, dv, d in holes[1:]:
+                out.append(cyly(x - du, z + dv, yi - 8.0, yi, 6.6))
         else:
-            out.append(box(x - 6.5, yi - 18.0, z - 4.0, x + 6.5, yi, z + 4.0))
+            _, du0, du1, dv0, dv1, depth = env
+            out.append(box(x - du1, yi - depth, z + dv0, x - du0, yi, z + dv1))
     return Part.makeCompound(out)
 
 

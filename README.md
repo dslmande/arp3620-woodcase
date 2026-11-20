@@ -42,11 +42,12 @@ before cutting.
   the rear plate through a panel-mount cable (Adafruit 3258); its plug lies
   over the board, the cable bends down behind it (34 mm free to the rear wall). Cables to the panel section run
   through a notch in the left cheek.
-- **Rear connector plate** (aluminium 2 mm, 254 × 40) behind a window in the
+- **Rear connector plate** (PCB FR4 1.6, black solder mask, legend in exposed
+  gold, 254 × 40, corners R2, like the control panel) behind a window in the
   rear wall: it sits on the inner face of the wall and is held from inside by
   eight pan head wood screws 3.0 × 10; the window (239 × 28) shows the plate
-  and its legend, nothing is screwed on from outside. USB
-  (panel-mount cable), DC IN, POWER, SUPPLY 2600/INT, MIDI IN, MIDI OUT, MIDI THRU. The connection to
+  and its legend. USB (panel-mount cable Adafruit 3258), DC IN (Cliff DC-13A),
+  POWER (Ninigi KN3), MIDI IN, MIDI OUT, MIDI THRU (Rean NYS325, even pitch 37). The connection to
   the ARP 2600 (6-pin GX16) sits on the control panel.
 - **No lid** (since Rev0.4): the case ends with the walls at 67 and the strip
   at 90.
@@ -79,7 +80,7 @@ before cutting.
 | | |
 |---|---|
 | Outside | 911 × 310 mm, walls 67 high, strip 90 (+ feet 12), no lid |
-| Material | birch plywood 12 / 9 mm, black tolex, aluminium rear plate |
+| Material | birch plywood 12 / 9 mm, black tolex, rear plate as PCB |
 | Mass | approx. 4.3 kg wood and plate, without keybed and electronics |
 | Keybed | Fatar TP/9S 49 (683 × 161.5) on two aluminium Z profiles 20 × 20 × 2, 670 long |
 | Control panel | 170 × 230, PCB 1.6, on four M3 standoffs 56.4 mm from the base |
@@ -140,10 +141,6 @@ apron and rear plate parts.
   rivet nuts in the Z profiles. Check that the heads clear the keys put back on.
 - **Space under the control panel.** The 12 mm board spacer and 25 mm for parts
   and plugs under the 3620 board are estimates. Check them with the built board.
-- **Rear plate.** The hole sizes are placeholders until the sockets and
-  switches are chosen.
-- **USB cut-out** in the rear plate (10 × 6 between the two M3 screws of the
-  Adafruit 3258 socket, 17.3 apart) is a placeholder: check it on the part.
 - **Hardware.** Optional handle and case corners.
 
 ## Revisions
@@ -157,7 +154,11 @@ apron and rear plate parts.
   inside the rear wall, screwed from inside with eight wood screws (window 239 × 28,
   plate 254 × 40, legend inside the window, MIDI OUT/THRU moved left of the
   Pico's USB plug). Carpenter drawing
-  Rev0.5-T1.
+  Rev0.5-T1. Later the same day (20.11.2026) the rear plate became a PCB
+  (ARP3620_Rear_Rev0.2 of the main project) with the chosen parts: holes from
+  the datasheets, SUPPLY 2600/INT dropped, MIDI at an even pitch of 37
+  (154 / 191 / 228), USB / DC IN / POWER at 51 / 79 / 103. The wooden parts
+  are unchanged (same DXFs).
 - **Rev0.4** — no lid: lid top, lid walls and draw latches dropped (Patrick,
   11.11.2026); 6 mm plywood no longer needed. Case height 90 at the strip.
   Carpenter drawing Rev0.4-T1.
